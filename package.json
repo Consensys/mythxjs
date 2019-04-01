@@ -18,6 +18,8 @@
     "@oclif/command": "^1",
     "@oclif/config": "^1",
     "@oclif/plugin-help": "^2",
+    "armlet": "^2.3.0",
+    "cli-ux": "^5.2.1",
     "tslib": "^1"
   },
   "devDependencies": {
