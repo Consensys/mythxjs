@@ -1,12 +1,14 @@
+*-debug.log
+*-error.log
+/.nyc_output
+/dist
+/lib
+/tmp
 node_modules
-coverage
-.nyc_output
-.DS_Store
-*.log
+
+# IDE
 .vscode
 .idea
-dist
-compiled
-.awcache
-.rpt2_cache
-docs
+
+# OS
+.DS_Store
