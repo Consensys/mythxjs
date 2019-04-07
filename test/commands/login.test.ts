@@ -1,33 +1,16 @@
 import { expect, test } from '@oclif/test'
 
+// Constants
+import { DEFAULT_ETH_ADDRESS, DEFAULT_PASSWORD } from '../../src/constants'
+
 describe('login', () => {
   test
     .stdout()
-    .command(['login', '0x2858b141429244dDA03354AA35F1Cc761a058a34', 'mythxjs'])
-    .it(
-      'runs login 0x2858b141429244dDA03354AA35F1Cc761a058a34 mythxjs',
-      ctx => {
-        expect(ctx.stdout).to.contain(
-          'Successfully logged in as 0x2858b141429244dDA03354AA35F1Cc761a058a34'
-        )
-      }
-    )
-
-  test
-    .stdout()
-    .command([
-      'login',
-      '--address',
-      '0x2858b141429244dDA03354AA35F1Cc761a058a34',
-      '--password',
-      'mythxjs'
-    ])
-    .it(
-      'runs login --address 0x2858b141429244dDA03354AA35F1Cc761a058a34 --password mythxjs',
-      ctx => {
-        expect(ctx.stdout).to.contain(
-          'Successfully logged in as 0x2858b141429244dDA03354AA35F1Cc761a058a34'
-        )
-      }
-    )
+    .command(['login', DEFAULT_ETH_ADDRESS, DEFAULT_PASSWORD])
+    .timeout(30000)
+    .it(`runs login ${DEFAULT_ETH_ADDRESS} ${DEFAULT_PASSWORD}`, ctx => {
+      expect(ctx.stdout).to.contain(
+        `Logging in... Successfully logged in as ${DEFAULT_ETH_ADDRESS}`
+      )
+    })
 })
