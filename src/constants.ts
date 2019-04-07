@@ -10,6 +10,7 @@ export const API_URL = {
 }
 
 export const LOGIN_API = 'v1/auth/login'
+export const LOGOUT_API = 'v1/auth/logout'
 
 export const tempDir = path.resolve(
   path.dirname(require!.main!.filename),

@@ -59,7 +59,6 @@ Logging in... Successfully logged in as ${DEFAULT_ETH_ADDRESS}
           )) || DEFAULT_PASSWORD
       }
 
-      // show on stdout instead of stderr
       cli.action.start('Logging in', undefined, { stdout: true })
 
       auth.ethAddress = address
@@ -72,7 +71,7 @@ Logging in... Successfully logged in as ${DEFAULT_ETH_ADDRESS}
         cli.action.stop(e.message)
       }
     } else {
-      this.log(`Already logged in as ${auth.ethAddress}`)
+      this.error(`Already logged in as ${auth.ethAddress}`)
     }
   }
 }

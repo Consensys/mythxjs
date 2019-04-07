@@ -2,7 +2,7 @@
 import { IAuth } from '../types'
 
 // Constants
-import { API_URL, LOGIN_API } from './constants'
+import { API_URL, LOGIN_API, LOGOUT_API } from './constants'
 
 // Services
 import * as authService from './services/auth'
@@ -58,7 +58,15 @@ export default class Auth {
 
   public logout() {
     if (this.isLoggedIn()) {
-      authService.deleteCredentials()
+      return authService
+        .deleteCredentials(this.accessToken, API_URL.staging + LOGOUT_API)
+        .then(() => {
+          this.accessToken = ''
+          this.refreshToken = ''
+        })
+        .catch(err => {
+          throw err
+        })
     }
   }
 

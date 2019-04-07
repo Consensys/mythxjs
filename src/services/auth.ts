@@ -11,19 +11,27 @@ export const login = (ethAddress: string, password: string, url: string) => {
   return axios.post(url, { ethAddress, password })
 }
 
-export const deleteCredentials = () => {
-  /* Create `.temp` directory if it doesn't exist */
-  if (!fs.existsSync(tempDir)) {
-    fs.mkdirSync(tempDir)
-  }
-
+export const deleteCredentials = (accessToken: string, url: string) => {
   if (fs.existsSync(authFile)) {
-    try {
-      fs.unlinkSync(authFile)
-      // console.log(`Successfully deleted ${authFile}`);
-    } catch (err) {
-      throw err
+    const headers = {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json'
     }
+
+    return axios
+      .post(url, {}, { headers })
+      .then(() => {
+        try {
+          fs.unlinkSync(authFile)
+        } catch (err) {
+          throw new Error(`Error while deleting the auth file`)
+        }
+      })
+      .catch(err => {
+        throw new Error(err.response.data.error)
+      })
+  } else {
+    throw new Error(`Unable to locate auth file. Please try to login first`)
   }
 }
 
