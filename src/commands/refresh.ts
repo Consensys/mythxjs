@@ -3,15 +3,12 @@ import cli from 'cli-ux'
 
 import Auth from '../Auth'
 
-// Constants
-import { DEFAULT_ETH_ADDRESS } from '../constants'
-
-export default class Logout extends Command {
-  public static description = 'Logout of your MythX account'
+export default class Refresh extends Command {
+  public static description = 'Refresh your MythX API token'
 
   public static examples = [
-    `$ mythxjs logout
-Logging out... Successfully logged out as ${DEFAULT_ETH_ADDRESS}
+    `$ mythxjs refresh
+Refreshing token... Successfully refreshed MythX API token
     `
   ]
 
@@ -23,18 +20,18 @@ Logging out... Successfully logged out as ${DEFAULT_ETH_ADDRESS}
 
   public async run() {
     // tslint:disable-next-line:no-shadowed-variable
-    const { args, flags } = this.parse(Logout)
+    const { args, flags } = this.parse(Refresh)
 
     const auth = new Auth()
 
-    cli.action.start('Logging out', undefined, { stdout: true })
+    cli.action.start('Refreshing token', undefined, { stdout: true })
 
     if (!auth.isLoggedIn()) {
       this.error(`Please login to MythX via login command`)
     } else {
       try {
-        await auth.logout()
-        cli.action.stop(`Successfully logged out as ${auth.ethAddress}`)
+        await auth.refresh()
+        cli.action.stop(`Successfully refreshed MythX API token`)
       } catch (e) {
         cli.action.stop(e.message)
       }

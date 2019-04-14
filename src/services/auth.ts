@@ -7,16 +7,16 @@ import { IAuth } from '../../types'
 // Constants
 import { authFile, tempDir } from '../constants'
 
+// Utils
+import { getRequestHeaders } from '../utils'
+
 export const login = (ethAddress: string, password: string, url: string) => {
   return axios.post(url, { ethAddress, password })
 }
 
 export const deleteCredentials = (accessToken: string, url: string) => {
   if (fs.existsSync(authFile)) {
-    const headers = {
-      Authorization: `Bearer ${accessToken}`,
-      'Content-Type': 'application/json'
-    }
+    const headers = getRequestHeaders(accessToken)
 
     return axios
       .post(url, {}, { headers })
@@ -59,4 +59,12 @@ export const saveCredentials = (content: IAuth) => {
   } catch (e) {
     throw e
   }
+}
+
+export const refreshAccess = (
+  accessToken: string,
+  refreshToken: string,
+  url: string
+) => {
+  return axios.post(url, { accessToken, refreshToken })
 }
