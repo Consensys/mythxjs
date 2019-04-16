@@ -1,22 +1,17 @@
 {
   "compilerOptions": {
-    "moduleResolution": "node",
-    "target": "es5",
-    "module":"es2015",
-    "lib": ["es2015", "es2016", "es2017", "dom"],
-    "strict": true,
-    "sourceMap": true,
-    "declaration": true,
-    "allowSyntheticDefaultImports": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "declarationDir": "dist/types",
-    "outDir": "dist/lib",
-    "typeRoots": [
-      "node_modules/@types"
-    ]
-  },
-  "include": [
-    "src"
-  ]
-}
+    "target": "ES2017",                          /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017','ES2018' or 'ESNEXT'. */
+    "module": "commonjs",                     /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'. */
+    "declaration": true,                   /* Generates corresponding '.d.ts' file. */
+    "outDir": "./dist",                        /* Redirect output structure to the directory. */
+    "strict": true,                           /* Enable all strict type-checking options. */
+    "skipLibCheck": true,
+    "sourceMap": true
+   },
+   "exclude":[
+     "node_modules",
+     "dist",
+     "./**/*.spec.ts",
+     "./test/**/*.ts"
+   ]
+  }
