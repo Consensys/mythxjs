@@ -27,16 +27,11 @@
   "module": "dist/index.es.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "start": "node dist/index.js",
     "build": "rollup -c",
     "watch": "rollup -cw",
-    "prepublish": "rollup -c > index.js && BROWSER=true rollup -c > browser.js",
-    "buildAndWatch": "tsc --watch",
     "clean": "rm -rf dist/",
-    "test": "mocha --colors --recursive --require ts-node/register --watch-extensions ts \"**/*spec.ts\" --exclude \"node_modules/**\"",
+    "test": "mocha -r ts-node/register src/**/*.spec.ts",
     "testdebug": "mocha --inspect-brk --colors --recursive --require ts-node/register --watch-extensions ts \"**/*spec.ts\" --exclude \"node_modules/**\"",
-    "test:integration": "mocha --timeout 5000 --colors --recursive --require ts-node/register --watch-extensions ts \"**/integration-tests/**/*integration-test.ts\" --exclude \"node_modules/**\"",
-    "test:jenkins": "mocha --timeout 5000 --colors --reporter mocha-jenkins-reporter --recursive --require ts-node/register --watch-extensions ts \"**/*spec.ts\" --exclude \"node_modules/**\"",
     "lint": "tslint --project tsconfig.json -t codeFrame"
   },
   "devDependencies": {
@@ -57,6 +52,7 @@
     "mocha-jenkins-reporter": "0.4.1",
     "prettier": "1.16.4",
     "rollup": "^1.10.0",
+    "rollup-plugin-node-resolve": "^4.2.3",
     "rollup-plugin-replace": "^2.2.0",
     "rollup-plugin-typescript2": "^0.20.1",
     "sinon": "7.2.3",
@@ -76,11 +72,6 @@
     ]
   },
   "dependencies": {
-    "dotenv": "6.2.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run build && lint-staged && npm run lint && npm test"
-    }
+    "dotenv": "^6.2.0"
   }
 }
