@@ -1,13 +1,10 @@
 // Below just for testing
-import { ApiService } from './apiService/ApiService'
+import { AuthService } from './apiServices/AuthService'
 // TODO: look into what future for env variables
 const dotenv = require('dotenv');
 dotenv.config();
 
-
-// public ethAddress: string = '0x0000000000000000000000000000000000000000'
-// public password: string = 'trial'
-const APISERVICE = new ApiService('0x0000000000000000000000000000000000000000', 'trial');
+const APISERVICE = new AuthService('0x0000000000000000000000000000000000000000', 'trial');
 APISERVICE.login()
 
 // BUSINESS OBJECTS
@@ -27,5 +24,5 @@ export interface loginResponse {
 // SERVICE INTERFACES AND FACTORIES
 
 export {
-    ApiService
-} from './apiService/ApiService'
+    AuthService
+} from './apiServices/AuthService'
