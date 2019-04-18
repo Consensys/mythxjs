@@ -1,11 +1,13 @@
 // Below just for testing
 import { AuthService } from './apiServices/AuthService'
+
 // TODO: look into what future for env variables
 const dotenv = require('dotenv');
 dotenv.config();
 
 const APISERVICE = new AuthService('0x0000000000000000000000000000000000000000', 'trial');
-APISERVICE.login()
+// APISERVICE.login()
+APISERVICE.logout()
 
 // BUSINESS OBJECTS
 
@@ -24,5 +26,9 @@ export interface loginResponse {
 // SERVICE INTERFACES AND FACTORIES
 
 export {
-    AuthService
+    AuthService as Login,
 } from './apiServices/AuthService'
+
+// export {
+//     AnalysesService as Analyses
+// } from './apiServices/AnalysesService'

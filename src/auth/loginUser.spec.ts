@@ -1,3 +1,7 @@
 import { loginUser } from './loginUser'
 
-console.log(loginUser)
+// describe('loginUser', ()=> {
+//     it('should be a function', ()=> {
+
+//     })
+// })
