@@ -1,17 +1,22 @@
 // Below just for testing
 import { AuthService } from './apiServices/AuthService'
+import { AnalysesService } from './apiServices/AnalysesService'
 
 // TODO: look into what future for env variables
 const dotenv = require('dotenv');
 dotenv.config();
 
-const APISERVICE = new AuthService('0x0000000000000000000000000000000000000000', 'trial');
+// const APISERVICE = new AuthService('0x0000000000000000000000000000000000000000', 'trial');
 // APISERVICE.login()
-APISERVICE.logout()
+// APISERVICE.refreshToken()
+
+const ANALYSESSERVICE = new AnalysesService()
+
+ANALYSESSERVICE.getAnalysesList()
 
 // BUSINESS OBJECTS
 
-interface JwtTokens {
+export interface JwtTokens {
     access: string
     refresh: string
 }

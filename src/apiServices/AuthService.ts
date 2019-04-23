@@ -1,5 +1,7 @@
 import { loginUser } from '../auth/loginUser'
 import { logoutUser } from '../auth/logoutUser'
+import { refreshToken } from '../auth/refreshToken'
+
 import { getHeaders } from '../util/getHeaders'
 
 interface JwtTokens {
@@ -48,10 +50,29 @@ export class AuthService {
                 console.log(result.data)
             }
             catch (err) {
-                throw new Error(`There was an error with the logout request`)
+                throw new Error(`There was an error with the logout request. ${err}`)
             }
         } else {
             throw new Error('No valid token found')
+        }
+    }
+
+    public async refreshToken() {
+        try {
+            await this.login()
+
+            const headers = getHeaders(this.jwtTokens.access)
+            const reqBody = {
+                jwtTokens: this.jwtTokens,
+                accessToken: this.jwtTokens.access,
+                refreshToken: this.jwtTokens.refresh
+            }
+
+            const result = await refreshToken(`${this.apiUrl}/auth/refresh`, reqBody, headers)
+            console.log(result.data)
+
+        } catch (err) {
+            throw new Error(`There was an error with the refresh request. ${err}`)
         }
     }
 
@@ -60,7 +81,6 @@ export class AuthService {
         // NEED MORE CLARITY ON DIFFERENT ENVS (NODE/BROWSER)
         return true;
     }
-
 
     setCredentials(tokens: JwtTokens) {
         this.jwtTokens.access = tokens.access
