@@ -9,6 +9,7 @@ import { saveTokensStorage } from '../browser/saveTokensStorage'
 
 import { getHeaders } from '../util/getHeaders'
 import { getTokens } from '../util/getTokens'
+import { errorHandler } from '../util/errorHandler'
 
 import { JwtTokensInterface } from '..'
 
@@ -22,13 +23,13 @@ export class AuthService {
     }
     private apiUrl: string = process.env.API_URL_STAGING || 'https://staging.api.mythx.io/v1'
 
-    constructor(ethAddress: string, password: string) {
-        this.ethAddress = ethAddress
-        this.password = password
+    constructor(ethAddress?: string, password?: string) {
+        this.ethAddress = ethAddress as string
+        this.password = password as string
 
     }
 
-    public async login(): Promise<JwtTokensInterface> {
+    public async login(): Promise<JwtTokensInterface | undefined> {
         try {
             const result = await loginUser(this.ethAddress, this.password, `${this.apiUrl}/auth/login`)
             const tokens: JwtTokensInterface = result.data.jwtTokens
@@ -36,8 +37,7 @@ export class AuthService {
             return tokens
         }
         catch (err) {
-            // TODO: HANDLE ALL DIFFERENT TYPES OF ERRORS
-            throw new Error(`There was an error with the login request. ${err}`)
+            errorHandler(err)
         }
     }
 
@@ -53,7 +53,7 @@ export class AuthService {
                 console.log(result.data)
             }
             catch (err) {
-                throw new Error(`There was an error with the logout request. ${err}`)
+                errorHandler(err)
             }
         } else {
             throw new Error('No valid token found')
@@ -75,7 +75,7 @@ export class AuthService {
             console.log(result.data)
 
         } catch (err) {
-            throw new Error(`There was an error with the refresh request. ${err}`)
+            errorHandler(err)
         }
     }
 
@@ -100,10 +100,4 @@ export class AuthService {
         }
     }
 
-
-    getCredentials() {
-        const foo = getTokens('tokens.json')
-        console.log(foo)
-    }
-
-}
+} 

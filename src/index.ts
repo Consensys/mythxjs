@@ -1,33 +1,31 @@
-import { isBrowser, isNode } from 'browser-or-node';
-
+// Below just for testing
 import { AuthService } from './apiServices/AuthService'
+import { AnalysesService } from './apiServices/AnalysesService'
 
 // TODO: look into what future for env variables
 const dotenv = require('dotenv');
 dotenv.config();
 
 const APISERVICE = new AuthService('0x0000000000000000000000000000000000000000', 'trial');
-APISERVICE.login()
-APISERVICE.getCredentials()
 // APISERVICE.refreshToken()
 
+const ANALYSESSERVICE = new AnalysesService()
+
+ANALYSESSERVICE.getAnalysesList()
+
+// BUSINESS OBJECTS
 
 export interface JwtTokensInterface {
     access: string
     refresh: string
 }
 
-export function mythxjsMain() {
-    if (isBrowser) {
-        // do browser only stuff
-        console.log('this is mythjs browser xxx')
-    }
-
-    if (isNode) {
-        console.log('this is mythxjs node')
-    }
-
+export interface loginResponse {
+    jwtTokens: JwtTokensInterface
+    access: string
+    refresh: string
 }
+
 
 // SERVICE INTERFACES AND FACTORIES
 
@@ -35,5 +33,6 @@ export {
     AuthService as Login,
 } from './apiServices/AuthService'
 
-
-// mythxjsMain()
+// export {
+//     AnalysesService as Analyses
+// } from './apiServices/AnalysesService'

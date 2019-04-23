@@ -1,6 +1,11 @@
 import { getAnalyses } from '../analyses/getAnalyses'
+
 import { AuthService } from './AuthService'
+
 import { getHeaders } from '../util/getHeaders'
+
+import { getTokens } from '../util/getTokens'
+import { errorHandler } from '../util/errorHandler'
 
 
 export class AnalysesService {
@@ -8,25 +13,28 @@ export class AnalysesService {
     private AUTHSERVICE: any
 
     constructor() {
-        this.AUTHSERVICE = new AuthService('0x0000000000000000000000000000000000000000', 'trial')
     }
 
     public async getAnalysesList() {
         console.log('invoke getAnalysesList')
         try {
-            const tokens = await this.AUTHSERVICE.login()
-            const headers = getHeaders(tokens.access)
-            console.log(tokens)
-            console.log(headers)
+            const { access } = getTokens('tokens.json')
+            const headers = getHeaders(access)
+
+            console.log(access, 'access')
+            console.log(headers, 'header')
+            console.log(`${this.apiUrl}`)
+
             const result = await getAnalyses(`${this.apiUrl}/analyses`, headers)
             console.log(result.data)
         }
         catch (err) {
-            throw new Error(`Error with getting list of analysis. ${err}`)
+            errorHandler(err)
         }
     }
 
-    public getAnalysisStatus() { }
+    public getAnalysisStatus() {
+    }
 
     public getDetectedIssues() { }
 
