@@ -1,6 +1,6 @@
 {
   "name": "mythxjs",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Mythxjs is a library for the MythX smart contract security analysis platform.",
   "//": [
     " ##     ## ##    ## ######## ##     ## ##     ##          ##  ######  ",
@@ -23,51 +23,28 @@
   "repository": "https://github.com/ConsenSys/mythxjs.git",
   "bugs": "https://github.com/ConsenSys/mythxjs/issues",
   "license": "MIT",
-  "main": "./dist/index.js",
-  "module": "dist/index.es.js",
-  "types": "./dist/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "build": "rollup -c",
-    "watch": "rollup -cw",
-    "clean": "rm -rf dist/",
-    "test": "mocha -r ts-node/register src/**/*.spec.ts",
-    "testdebug": "mocha --inspect-brk --colors --recursive --require ts-node/register --watch-extensions ts \"**/*spec.ts\" --exclude \"node_modules/**\"",
-    "lint": "tslint --project tsconfig.json -t codeFrame"
+    "build": "tsc",
+    "test": "mocha -r ts-node/register src/**/*.spec.ts"
   },
   "devDependencies": {
-    "@types/chai": "4.1.7",
-    "@types/chai-as-promised": "7.1.0",
-    "@types/long": "4.0.0",
-    "@types/mocha": "5.2.6",
-    "@types/node": "11.9.4",
-    "@types/sinon": "7.0.6",
-    "@types/sinon-chai": "3.2.2",
-    "@types/supertest": "2.0.7",
-    "@types/uuid": "3.4.4",
-    "chai": "4.2.0",
-    "chai-as-promised": "7.1.1",
-    "husky": "1.3.1",
-    "lint-staged": "8.1.4",
-    "mocha": "5.2.0",
-    "mocha-jenkins-reporter": "0.4.1",
-    "prettier": "1.16.4",
-    "sinon": "7.2.3",
-    "sinon-chai": "3.3.0",
-    "supertest": "3.4.2",
-    "ts-node": "8.0.2",
-    "tslint": "5.12.1",
-    "tslint-config-prettier": "1.18.0",
-    "tslint-config-standard": "8.0.1",
-    "tslint-microsoft-contrib": "6.0.0",
-    "typescript": "^3.3.3"
-  },
-  "lint-staged": {
-    "*.ts": [
-      "prettier --write --print-width 80 --tab-width 4 --no-semi --single-quote --trailing-comma all --arrow-parens always",
-      "git add"
-    ]
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.6",
+    "@types/sinon": "^7.0.11",
+    "@types/sinon-chai": "^3.2.2",
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4",
+    "sinon": "^7.3.2",
+    "sinon-chai": "^3.3.0",
+    "ts-node": "^8.1.0",
+    "typescript": "^3.4.4"
   },
   "dependencies": {
-    "dotenv": "^6.2.0"
+    "@types/es6-promise": "^3.3.0",
+    "axios": "^0.18.0",
+    "browser-or-node": "^1.2.1",
+    "dotenv": "^7.0.0"
   }
 }

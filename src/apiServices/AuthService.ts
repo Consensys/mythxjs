@@ -1,23 +1,26 @@
+import { isBrowser, isNode } from 'browser-or-node';
+
 import { loginUser } from '../auth/loginUser'
 import { logoutUser } from '../auth/logoutUser'
 import { refreshToken } from '../auth/refreshToken'
 
-import { getHeaders } from '../util/getHeaders'
+import { saveTokensNode } from '../node/saveTokensNode'
+import { saveTokensStorage } from '../browser/saveTokensStorage'
 
-interface JwtTokens {
-    access: string
-    refresh: string
-}
+import { getHeaders } from '../util/getHeaders'
+import { getTokens } from '../util/getTokens'
+
+import { JwtTokensInterface } from '..'
 
 export class AuthService {
 
     public ethAddress: string
     public password: string
-    public jwtTokens: JwtTokens = {
+    public jwtTokens: JwtTokensInterface = {
         access: '',
         refresh: ''
     }
-    private apiUrl: string = process.env.API_URL_STAGING || ''
+    private apiUrl: string = process.env.API_URL_STAGING || 'https://staging.api.mythx.io/v1'
 
     constructor(ethAddress: string, password: string) {
         this.ethAddress = ethAddress
@@ -25,10 +28,10 @@ export class AuthService {
 
     }
 
-    public async login(): Promise<JwtTokens> {
+    public async login(): Promise<JwtTokensInterface> {
         try {
             const result = await loginUser(this.ethAddress, this.password, `${this.apiUrl}/auth/login`)
-            const tokens: JwtTokens = result.data.jwtTokens
+            const tokens: JwtTokensInterface = result.data.jwtTokens
             this.setCredentials(tokens)
             return tokens
         }
@@ -82,10 +85,25 @@ export class AuthService {
         return true;
     }
 
-    setCredentials(tokens: JwtTokens) {
+
+    // TODO: ABSTRACT BELOW TO ITS OWN LAYER?
+    setCredentials(tokens: JwtTokensInterface) {
         this.jwtTokens.access = tokens.access
         this.jwtTokens.refresh = tokens.refresh
+
+        if (isBrowser) {
+            saveTokensStorage(tokens)
+        }
+
+        if (isNode) {
+            saveTokensNode(tokens, 'tokens.json')
+        }
     }
 
+
+    getCredentials() {
+        const foo = getTokens('tokens.json')
+        console.log(foo)
+    }
 
 }
