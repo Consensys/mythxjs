@@ -1,7 +1,5 @@
 export function errorHandler(err) {
     const { response } = err
-    console.log('ERRORR')
-    console.log(response.status)
 
     if (response.status === 400) {
         throw new Error(`Bad request. ${err}`)

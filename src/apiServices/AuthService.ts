@@ -7,8 +7,6 @@ import { refreshToken } from '../auth/refreshToken'
 // import { saveTokensNode } from '../node/saveTokensNode'
 // import { saveTokensStorage } from '../browser/saveTokensStorage'
 
-const foo = require('../node/saveTokensNode')
-
 import { getHeaders } from '../util/getHeaders'
 import { getTokens } from '../util/getTokens'
 import { errorHandler } from '../util/errorHandler'
@@ -23,7 +21,8 @@ export class AuthService {
         access: '',
         refresh: ''
     }
-    private apiUrl: string = process.env.API_URL_STAGING || 'https://staging.api.mythx.io/v1'
+    private API_URL_PRODUCTION = "https://api.mythx.io/v1"
+    private apiUrl: string = 'https://staging.api.mythx.io/v1'
 
     constructor(ethAddress?: string, password?: string) {
         this.ethAddress = ethAddress as string
@@ -36,10 +35,14 @@ export class AuthService {
             const result = await loginUser(this.ethAddress, this.password, `${this.apiUrl}/auth/login`)
             const tokens: JwtTokensInterface = result.data.jwtTokens
             this.setCredentials(tokens)
+            console.log('You are logged in!')
+            console.log(`Access: ${tokens.access}`)
+            console.log(`Refresh: ${tokens.refresh}`)
             return tokens
         }
         catch (err) {
-            errorHandler(err)
+            // errorHandler(err)
+            console.error(err)
         }
     }
 
@@ -92,8 +95,5 @@ export class AuthService {
     setCredentials(tokens?: JwtTokensInterface) {
         // this.jwtTokens.access = tokens.access
         // this.jwtTokens.refresh = tokens.refresh
-
-        foo()
     }
-
 } 
