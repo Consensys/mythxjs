@@ -6,12 +6,14 @@ import { AnalysesService } from './apiServices/AnalysesService'
 const dotenv = require('dotenv');
 dotenv.config();
 
+console.log('mirkogaro');
+
 const APISERVICE = new AuthService('0x0000000000000000000000000000000000000000', 'trial');
-// APISERVICE.refreshToken()
+APISERVICE.setCredentials()
 
-const ANALYSESSERVICE = new AnalysesService()
+// const ANALYSESSERVICE = new AnalysesService()
 
-ANALYSESSERVICE.getAnalysesList()
+// ANALYSESSERVICE.getAnalysesList()
 
 // BUSINESS OBJECTS
 

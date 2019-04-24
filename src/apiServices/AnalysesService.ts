@@ -18,7 +18,8 @@ export class AnalysesService {
     public async getAnalysesList() {
         console.log('invoke getAnalysesList')
         try {
-            const { access } = getTokens('tokens.json')
+            // const { access } = getTokens('tokens.json')
+            const access = 'aaa'
             const headers = getHeaders(access)
 
             console.log(access, 'access')

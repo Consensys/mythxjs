@@ -4,8 +4,10 @@ import { loginUser } from '../auth/loginUser'
 import { logoutUser } from '../auth/logoutUser'
 import { refreshToken } from '../auth/refreshToken'
 
-import { saveTokensNode } from '../node/saveTokensNode'
-import { saveTokensStorage } from '../browser/saveTokensStorage'
+// import { saveTokensNode } from '../node/saveTokensNode'
+// import { saveTokensStorage } from '../browser/saveTokensStorage'
+
+const foo = require('../node/saveTokensNode')
 
 import { getHeaders } from '../util/getHeaders'
 import { getTokens } from '../util/getTokens'
@@ -87,17 +89,11 @@ export class AuthService {
 
 
     // TODO: ABSTRACT BELOW TO ITS OWN LAYER?
-    setCredentials(tokens: JwtTokensInterface) {
-        this.jwtTokens.access = tokens.access
-        this.jwtTokens.refresh = tokens.refresh
+    setCredentials(tokens?: JwtTokensInterface) {
+        // this.jwtTokens.access = tokens.access
+        // this.jwtTokens.refresh = tokens.refresh
 
-        if (isBrowser) {
-            saveTokensStorage(tokens)
-        }
-
-        if (isNode) {
-            saveTokensNode(tokens, 'tokens.json')
-        }
+        foo()
     }
 
 } 
