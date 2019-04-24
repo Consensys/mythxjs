@@ -16,12 +16,11 @@ const serverConfig = {
         path: path.resolve(__dirname, 'dist'),
         filename: 'lib.node.js'
     }
-    //…
 };
 
 const clientConfig = {
     entry: './src/index.ts',
-    target: 'web', // <=== can be omitted as default is 'web'
+    target: 'web',
     resolve: {
         extensions: ['.webpack.js', '.web.js', '.ts', '.js']
     },
@@ -34,9 +33,8 @@ const clientConfig = {
         path: path.resolve(__dirname, 'dist'),
         filename: 'lib.js',
         libraryTarget: "umd", // exposes and know when to use module.exports or exports.,
-        globalObject: 'this' //!!!This line
+        globalObject: 'this' // bug fix: https://medium.com/@JakeXiao/window-is-undefined-in-umd-library-output-for-webpack4-858af1b881df
     }
-    //…
 };
 
 module.exports = [serverConfig, clientConfig];
