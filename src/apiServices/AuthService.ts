@@ -101,10 +101,14 @@ export class AuthService {
                 const { access } = parsed
 
                 const headers = getHeaders(access)
-                const result = await logoutUser(`${this.API_URL_STAGING}/auth/logout`, headers)
+                const reqBody = {
+                    jwtTokens: parsed
+                }
 
+                const result = await refreshToken(`${this.API_URL_STAGING}/auth/refresh`, reqBody, headers)
                 console.log(result.data)
-                removeTokensStorage()
+                const tokens: JwtTokensInterface = result.data.jwtTokens
+                this.setCredentials(tokens)
             }
 
         } catch (err) {
