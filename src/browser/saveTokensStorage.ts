@@ -1,6 +1,6 @@
 import { JwtTokensInterface } from '..'
 
-const localStorage: any = {}
+declare const localStorage;
 
 export function saveTokensStorage(tokens: JwtTokensInterface) {
     console.log('saveTokensStorage browser')

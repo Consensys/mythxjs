@@ -4,11 +4,15 @@ import { loginUser } from '../auth/loginUser'
 import { logoutUser } from '../auth/logoutUser'
 import { refreshToken } from '../auth/refreshToken'
 
-// import { saveTokensNode } from '../node/saveTokensNode'
-// import { saveTokensStorage } from '../browser/saveTokensStorage'
+import { saveTokensNode } from '../node/saveTokensNode'
+import { removeTokensNode } from '../node/removeTokensNode'
+import { getTokensNode } from '../node/getTokensNode'
+
+import { saveTokensStorage } from '../browser/saveTokensStorage'
+import { removeTokensStorage } from '../browser/removeTokensStorage'
+import { getTokensStorage } from '../browser/getTokensStorage'
 
 import { getHeaders } from '../util/getHeaders'
-import { getTokens } from '../util/getTokens'
 import { errorHandler } from '../util/errorHandler'
 
 import { JwtTokensInterface } from '..'
@@ -22,7 +26,7 @@ export class AuthService {
         refresh: ''
     }
     private API_URL_PRODUCTION = "https://api.mythx.io/v1"
-    private apiUrl: string = 'https://staging.api.mythx.io/v1'
+    private API_URL_STAGING: string = 'https://staging.api.mythx.io/v1'
 
     constructor(ethAddress?: string, password?: string) {
         this.ethAddress = ethAddress as string
@@ -32,7 +36,7 @@ export class AuthService {
 
     public async login(): Promise<JwtTokensInterface | undefined> {
         try {
-            const result = await loginUser(this.ethAddress, this.password, `${this.apiUrl}/auth/login`)
+            const result = await loginUser(this.ethAddress, this.password, `${this.API_URL_STAGING}/auth/login`)
             const tokens: JwtTokensInterface = result.data.jwtTokens
             this.setCredentials(tokens)
             console.log('You are logged in!')
@@ -49,13 +53,24 @@ export class AuthService {
     public async logout() {
         if (this.isUserLoggedIn()) {
             try {
-                // BELOW TO GO FOR BETTER HANDLING CODE
-                // TODO: CALL ISUSERLOGGEDIN METHOD
-                await this.login();
+                // TODO: Abstract below code
+                if (isNode) {
+                    const { access } = getTokensNode('tokens.json')
+                    const headers = getHeaders(access)
 
-                const headers = getHeaders(this.jwtTokens.access)
-                const result = await logoutUser(`${this.apiUrl}/auth/logout`, headers)
-                console.log(result.data)
+                    await logoutUser(`${this.API_URL_STAGING}/auth/logout`, headers)
+                    removeTokensNode('tokens.json')
+                } else if (isBrowser) {
+                    const data: any = getTokensStorage()
+                    const parsed = JSON.parse(data)
+                    const { access } = parsed
+
+                    const headers = getHeaders(access)
+                    const result = await logoutUser(`${this.API_URL_STAGING}/auth/logout`, headers)
+
+                    console.log(result.data)
+                    removeTokensStorage()
+                }
             }
             catch (err) {
                 errorHandler(err)
@@ -76,7 +91,7 @@ export class AuthService {
                 refreshToken: this.jwtTokens.refresh
             }
 
-            const result = await refreshToken(`${this.apiUrl}/auth/refresh`, reqBody, headers)
+            const result = await refreshToken(`${this.API_URL_STAGING}/auth/refresh`, reqBody, headers)
             console.log(result.data)
 
         } catch (err) {
@@ -92,8 +107,15 @@ export class AuthService {
 
 
     // TODO: ABSTRACT BELOW TO ITS OWN LAYER?
-    setCredentials(tokens?: JwtTokensInterface) {
-        // this.jwtTokens.access = tokens.access
-        // this.jwtTokens.refresh = tokens.refresh
+    setCredentials(tokens: JwtTokensInterface) {
+        this.jwtTokens.access = tokens.access
+        this.jwtTokens.refresh = tokens.refresh
+
+        if (isNode) {
+            saveTokensNode(tokens, 'tokens.json')
+        } else if (isBrowser) {
+            console.log('save to local storage!')
+            saveTokensStorage(tokens)
+        }
     }
 } 

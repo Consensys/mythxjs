@@ -2,7 +2,7 @@ import { getAnalyses } from '../analyses/getAnalyses'
 
 import { getHeaders } from '../util/getHeaders'
 
-import { getTokens } from '../util/getTokens'
+import { getTokensNode } from '../node/getTokensNode'
 import { errorHandler } from '../util/errorHandler'
 
 import { isBrowser, isNode } from 'browser-or-node';
@@ -18,7 +18,7 @@ export class AnalysesService {
     public async getAnalysesList() {
         try {
             if (isNode) {
-                const { access } = getTokens('tokens.json')
+                const { access } = getTokensNode('tokens.json')
                 const headers = getHeaders(access)
 
                 console.log(access, 'access')
