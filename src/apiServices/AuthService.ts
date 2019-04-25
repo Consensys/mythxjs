@@ -82,17 +82,30 @@ export class AuthService {
 
     public async refreshToken() {
         try {
-            await this.login()
+            //TODO: CHECK IF USER IS LOGGED IN AND HAS TOKEN STORED
+            if (isNode) {
 
-            const headers = getHeaders(this.jwtTokens.access)
-            const reqBody = {
-                jwtTokens: this.jwtTokens,
-                accessToken: this.jwtTokens.access,
-                refreshToken: this.jwtTokens.refresh
+                const jwtTokens: JwtTokensInterface = getTokensNode('tokens.json')
+                const headers = getHeaders(jwtTokens.access)
+                const reqBody = {
+                    jwtTokens: jwtTokens
+                }
+
+                console.log(reqBody, 'reqBody')
+                const result = await refreshToken(`${this.API_URL_STAGING}/auth/refresh`, reqBody, headers)
+                console.log(result.data, 'result')
             }
+            else if (isBrowser) {
+                const data: any = getTokensStorage()
+                const parsed = JSON.parse(data)
+                const { access } = parsed
 
-            const result = await refreshToken(`${this.API_URL_STAGING}/auth/refresh`, reqBody, headers)
-            console.log(result.data)
+                const headers = getHeaders(access)
+                const result = await logoutUser(`${this.API_URL_STAGING}/auth/logout`, headers)
+
+                console.log(result.data)
+                removeTokensStorage()
+            }
 
         } catch (err) {
             errorHandler(err)

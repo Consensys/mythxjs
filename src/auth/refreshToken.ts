@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { JwtTokensInterface } from '..'
 
 // TODO: BELOW IS VERY SIMILAR TO OTHER POST REQUEST - MERGE INTO ONE REUSABLE METHOD?
 export async function refreshToken(url: string, body: any, headers: any) {
