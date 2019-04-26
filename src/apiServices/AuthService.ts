@@ -7,6 +7,7 @@ import { refreshToken } from '../auth/refreshToken'
 import { saveTokensNode } from '../node/saveTokensNode'
 import { removeTokensNode } from '../node/removeTokensNode'
 import { getTokensNode } from '../node/getTokensNode'
+import { isUserLoggedInNode } from '../node/isUserLoggedInNode'
 
 import { saveTokensStorage } from '../browser/saveTokensStorage'
 import { removeTokensStorage } from '../browser/removeTokensStorage'
@@ -81,8 +82,9 @@ export class AuthService {
     }
 
     public async refreshToken() {
+        //TODO: CHECK IF USER IS LOGGED IN AND HAS TOKEN STORED
+        //TODO: ABSTRACT BELOW
         try {
-            //TODO: CHECK IF USER IS LOGGED IN AND HAS TOKEN STORED
             if (isNode) {
 
                 const jwtTokens: JwtTokensInterface = getTokensNode('tokens.json')
@@ -119,6 +121,10 @@ export class AuthService {
     isUserLoggedIn() {
         // TODO: CHECK IF USER IS LOGGED IN 
         // NEED MORE CLARITY ON DIFFERENT ENVS (NODE/BROWSER)
+
+        if (isNode) {
+            return isUserLoggedInNode('tokens.json')
+        }
         return true;
     }
 

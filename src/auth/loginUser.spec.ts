@@ -1,8 +1,10 @@
-import { loginUser } from './loginUser'
 import { expect } from 'chai'
+export { stub } from 'sinon'
+
+import { loginUser } from './loginUser'
 
 describe('loginUser', () => {
-    it('should be a function', () => {
+    it('is a function', () => {
         expect(loginUser).to.be.a('function')
     })
 })

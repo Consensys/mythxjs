@@ -14,7 +14,7 @@ const serverConfig = {
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'lib.node.js'
+        filename: 'index.node.js'
     }
 };
 
@@ -31,7 +31,7 @@ const clientConfig = {
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'lib.js',
+        filename: 'index.js',
         libraryTarget: "umd", // exposes and know when to use module.exports or exports.,
         globalObject: 'this' // bug fix: https://medium.com/@JakeXiao/window-is-undefined-in-umd-library-output-for-webpack4-858af1b881df
     }

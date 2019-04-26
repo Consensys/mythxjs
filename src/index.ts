@@ -2,7 +2,7 @@
 import { AuthService } from './apiServices/AuthService'
 
 const APISERVICE = new AuthService('0x0000000000000000000000000000000000000000', 'trial');
-// APISERVICE.login()
+APISERVICE.logout()
 // APISERVICE.refreshToken()
 
 // BUSINESS OBJECTS
