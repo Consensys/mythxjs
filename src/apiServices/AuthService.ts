@@ -16,6 +16,7 @@ import { isUserLoggedInStorage } from '../browser/isUserLoggedInStorage'
 
 import { getHeaders } from '../util/getHeaders'
 import { errorHandler } from '../util/errorHandler'
+import { API_URL_PRODUCTION, API_URL_STAGING } from '../util/constants'
 
 import { JwtTokensInterface } from '..'
 
@@ -27,8 +28,6 @@ export class AuthService {
         access: '',
         refresh: ''
     }
-    private API_URL_PRODUCTION = "https://api.mythx.io/v1"
-    private API_URL_STAGING: string = 'https://staging.api.mythx.io/v1'
 
     constructor(ethAddress?: string, password?: string) {
         this.ethAddress = ethAddress as string
@@ -38,7 +37,7 @@ export class AuthService {
 
     public async login(): Promise<JwtTokensInterface | undefined> {
         try {
-            const result = await loginUser(this.ethAddress, this.password, `${this.API_URL_STAGING}/auth/login`)
+            const result = await loginUser(this.ethAddress, this.password, `${API_URL_STAGING}/auth/login`)
             const tokens: JwtTokensInterface = result.data.jwtTokens
             this.setCredentials(tokens)
             console.log('You are logged in!')
@@ -60,7 +59,7 @@ export class AuthService {
                     const { access } = getTokensNode('tokens.json')
                     const headers = getHeaders(access)
 
-                    await logoutUser(`${this.API_URL_STAGING}/auth/logout`, headers)
+                    await logoutUser(`${API_URL_STAGING}/auth/logout`, headers)
                     removeTokensNode('tokens.json')
                 } else if (isBrowser) {
                     const data: any = getTokensStorage()
@@ -68,7 +67,7 @@ export class AuthService {
                     const { access } = parsed
 
                     const headers = getHeaders(access)
-                    const result = await logoutUser(`${this.API_URL_STAGING}/auth/logout`, headers)
+                    const result = await logoutUser(`${API_URL_STAGING}/auth/logout`, headers)
 
                     console.log(result.data)
                     removeTokensStorage()
@@ -95,7 +94,7 @@ export class AuthService {
                 }
 
                 console.log(reqBody, 'reqBody')
-                const result = await refreshToken(`${this.API_URL_STAGING}/auth/refresh`, reqBody, headers)
+                const result = await refreshToken(`${API_URL_STAGING}/auth/refresh`, reqBody, headers)
                 console.log(result.data, 'result')
             }
             else if (isBrowser) {
@@ -108,7 +107,7 @@ export class AuthService {
                     jwtTokens: parsed
                 }
 
-                const result = await refreshToken(`${this.API_URL_STAGING}/auth/refresh`, reqBody, headers)
+                const result = await refreshToken(`${API_URL_STAGING}/auth/refresh`, reqBody, headers)
                 console.log(result.data)
                 const tokens: JwtTokensInterface = result.data.jwtTokens
                 this.setCredentials(tokens)

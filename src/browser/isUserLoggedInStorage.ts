@@ -24,6 +24,8 @@ export function isUserLoggedInStorage(): boolean {
         return now.getTime() < exp * 1000;
 
     } catch (err) {
-        throw new Error(`Error with checking if user is logged in. ${err}`)
+        console.log(err)
+        // throw new Error(`Error with checking if user is logged in. ${err}`)
+        return false
     }
 }
