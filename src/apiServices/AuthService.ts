@@ -12,6 +12,7 @@ import { isUserLoggedInNode } from '../node/isUserLoggedInNode'
 import { saveTokensStorage } from '../browser/saveTokensStorage'
 import { removeTokensStorage } from '../browser/removeTokensStorage'
 import { getTokensStorage } from '../browser/getTokensStorage'
+import { isUserLoggedInStorage } from '../browser/isUserLoggedInStorage'
 
 import { getHeaders } from '../util/getHeaders'
 import { errorHandler } from '../util/errorHandler'
@@ -119,13 +120,12 @@ export class AuthService {
     }
 
     isUserLoggedIn() {
-        // TODO: CHECK IF USER IS LOGGED IN 
-        // NEED MORE CLARITY ON DIFFERENT ENVS (NODE/BROWSER)
-
         if (isNode) {
             return isUserLoggedInNode('tokens.json')
+        } else if (isBrowser) {
+            return isUserLoggedInStorage()
         }
-        return true;
+        return false;
     }
 
 
