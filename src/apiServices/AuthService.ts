@@ -1,8 +1,8 @@
 import { isBrowser, isNode } from 'browser-or-node';
 
+import { postRequest, getRequest } from '../http'
+
 import { loginUser } from '../auth/loginUser'
-import { logoutUser } from '../auth/logoutUser'
-import { refreshToken } from '../auth/refreshToken'
 
 import { saveTokensNode } from '../node/saveTokensNode'
 import { removeTokensNode } from '../node/removeTokensNode'
@@ -37,7 +37,7 @@ export class AuthService {
 
     public async login(): Promise<JwtTokensInterface | undefined> {
         try {
-            const result = await loginUser(this.ethAddress, this.password, `${API_URL_STAGING}/auth/login`)
+            const result = await loginUser(this.ethAddress, this.password, `${API_URL_PRODUCTION}/auth/login`)
             const tokens: JwtTokensInterface = result.data.jwtTokens
             this.setCredentials(tokens)
             console.log('You are logged in!')
@@ -59,7 +59,7 @@ export class AuthService {
                     const { access } = getTokensNode('tokens.json')
                     const headers = getHeaders(access)
 
-                    await logoutUser(`${API_URL_STAGING}/auth/logout`, headers)
+                    await postRequest(`${API_URL_PRODUCTION}/auth/logout`, {}, headers)
                     removeTokensNode('tokens.json')
                 } else if (isBrowser) {
                     const data: any = getTokensStorage()
@@ -67,7 +67,7 @@ export class AuthService {
                     const { access } = parsed
 
                     const headers = getHeaders(access)
-                    const result = await logoutUser(`${API_URL_STAGING}/auth/logout`, headers)
+                    const result = await postRequest(`${API_URL_PRODUCTION}/auth/logout`, {}, headers)
 
                     console.log(result.data)
                     removeTokensStorage()
@@ -94,7 +94,7 @@ export class AuthService {
                 }
 
                 console.log(reqBody, 'reqBody')
-                const result = await refreshToken(`${API_URL_STAGING}/auth/refresh`, reqBody, headers)
+                const result = await postRequest(`${API_URL_PRODUCTION}/auth/refresh`, reqBody, headers)
                 console.log(result.data, 'result')
             }
             else if (isBrowser) {
@@ -107,7 +107,7 @@ export class AuthService {
                     jwtTokens: parsed
                 }
 
-                const result = await refreshToken(`${API_URL_STAGING}/auth/refresh`, reqBody, headers)
+                const result = await postRequest(`${API_URL_PRODUCTION}/auth/refresh`, reqBody, headers)
                 console.log(result.data)
                 const tokens: JwtTokensInterface = result.data.jwtTokens
                 this.setCredentials(tokens)
