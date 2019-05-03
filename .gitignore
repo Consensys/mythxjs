@@ -12,3 +12,4 @@ compiled
 docs
 .env
 tokens.json
+__contracts

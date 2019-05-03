@@ -11,6 +11,8 @@ import { API_URL_PRODUCTION, API_URL_STAGING } from '../util/constants'
 import { ANALYSIS_MOCK } from '../util/mock'
 import { JwtTokensInterface, SubmitContractRes } from '..'
 
+import { compileContract } from '../util/compileContract'
+
 export class AnalysesService {
     private API_URL_PRODUCTION = "https://api.mythx.io/v1"
     private apiUrl: string = 'https://staging.api.mythx.io/v1'
@@ -41,53 +43,74 @@ export class AnalysesService {
         }
     }
 
-    public async getAnalysisStatus(uuid: string) {
+    public async getAnalysisStatus(uuid: string, token?: string) {
         try {
             if (isNode) {
-                const jwtTokens: JwtTokensInterface = getTokensNode('tokens.json')
-                const headers = getHeaders(jwtTokens.access)
+                let headers: any;
+                if (token) {
+                    headers = getHeaders(token)
+                } else {
+                    const jwtTokens: JwtTokensInterface = getTokensNode('tokens.json')
+                    headers = getHeaders(jwtTokens.access)
+                }
 
-                console.log('before')
+                console.log('getAnalysisStatus')
                 const result = await getRequest(`${API_URL_PRODUCTION}/analyses/${uuid}`, headers)
                 console.log(result.data, 'result analysis status')
                 return result.data
             }
         } catch (error) {
-            console.log(error)
-            throw new Error(error)
+            throw new Error(`Error with your request. ${error.data}`)
         }
     }
 
-    public async getDetectedIssues(uuid) {
+    public async getDetectedIssues(uuid: string, token?: string) {
         try {
             if (isNode) {
-                console.log('issueee')
-                const jwtTokens: JwtTokensInterface = getTokensNode('tokens.json')
-                const headers = getHeaders(jwtTokens.access)
+                let headers: any;
+                if (token) {
+                    console.log('tokennn')
+                    headers = getHeaders(token)
+                } else {
+                    const jwtTokens: JwtTokensInterface = getTokensNode('tokens.json')
+                    headers = getHeaders(jwtTokens.access)
+                }
+
+
                 const result = await getRequest(`${API_URL_PRODUCTION}/analyses/${uuid}/issues`, headers)
-                console.log(result.data, 'result ')
-            }
-        } catch (error) {
-            console.log(error)
-            throw new Error(error)
-        }
-    }
-
-    public async submitContract(): Promise<SubmitContractRes | undefined> {
-        try {
-            if (isNode) {
-                const jwtTokens: JwtTokensInterface = getTokensNode('tokens.json')
-                const headers = getHeaders(jwtTokens.access)
-
-                console.log('before')
-                const result = await postRequest(`${API_URL_PRODUCTION}/analyses`, ANALYSIS_MOCK, headers)
-                console.log(result.data, 'result')
-
                 return result.data
             }
         } catch (error) {
-            console.log(error)
-            throw new Error(error)
+            throw new Error(`Error with your request. ${error.data}`)
+        }
+    }
+
+    public async submitContract(token?: string): Promise<SubmitContractRes | undefined> {
+        try {
+            if (isNode) {
+                // let headers: any;
+                // if (token) {
+                //     console.log('tokennn')
+                //     headers = getHeaders(token)
+                // } else {
+                //     const jwtTokens: JwtTokensInterface = getTokensNode('tokens.json')
+                //     headers = getHeaders(jwtTokens.access)
+                // }
+
+
+                // console.log('submit Contract')
+                // console.log(headers)
+                // const result = await postRequest(`${API_URL_PRODUCTION}/analyses`, ANALYSIS_MOCK, headers)
+                // console.log(result.data, 'result')
+
+                // return result.data
+                console.log('ciaobelli')
+                compileContract('__contracts/vulnerable.sol')
+
+                return undefined
+            }
+        } catch (error) {
+            throw new Error(`Error with your request. ${error.data}`)
         }
     }
 

@@ -37,6 +37,7 @@ export class AuthService {
 
     public async login(): Promise<JwtTokensInterface | undefined> {
         try {
+            console.log('fire login')
             const result = await loginUser(this.ethAddress, this.password, `${API_URL_PRODUCTION}/auth/login`)
             const tokens: JwtTokensInterface = result.data.jwtTokens
             this.setCredentials(tokens)
@@ -133,11 +134,11 @@ export class AuthService {
         this.jwtTokens.access = tokens.access
         this.jwtTokens.refresh = tokens.refresh
 
-        if (isNode) {
-            saveTokensNode(tokens, 'tokens.json')
-        } else if (isBrowser) {
-            console.log('save to local storage!')
-            saveTokensStorage(tokens)
-        }
+        // if (isNode) {
+        //     saveTokensNode(tokens, 'tokens.json')
+        // } else if (isBrowser) {
+        //     console.log('save to local storage!')
+        //     saveTokensStorage(tokens)
+        // }
     }
 } 

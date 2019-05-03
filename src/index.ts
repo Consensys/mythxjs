@@ -12,23 +12,25 @@ async function start() {
 
     const ANALYSESSERVICE = new AnalysesService()
     const contractData: any = await ANALYSESSERVICE.submitContract()
-    const { uuid } = contractData
+
+
+    // const { uuid } = contractData
 
 
     // Handle infinite queue
-    let timer = setInterval(async () => {
-        const analysis = await ANALYSESSERVICE.getAnalysisStatus(uuid)
-        console.log(analysis.status)
-        if (analysis.status === "Finished") {
-            clearInterval(timer)
-        }
-    }, 2000);
+    // let timer = setInterval(async () => {
+    //     const analysis = await ANALYSESSERVICE.getAnalysisStatus(uuid)
+    //     console.log(analysis.status)
+    //     if (analysis.status === "Finished") {
+    //         clearInterval(timer)
+    //     }
+    // }, 2000);
 
-    await ANALYSESSERVICE.getDetectedIssues(uuid)
+    // await ANALYSESSERVICE.getDetectedIssues(uuid)
 }
 
-start()
 
+start()
 
 // BUSINESS OBJECTS
 
