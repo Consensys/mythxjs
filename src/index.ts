@@ -11,7 +11,7 @@ async function start() {
     // APISERVICE.refreshToken()
 
     const ANALYSESSERVICE = new AnalysesService()
-    const contractData: any = await ANALYSESSERVICE.submitContract()
+    await ANALYSESSERVICE.submitContract('__contracts/vulnerable.sol')
 
 
     // const { uuid } = contractData

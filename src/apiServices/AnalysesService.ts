@@ -12,6 +12,7 @@ import { ANALYSIS_MOCK } from '../util/mock'
 import { JwtTokensInterface, SubmitContractRes } from '..'
 
 import { compileContract } from '../util/compileContract'
+import { submitContractRequest } from '../analyses/submitContractRequest'
 
 export class AnalysesService {
     private API_URL_PRODUCTION = "https://api.mythx.io/v1"
@@ -85,29 +86,22 @@ export class AnalysesService {
         }
     }
 
-    public async submitContract(token?: string): Promise<SubmitContractRes | undefined> {
+    public async submitContract(path: string, token?: string): Promise<SubmitContractRes | undefined> {
         try {
             if (isNode) {
-                // let headers: any;
-                // if (token) {
-                //     console.log('tokennn')
-                //     headers = getHeaders(token)
-                // } else {
-                //     const jwtTokens: JwtTokensInterface = getTokensNode('tokens.json')
-                //     headers = getHeaders(jwtTokens.access)
-                // }
+                let headers: any;
+                if (token) {
+                    console.log('tokennn')
+                    headers = getHeaders(token)
+                } else {
+                    const jwtTokens: JwtTokensInterface = getTokensNode('tokens.json')
+                    headers = getHeaders(jwtTokens.access)
+                }
 
+                const request = await submitContractRequest(path)
 
-                // console.log('submit Contract')
-                // console.log(headers)
-                // const result = await postRequest(`${API_URL_PRODUCTION}/analyses`, ANALYSIS_MOCK, headers)
-                // console.log(result.data, 'result')
-
-                // return result.data
-                console.log('ciaobelli')
-                compileContract('__contracts/vulnerable.sol')
-
-                return undefined
+                const result = await postRequest(`${API_URL_PRODUCTION}/analyses`, request, headers)
+                return result.data
             }
         } catch (error) {
             throw new Error(`Error with your request. ${error.data}`)

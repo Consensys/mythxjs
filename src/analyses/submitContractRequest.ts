@@ -12,7 +12,7 @@ export async function submitContractRequest(path: string) {
         "data":
         {
             "contractName": srcName,
-            "bytecode": bytecode,
+            "bytecode": bytecode[0],
             "analysisMode": "quick",
             "sourceList": [
                 solName
