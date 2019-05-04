@@ -30,7 +30,7 @@ async function start() {
 }
 
 
-start()
+// start()
 
 // BUSINESS OBJECTS
 

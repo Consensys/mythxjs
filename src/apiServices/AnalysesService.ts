@@ -98,13 +98,15 @@ export class AnalysesService {
                     headers = getHeaders(jwtTokens.access)
                 }
 
+                console.log(path, 'path')
                 const request = await submitContractRequest(path)
 
                 const result = await postRequest(`${API_URL_PRODUCTION}/analyses`, request, headers)
+                console.log(result.data)
                 return result.data
             }
         } catch (error) {
-            throw new Error(`Error with your request. ${error.data}`)
+            throw new Error(`Error with submit contract request. ${error.data}`)
         }
     }
 

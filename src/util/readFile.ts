@@ -5,6 +5,7 @@ const fs = require('fs')
 export function readFile(path: string) {
     try {
         const data = fs.readFileSync(path, 'utf8')
+        console.log(data, 'readfile data')
         console.log(typeof data)
         return data
     } catch (err) {
