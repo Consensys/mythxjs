@@ -8,11 +8,11 @@ import { getHeaders } from '../util/getHeaders'
 import { getTokensNode } from '../node/getTokensNode'
 
 import { API_URL_PRODUCTION, API_URL_STAGING } from '../util/constants'
-import { ANALYSIS_MOCK } from '../util/mock'
+import { ANALYSIS_MOCK, ANALYSIS_MOCK_VULNERABLE, ANALYSIS_MOCK_TOKEN } from '../util/mock'
 import { JwtTokensInterface, SubmitContractRes } from '..'
 
-import { compileContract } from '../util/compileContract'
-import { submitContractRequest } from '../analyses/submitContractRequest'
+// import { compileContract } from '../util/compileContract'
+// import { submitContractRequest } from '../analyses/submitContractRequest'
 
 export class AnalysesService {
     private API_URL_PRODUCTION = "https://api.mythx.io/v1"
@@ -86,7 +86,7 @@ export class AnalysesService {
         }
     }
 
-    public async submitContract(path: string, token?: string): Promise<SubmitContractRes | undefined> {
+    public async submitContractNoSolc(token?): Promise<SubmitContractRes | undefined> {
         try {
             if (isNode) {
                 let headers: any;
@@ -98,16 +98,39 @@ export class AnalysesService {
                     headers = getHeaders(jwtTokens.access)
                 }
 
-                console.log(path, 'path')
-                const request = await submitContractRequest(path)
+                console.log('before')
+                const result = await postRequest(`${API_URL_PRODUCTION}/analyses`, ANALYSIS_MOCK_TOKEN, headers)
+                console.log(result.data, 'result')
 
-                const result = await postRequest(`${API_URL_PRODUCTION}/analyses`, request, headers)
-                console.log(result.data)
                 return result.data
             }
         } catch (error) {
-            throw new Error(`Error with submit contract request. ${error.data}`)
+            throw new Error(`Error when submitting contract: ${error}`)
         }
     }
+
+    // public async submitContractWithSolc(path: string, token?: string): Promise<SubmitContractRes | undefined> {
+    //     try {
+    //         if (isNode) {
+    //             let headers: any;
+    //             if (token) {
+    //                 console.log('tokennn')
+    //                 headers = getHeaders(token)
+    //             } else {
+    //                 const jwtTokens: JwtTokensInterface = getTokensNode('tokens.json')
+    //                 headers = getHeaders(jwtTokens.access)
+    //             }
+
+    //             console.log(path, 'path')
+    //             const request = await submitContractRequest(path)
+
+    //             const result = await postRequest(`${API_URL_PRODUCTION}/analyses`, request, headers)
+    //             console.log(result.data)
+    //             return result.data
+    //         }
+    //     } catch (error) {
+    //         throw new Error(`Error with submit contract request. ${error.data}`)
+    //     }
+    // }
 
 }

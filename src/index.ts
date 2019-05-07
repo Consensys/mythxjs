@@ -6,15 +6,17 @@ import { AnalysesService } from './apiServices/AnalysesService'
 
 async function start() {
 
-    const APISERVICE = new AuthService('0x0000000000000000000000000000000000000000', 'trial');
+    const APISERVICE = new AuthService('0x79b483371e87d664cd39491b5f06250165e4b184', 'Abcdefg1!');
     await APISERVICE.login()
     // APISERVICE.refreshToken()
 
     const ANALYSESSERVICE = new AnalysesService()
-    await ANALYSESSERVICE.submitContract('__contracts/vulnerable.sol')
+    const contractData: any = await ANALYSESSERVICE.submitContractNoSolc()
 
 
-    // const { uuid } = contractData
+    const { uuid } = contractData
+
+    console.log(uuid)
 
 
     // Handle infinite queue
@@ -30,7 +32,7 @@ async function start() {
 }
 
 
-// start()
+start()
 
 // BUSINESS OBJECTS
 
