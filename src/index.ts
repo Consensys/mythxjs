@@ -7,6 +7,7 @@ import { AnalysesService } from './apiServices/AnalysesService'
 async function start() {
 
     const APISERVICE = new AuthServiceNode('0x0000000000000000000000000000000000000000', 'trial');
+    APISERVICE.getVersion()
     await APISERVICE.login()
     // APISERVICE.refreshToken()
 

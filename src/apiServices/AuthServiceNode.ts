@@ -1,4 +1,4 @@
-import { postRequest } from '../http'
+import { postRequest, getRequest } from '../http'
 
 import { loginUser } from '../auth/loginUser'
 
@@ -74,11 +74,21 @@ export class AuthServiceNode {
         }
     }
 
-    isUserLoggedIn() {
+    public async getVersion() {
+        try {
+            const result = await getRequest(`${API_URL_PRODUCTION}/version`, null)
+            console.log(`Version:${JSON.stringify(result.data)}`)
+            return result.data
+        } catch (err) {
+            errorHandler(err)
+        }
+    }
+
+    private isUserLoggedIn() {
         return isUserLoggedInNode('tokens.json')
     }
 
-    setCredentials(tokens: JwtTokensInterface) {
+    private setCredentials(tokens: JwtTokensInterface) {
         this.jwtTokens.access = tokens.access
         this.jwtTokens.refresh = tokens.refresh
 
