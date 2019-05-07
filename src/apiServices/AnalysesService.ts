@@ -5,7 +5,7 @@ import { postRequest, getRequest } from '../http'
 import { errorHandler } from '../util/errorHandler'
 import { getHeaders } from '../util/getHeaders'
 
-import { getTokensNode } from '../node/getTokensNode'
+import { getTokensNode } from '../node'
 
 import { API_URL_PRODUCTION, API_URL_STAGING } from '../util/constants'
 import { ANALYSIS_MOCK } from '../util/mock'
@@ -86,8 +86,7 @@ export class AnalysesService {
                 return result.data
             }
         } catch (error) {
-            console.log(error)
-            throw new Error(error)
+            throw new Error(`Error when submitting contract. ${error.data}`)
         }
     }
 

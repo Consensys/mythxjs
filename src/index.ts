@@ -1,12 +1,12 @@
 // Below just for testing
-import { AuthService } from './apiServices/AuthService'
+import { AuthServiceNode } from './apiServices/AuthServiceNode'
 import { AnalysesService } from './apiServices/AnalysesService'
 // import * as mythx from './newIndex'
 
 
 async function start() {
 
-    const APISERVICE = new AuthService('0x0000000000000000000000000000000000000000', 'trial');
+    const APISERVICE = new AuthServiceNode('0x0000000000000000000000000000000000000000', 'trial');
     await APISERVICE.login()
     // APISERVICE.refreshToken()
 
@@ -62,7 +62,7 @@ export interface SubmitContractRes {
 
 // SERVICE INTERFACES AND FACTORIES
 
-export { AuthService } from './apiServices/AuthService'
+export { AuthServiceNode } from './apiServices/AuthServiceNode'
 export { AnalysesService } from './apiServices/AnalysesService'
 // export var __useDefault = true;
 

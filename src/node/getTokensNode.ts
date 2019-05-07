@@ -1,6 +1,6 @@
 const fs = require('fs')
 
-export function getTokensNode(path: string) {
+function getTokensNode(path: string) {
   try {
     const data = fs.readFileSync(path, 'utf8')
     return JSON.parse(data)
@@ -9,3 +9,5 @@ export function getTokensNode(path: string) {
     return false
   }
 }
+
+export default getTokensNode

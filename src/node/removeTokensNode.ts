@@ -1,6 +1,6 @@
 const fs = require('fs')
 
-export function removeTokensNode(path: string) {
+function removeTokensNode(path: string) {
     fs.unlink(path, (err) => {
         if (err) {
             console.error(err)
@@ -9,3 +9,5 @@ export function removeTokensNode(path: string) {
         //file removed
     })
 }
+
+export default removeTokensNode

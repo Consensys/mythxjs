@@ -4,10 +4,7 @@ import { postRequest, getRequest } from '../http'
 
 import { loginUser } from '../auth/loginUser'
 
-import { saveTokensNode } from '../node/saveTokensNode'
-import { removeTokensNode } from '../node/removeTokensNode'
-import { getTokensNode } from '../node/getTokensNode'
-import { isUserLoggedInNode } from '../node/isUserLoggedInNode'
+import { saveTokensNode, removeTokensNode, getTokensNode, isUserLoggedInNode } from '../node'
 
 import { saveTokensStorage } from '../browser/saveTokensStorage'
 import { removeTokensStorage } from '../browser/removeTokensStorage'

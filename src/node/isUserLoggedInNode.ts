@@ -1,4 +1,4 @@
-import { getTokensNode } from './getTokensNode'
+import { getTokensNode } from '.'
 import * as jwt from 'jsonwebtoken'
 
 interface jwtInterface {
@@ -9,7 +9,7 @@ interface jwtInterface {
     iat: number
 }
 
-export function isUserLoggedInNode(path: string): boolean {
+function isUserLoggedInNode(path: string): boolean {
     try {
         const tokens = getTokensNode(path)
         const { access } = tokens
@@ -26,3 +26,5 @@ export function isUserLoggedInNode(path: string): boolean {
         throw new Error(`Error with checking if user is logged in. ${err}`)
     }
 }
+
+export default isUserLoggedInNode
