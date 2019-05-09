@@ -28,7 +28,7 @@ async function start() {
     await ANALYSESSERVICE.getDetectedIssues(uuid)
 }
 
-start()
+// start()
 
 
 // BUSINESS OBJECTS
