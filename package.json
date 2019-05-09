@@ -52,6 +52,7 @@
     "axios": "^0.18.0",
     "browser-or-node": "^1.2.1",
     "jsonwebtoken": "^8.5.1",
+    "solc": "^0.5.8",
     "xmlhttprequest": "^1.8.0"
   }
 }

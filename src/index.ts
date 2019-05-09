@@ -9,27 +9,14 @@ async function start() {
     const APISERVICE = new AuthServiceNode('0x0000000000000000000000000000000000000000', 'trial');
     APISERVICE.getVersion()
     await APISERVICE.login()
-    // APISERVICE.refreshToken()
 
-    const ANALYSESSERVICE = new AnalysesService()
-    const contractData: any = await ANALYSESSERVICE.submitContract()
-    const { uuid } = contractData
-
-
-    // Handle infinite queue
-    let timer = setInterval(async () => {
-        const analysis = await ANALYSESSERVICE.getAnalysisStatus(uuid)
-        console.log(analysis.status)
-        if (analysis.status === "Finished") {
-            clearInterval(timer)
-        }
-    }, 2000);
-
-    await ANALYSESSERVICE.getDetectedIssues(uuid)
+    const anal = new AnalysesService()
+    const foo = anal.submitContract('vulnerable.sol')
+    console.log(foo)
 }
 
-// start()
 
+start()
 
 // BUSINESS OBJECTS
 

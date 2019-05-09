@@ -34,6 +34,7 @@ export class AuthService {
 
     public async login(): Promise<JwtTokensInterface | undefined> {
         try {
+            console.log('fire login')
             const result = await loginUser(this.ethAddress, this.password, `${API_URL_PRODUCTION}/auth/login`)
             const tokens: JwtTokensInterface = result.data.jwtTokens
             this.setCredentials(tokens)

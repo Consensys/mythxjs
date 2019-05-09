@@ -8,13 +8,15 @@ import { getHeaders } from '../util/getHeaders'
 import { getTokensNode } from '../node'
 
 import { API_URL_PRODUCTION, API_URL_STAGING } from '../util/constants'
-import { ANALYSIS_MOCK } from '../util/mock'
+
 import { JwtTokensInterface, SubmitContractRes } from '..'
 
+import { compileContract } from '../util/compileContract'
+import { submitContractRequest } from '../analyses/submitContractRequest'
+
 export class AnalysesService {
-    private API_URL_PRODUCTION = "https://api.mythx.io/v1"
-    private apiUrl: string = 'https://staging.api.mythx.io/v1'
     public tokens
+    private apiUrl: string = API_URL_PRODUCTION
 
     constructor(tokens?) {
         this.tokens = tokens
@@ -22,71 +24,75 @@ export class AnalysesService {
 
     public async getAnalysesList() {
         try {
-            if (isNode) {
+            const { access } = getTokensNode('tokens.json')
+            const headers = getHeaders(access)
 
-                const { access } = getTokensNode('tokens.json')
-                const headers = getHeaders(access)
-
-                console.log(access, 'access')
-                console.log(headers, 'header')
-                console.log(`${this.apiUrl}`)
-
-                const result = await getRequest(`${this.apiUrl}/analyses`, headers)
-                console.log(result.data)
-            }
-            return
+            const result = await getRequest(`${this.apiUrl}/analyses`, headers)
+            console.log(result.data)
+            return result.data
         }
         catch (err) {
             errorHandler(err)
         }
     }
 
-    public async getAnalysisStatus(uuid: string) {
+    public async getAnalysisStatus(uuid: string, token?: string) {
         try {
             if (isNode) {
-                const jwtTokens: JwtTokensInterface = getTokensNode('tokens.json')
-                const headers = getHeaders(jwtTokens.access)
+                let headers: any;
+                if (token) {
+                    headers = getHeaders(token)
+                } else {
+                    const jwtTokens: JwtTokensInterface = getTokensNode('tokens.json')
+                    headers = getHeaders(jwtTokens.access)
+                }
 
-                console.log('before')
-                const result = await getRequest(`${API_URL_PRODUCTION}/analyses/${uuid}`, headers)
+                console.log('getAnalysisStatus')
+                const result = await getRequest(`${this.apiUrl}/analyses/${uuid}`, headers)
                 console.log(result.data, 'result analysis status')
                 return result.data
             }
         } catch (error) {
-            console.log(error)
-            throw new Error(error)
+            throw new Error(`Error with your request. ${error.data}`)
         }
     }
 
-    public async getDetectedIssues(uuid) {
+    public async getDetectedIssues(uuid: string, token?: string) {
         try {
             if (isNode) {
-                console.log('issueee')
-                const jwtTokens: JwtTokensInterface = getTokensNode('tokens.json')
-                const headers = getHeaders(jwtTokens.access)
-                const result = await getRequest(`${API_URL_PRODUCTION}/analyses/${uuid}/issues`, headers)
-                console.log(result.data, 'result ')
-            }
-        } catch (error) {
-            console.log(error)
-            throw new Error(error)
-        }
-    }
+                let headers: any;
+                if (token) {
+                    console.log('tokennn')
+                    headers = getHeaders(token)
+                } else {
+                    const jwtTokens: JwtTokensInterface = getTokensNode('tokens.json')
+                    headers = getHeaders(jwtTokens.access)
+                }
 
-    public async submitContract(): Promise<SubmitContractRes | undefined> {
-        try {
-            if (isNode) {
-                const jwtTokens: JwtTokensInterface = getTokensNode('tokens.json')
-                const headers = getHeaders(jwtTokens.access)
-
-                console.log('before')
-                const result = await postRequest(`${API_URL_PRODUCTION}/analyses`, ANALYSIS_MOCK, headers)
-                console.log(result.data, 'result')
-
+                const result = await getRequest(`${this.apiUrl}/analyses/${uuid}/issues`, headers)
                 return result.data
             }
         } catch (error) {
-            throw new Error(`Error when submitting contract. ${error.data}`)
+            throw new Error(`Error with your request. ${error.data}`)
+        }
+    }
+
+    public async submitContract(path: string, rawData?: string): Promise<SubmitContractRes | undefined> {
+        try {
+            if (isNode) {
+                let headers: any;
+                const jwtTokens: JwtTokensInterface = getTokensNode('tokens.json')
+                headers = getHeaders(jwtTokens.access)
+
+                console.log(path, 'path to the contract')
+                const request = await submitContractRequest(path)
+
+                const result = await postRequest(`${this.apiUrl}/analyses`, request, headers)
+                console.log(result.data)
+                return result.data
+            }
+        } catch (error) {
+            throw new Error(`Error with submit contract request. ${error.data}`)
         }
     }
 
