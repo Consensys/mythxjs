@@ -4,8 +4,6 @@ export async function submitContractRequest(path: string) {
 
     const { solName, contractContent, bytecode } = compileContract(path)
     console.log(solName, 'solName')
-    console.log(contractContent, 'solName')
-    console.log(bytecode, 'solName')
 
     // remove file extension
     const srcName = solName.replace(/\.[^/.]+$/, "");

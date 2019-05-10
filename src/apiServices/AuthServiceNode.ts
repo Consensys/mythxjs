@@ -65,10 +65,9 @@ export class AuthServiceNode {
             const reqBody = {
                 jwtTokens: jwtTokens
             }
-
-            console.log(reqBody, 'reqBody')
             const result = await postRequest(`${API_URL_PRODUCTION}/auth/refresh`, reqBody, headers)
             console.log(result.data, 'result')
+            return result.data
         } catch (err) {
             errorHandler(err)
         }

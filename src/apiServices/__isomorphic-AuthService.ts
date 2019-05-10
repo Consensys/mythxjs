@@ -1,3 +1,5 @@
+// PLEASE NOTE THIS FILE IS NOT CURRENTLY IN USE AND WILL BE REFACTORED OR REMOVED BEFORE OFFICIAL RELEASE
+
 import { isBrowser, isNode } from 'browser-or-node';
 
 import { postRequest, getRequest } from '../http'

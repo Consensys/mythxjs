@@ -28,13 +28,9 @@ function getInput(name, contractContent) {
 export function compileContract(solPath) {
 
     try {
-        console.log(solPath)
         const solName: string = path.basename(solPath)
-        console.log(solName, 'solName')
         // const contractContent = readFile(path.join(__dirname, "../../src/", solPath))
         const contractContent = readFile(solPath)
-
-        console.log(contractContent, 'contractContent')
 
         const input = getInput(solName, contractContent)
 

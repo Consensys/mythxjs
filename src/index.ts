@@ -1,7 +1,6 @@
 // Below just for testing
 import { AuthServiceNode } from './apiServices/AuthServiceNode'
 import { AnalysesService } from './apiServices/AnalysesService'
-// import * as mythx from './newIndex'
 
 
 async function start() {
@@ -11,7 +10,7 @@ async function start() {
     await APISERVICE.login()
 
     const anal = new AnalysesService()
-    const foo = anal.submitContract('vulnerable.sol')
+    const foo = anal.submitContract(undefined, '0x608060405234801561001057600080fd5b5060d48061001f6000396000f3fe608060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806338d94193146044575b600080fd5b348015604f57600080fd5b50607960048036036020811015606457600080fd5b8101908080359060200190929190505050608f565b6040518082815260200191505060405180910390f35b600081600881101515609d57fe5b01600091509050548156fea165627a7a723058206f554b09240c9771a583534d72575fcfb4623ab4df3ddc139442047795fd383b0029')
     console.log(foo)
 }
 
@@ -50,7 +49,7 @@ export interface SubmitContractRes {
 
 // SERVICE INTERFACES AND FACTORIES
 
-export { AuthServiceNode } from './apiServices/AuthServiceNode'
+export { AuthServiceNode as AuthService } from './apiServices/AuthServiceNode'
 export { AnalysesService } from './apiServices/AnalysesService'
 // export var __useDefault = true;
 
