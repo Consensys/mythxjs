@@ -35,8 +35,7 @@ export class AuthServiceNode {
             return tokens
         }
         catch (err) {
-            // errorHandler(err)
-            console.error(err)
+            errorHandler(err)
         }
     }
 

@@ -3,7 +3,6 @@ import * as sinon from 'sinon';
 
 import { AuthServiceNode } from '../apiServices/AuthServiceNode'
 import { JwtTokensInterface } from '..';
-import { loginUser } from '../auth/loginUser'
 
 describe('loginUser', () => {
 
@@ -15,7 +14,7 @@ describe('loginUser', () => {
     let loginUserStub: any;
     let AUTH;
     beforeEach(() => {
-        AUTH = new AuthServiceNode('0x0000000000000000000000000000000000000000', 'trial');
+        AUTH = new AuthServiceNode('user', 'password');
         loginUserStub = sinon.stub(AUTH, 'login')
     });
 
@@ -29,6 +28,13 @@ describe('loginUser', () => {
 
     it('should return access and refresh tokens', async () => {
 
+        loginUserStub.returns(tokens)
+
+        const result = await AUTH.login()
+        expect(result).to.equal(tokens)
+    })
+
+    it('should throw an error on incorrect user/password', async () => {
         loginUserStub.returns(tokens)
 
         const result = await AUTH.login()
