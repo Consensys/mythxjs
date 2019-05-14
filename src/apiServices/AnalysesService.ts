@@ -13,17 +13,22 @@ import { JwtTokensInterface, SubmitContractRes } from '..'
 import { submitContractRequest } from '../analyses/submitContractRequest'
 
 export class AnalysesService {
-    public tokens
+    public token
     private apiUrl: string = API_URL_PRODUCTION
 
-    constructor(tokens?) {
-        this.tokens = tokens
+    constructor(token?) {
+        this.token = token
     }
 
     public async getAnalysesList() {
         try {
-            const { access } = getTokensNode('tokens.json')
-            const headers = getHeaders(access)
+            let headers;
+            if (this.token) {
+                headers = getHeaders(this.token)
+            } else {
+                const jwtTokens: JwtTokensInterface = getTokensNode('tokens.json')
+                headers = getHeaders(jwtTokens.access)
+            }
 
             const result = await getRequest(`${this.apiUrl}/analyses`, headers)
             console.log('getAnalysesList result', result.data)
@@ -34,11 +39,11 @@ export class AnalysesService {
         }
     }
 
-    public async getAnalysisStatus(uuid: string, token?: string) {
+    public async getAnalysisStatus(uuid: string) {
         try {
-            let headers: any;
-            if (token) {
-                headers = getHeaders(token)
+            let headers;
+            if (this.token) {
+                headers = getHeaders(this.token)
             } else {
                 const jwtTokens: JwtTokensInterface = getTokensNode('tokens.json')
                 headers = getHeaders(jwtTokens.access)
@@ -54,9 +59,9 @@ export class AnalysesService {
 
     public async getDetectedIssues(uuid: string, token?: string) {
         try {
-            let headers: any;
-            if (token) {
-                headers = getHeaders(token)
+            let headers;
+            if (this.token) {
+                headers = getHeaders(this.token)
             } else {
                 const jwtTokens: JwtTokensInterface = getTokensNode('tokens.json')
                 headers = getHeaders(jwtTokens.access)
@@ -70,10 +75,15 @@ export class AnalysesService {
         }
     }
 
-    public async submitContract(path?, bytecode?: string): Promise<SubmitContractRes | undefined> {
+    public async submitContract(token, path?, bytecode?: string): Promise<SubmitContractRes | undefined> {
         try {
-            const jwtTokens: JwtTokensInterface = getTokensNode('tokens.json')
-            const headers = getHeaders(jwtTokens.access)
+            let headers;
+            if (this.token) {
+                headers = getHeaders(this.token)
+            } else {
+                const jwtTokens: JwtTokensInterface = getTokensNode('tokens.json')
+                headers = getHeaders(jwtTokens.access)
+            }
 
             if (bytecode) {
                 const request = submitBytecodeRequest(bytecode)
