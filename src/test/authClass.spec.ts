@@ -11,6 +11,8 @@ describe('loginUser', () => {
         refresh: 'refresh'
     }
 
+    const http400: string = ''
+
     let loginUserStub: any;
     let AUTH;
     beforeEach(() => {
@@ -34,10 +36,4 @@ describe('loginUser', () => {
         expect(result).to.equal(tokens)
     })
 
-    it('should throw an error on incorrect user/password', async () => {
-        loginUserStub.returns(tokens)
-
-        const result = await AUTH.login()
-        expect(result).to.equal(tokens)
-    })
 })
