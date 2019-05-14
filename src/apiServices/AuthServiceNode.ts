@@ -6,7 +6,7 @@ import { saveTokensNode, removeTokensNode, getTokensNode, isUserLoggedInNode } f
 
 import { getHeaders } from '../util/getHeaders'
 import { errorHandler } from '../util/errorHandler'
-import { API_URL_PRODUCTION, API_URL_STAGING } from '../util/constants'
+import { API_URL_PRODUCTION, API_URL_STAGING, tokenLocation } from '../util/constants'
 
 import { JwtTokensInterface } from '..'
 
@@ -43,11 +43,11 @@ export class AuthServiceNode {
     public async logout() {
         if (this.isUserLoggedIn()) {
             try {
-                const { access } = getTokensNode('tokens.json')
+                const { access } = getTokensNode(tokenLocation)
                 const headers = getHeaders(access)
 
                 await postRequest(`${API_URL_PRODUCTION}/auth/logout`, {}, headers)
-                removeTokensNode('tokens.json')
+                removeTokensNode(tokenLocation)
             }
             catch (err) {
                 errorHandler(err)
@@ -60,7 +60,7 @@ export class AuthServiceNode {
     public async refreshToken() {
         //TODO: CHECK IF TOKEN IS PASSED AS PARAMETER TO FUNCTION INSTEAD
         try {
-            const jwtTokens: JwtTokensInterface = getTokensNode('tokens.json')
+            const jwtTokens: JwtTokensInterface = getTokensNode(tokenLocation)
             const headers = getHeaders(jwtTokens.access)
             const reqBody = {
                 jwtTokens: jwtTokens
@@ -84,13 +84,13 @@ export class AuthServiceNode {
     }
 
     private isUserLoggedIn() {
-        return isUserLoggedInNode('tokens.json')
+        return isUserLoggedInNode(tokenLocation)
     }
 
     private setCredentials(tokens: JwtTokensInterface) {
         this.jwtTokens.access = tokens.access
         this.jwtTokens.refresh = tokens.refresh
 
-        saveTokensNode(tokens, 'tokens.json')
+        saveTokensNode(tokens, tokenLocation)
     }
 } 

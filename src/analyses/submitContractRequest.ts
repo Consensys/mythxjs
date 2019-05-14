@@ -1,18 +1,17 @@
 import { compileContract } from '../util/compileContract'
 
-export async function submitContractRequest(path: string) {
+
+//TODO: ADD EXTRA PARAM CONTRACTNAME
+export async function submitContractRequest(contractName: string, path: string) {
 
     const { solName, contractContent, bytecode } = compileContract(path)
     console.log(solName, 'solName')
-
-    // remove file extension
-    const srcName = solName.replace(/\.[^/.]+$/, "");
 
     return {
         "clientToolName": "MythxJS",
         "data":
         {
-            "contractName": srcName,
+            "contractName": contractName,
             "bytecode": bytecode[0],
             "analysisMode": "quick",
             "sourceList": [

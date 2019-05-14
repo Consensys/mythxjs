@@ -6,7 +6,7 @@ import { submitBytecodeRequest } from '../util/submitBytecodeRequest'
 
 import { getTokensNode } from '../node'
 
-import { API_URL_PRODUCTION, API_URL_STAGING } from '../util/constants'
+import { API_URL_PRODUCTION, API_URL_STAGING, tokenLocation } from '../util/constants'
 
 import { JwtTokensInterface, SubmitContractRes } from '..'
 
@@ -26,7 +26,7 @@ export class AnalysesService {
             if (this.token) {
                 headers = getHeaders(this.token)
             } else {
-                const jwtTokens: JwtTokensInterface = getTokensNode('tokens.json')
+                const jwtTokens: JwtTokensInterface = getTokensNode(tokenLocation)
                 headers = getHeaders(jwtTokens.access)
             }
 
@@ -45,7 +45,7 @@ export class AnalysesService {
             if (this.token) {
                 headers = getHeaders(this.token)
             } else {
-                const jwtTokens: JwtTokensInterface = getTokensNode('tokens.json')
+                const jwtTokens: JwtTokensInterface = getTokensNode(tokenLocation)
                 headers = getHeaders(jwtTokens.access)
             }
 
@@ -63,7 +63,7 @@ export class AnalysesService {
             if (this.token) {
                 headers = getHeaders(this.token)
             } else {
-                const jwtTokens: JwtTokensInterface = getTokensNode('tokens.json')
+                const jwtTokens: JwtTokensInterface = getTokensNode(tokenLocation)
                 headers = getHeaders(jwtTokens.access)
             }
 
@@ -75,13 +75,13 @@ export class AnalysesService {
         }
     }
 
-    public async submitContract(token, path?, bytecode?: string): Promise<SubmitContractRes | undefined> {
+    public async submitContract(contractName: string, path?: string, bytecode?: string): Promise<SubmitContractRes | undefined> {
         try {
             let headers;
             if (this.token) {
                 headers = getHeaders(this.token)
             } else {
-                const jwtTokens: JwtTokensInterface = getTokensNode('tokens.json')
+                const jwtTokens: JwtTokensInterface = getTokensNode(tokenLocation)
                 headers = getHeaders(jwtTokens.access)
             }
 
@@ -93,7 +93,7 @@ export class AnalysesService {
             }
 
             console.log(path, 'path to the contract')
-            const request = await submitContractRequest(path)
+            const request = await submitContractRequest(contractName, path as string)
 
             const result = await postRequest(`${this.apiUrl}/analyses`, request, headers)
             console.log('submitContract response:', result.data)
