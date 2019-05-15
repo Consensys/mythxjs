@@ -1,5 +1,6 @@
-import { getTokensNode } from '.'
 import * as jwt from 'jsonwebtoken'
+
+import { JwtTokensInterface } from '../index'
 
 interface jwtInterface {
     jti: string
@@ -9,9 +10,8 @@ interface jwtInterface {
     iat: number
 }
 
-function isUserLoggedInNode(path: string): boolean {
+function isUserLoggedInNode(tokens: JwtTokensInterface): boolean {
     try {
-        const tokens = getTokensNode(path)
         const { access } = tokens
 
         // decode token

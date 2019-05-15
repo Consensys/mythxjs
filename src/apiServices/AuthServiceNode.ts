@@ -2,11 +2,9 @@ import { postRequest, getRequest } from '../http'
 
 import { loginUser } from '../auth/loginUser'
 
-import { saveTokensNode, removeTokensNode, getTokensNode, isUserLoggedInNode } from '../node'
-
 import { getHeaders } from '../util/getHeaders'
 import { errorHandler } from '../util/errorHandler'
-import { API_URL_PRODUCTION, API_URL_STAGING, tokenLocation } from '../util/constants'
+import { API_URL_PRODUCTION } from '../util/constants'
 
 import { JwtTokensInterface } from '..'
 
@@ -32,6 +30,7 @@ export class AuthServiceNode {
             console.log('You are logged in!')
             console.log(`Access: ${tokens.access}`)
             console.log(`Refresh: ${tokens.refresh}`)
+
             return tokens
         }
         catch (err) {
@@ -42,11 +41,12 @@ export class AuthServiceNode {
     public async logout() {
         if (this.isUserLoggedIn()) {
             try {
-                const { access } = getTokensNode(tokenLocation)
-                const headers = getHeaders(access)
+                const headers = getHeaders(this.jwtTokens.access)
 
-                await postRequest(`${API_URL_PRODUCTION}/auth/logout`, {}, headers)
-                removeTokensNode(tokenLocation)
+                const result = await postRequest(`${API_URL_PRODUCTION}/auth/logout`, {}, headers)
+                this.jwtTokens.access, this.jwtTokens.refresh = ''
+
+                return result.data
             }
             catch (err) {
                 errorHandler(err)
@@ -57,25 +57,28 @@ export class AuthServiceNode {
     }
 
     public async refreshToken() {
-        //TODO: CHECK IF TOKEN IS PASSED AS PARAMETER TO FUNCTION INSTEAD
-        try {
-            const jwtTokens: JwtTokensInterface = getTokensNode(tokenLocation)
-            const headers = getHeaders(jwtTokens.access)
-            const reqBody = {
-                jwtTokens: jwtTokens
+        if (this.isUserLoggedIn()) {
+            try {
+                const headers = getHeaders(this.jwtTokens.access)
+                const reqBody = {
+                    jwtTokens: this.jwtTokens
+                }
+
+                const result = await postRequest(`${API_URL_PRODUCTION}/auth/refresh`, reqBody, headers)
+                const tokens: JwtTokensInterface = result.data.jwtTokens
+                this.setCredentials(tokens)
+
+                return result.data
+            } catch (err) {
+                errorHandler(err)
             }
-            const result = await postRequest(`${API_URL_PRODUCTION}/auth/refresh`, reqBody, headers)
-            console.log(result.data, 'result')
-            return result.data
-        } catch (err) {
-            errorHandler(err)
-        }
+        } throw new Error('No valid token found')
     }
 
     public async getVersion() {
         try {
             const result = await getRequest(`${API_URL_PRODUCTION}/version`, null)
-            console.log(`Version:${JSON.stringify(result.data)}`)
+
             return result.data
         } catch (err) {
             errorHandler(err)
@@ -83,13 +86,11 @@ export class AuthServiceNode {
     }
 
     private isUserLoggedIn() {
-        return isUserLoggedInNode(tokenLocation)
+        return !!this.jwtTokens.access && !!this.jwtTokens.refresh
     }
 
     private setCredentials(tokens: JwtTokensInterface) {
         this.jwtTokens.access = tokens.access
         this.jwtTokens.refresh = tokens.refresh
-
-        saveTokensNode(tokens, tokenLocation)
     }
 } 
