@@ -6,6 +6,8 @@ import { submitBytecodeRequest } from '../util/submitBytecodeRequest'
 
 import { API_URL_PRODUCTION, API_URL_STAGING, tokenLocation } from '../util/constants'
 
+import { isTokenValid } from '../util/isTokenValid'
+
 import { SubmitContractRes } from '..'
 
 import { submitContractRequest } from '../analyses/submitContractRequest'
@@ -15,7 +17,12 @@ export class AnalysesService {
     private apiUrl: string = API_URL_PRODUCTION
 
     constructor(token) {
-        this.token = token
+        if (isTokenValid(token)) {
+            console.log('token is valid')
+            this.token = token
+        } else {
+            throw new Error('Access token has expired or is invalid!')
+        }
     }
 
     public async getAnalysesList() {
