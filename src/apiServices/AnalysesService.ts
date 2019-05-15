@@ -18,7 +18,6 @@ export class AnalysesService {
 
     constructor(token) {
         if (isTokenValid(token)) {
-            console.log('token is valid')
             this.token = token
         } else {
             throw new Error('Access token has expired or is invalid!')
