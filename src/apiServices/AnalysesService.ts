@@ -61,20 +61,12 @@ export class AnalysesService {
         }
     }
 
-    public async submitContract(contractName: string, path?: string, bytecode?: string): Promise<SubmitContractRes | undefined> {
+    public async submitContract(bytecode: string): Promise<SubmitContractRes | undefined> {
         try {
-            if (bytecode) {
-                const request = submitBytecodeRequest(bytecode)
-                const result = await postRequest(`${this.apiUrl}/analyses`, request, this.headers)
-                console.log('submitContract with bytecode only response:', result.data)
-                return result.data
-            }
-
-            console.log(path, 'path to the contract')
-            const request = await submitContractRequest(contractName, path as string)
+            const request = submitBytecodeRequest(bytecode)
 
             const result = await postRequest(`${this.apiUrl}/analyses`, request, this.headers)
-            console.log('submitContract response:', result.data)
+            console.log('submitContract with bytecode only response:', result.data)
 
             return result.data
         }
