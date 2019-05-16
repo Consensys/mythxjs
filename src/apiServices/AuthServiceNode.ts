@@ -44,7 +44,7 @@ export class AuthServiceNode {
                 const headers = getHeaders(this.jwtTokens.access)
 
                 const result = await postRequest(`${API_URL_PRODUCTION}/auth/logout`, {}, headers)
-                this.jwtTokens.access, this.jwtTokens.refresh = ''
+                this.jwtTokens.access = this.jwtTokens.refresh = ''
 
                 return result.data
             }
