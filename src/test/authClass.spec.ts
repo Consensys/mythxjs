@@ -11,8 +11,6 @@ describe('loginUser', () => {
         refresh: 'refresh'
     }
 
-    const http400: string = ''
-
     let loginUserStub: any;
     let AUTH;
     beforeEach(() => {
