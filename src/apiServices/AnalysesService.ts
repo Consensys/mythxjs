@@ -2,7 +2,7 @@ import { postRequest, getRequest } from '../http'
 
 import { errorHandler } from '../util/errorHandler'
 import { getHeaders } from '../util/getHeaders'
-import { generateBytecodeRequest } from '../util/generateBytecodeRequest'
+import { generateBytecodeRequest, generateSourceCodeRequest } from '../util/generateContractsRequests'
 
 import { API_URL_PRODUCTION, API_URL_STAGING } from '../util/constants'
 
@@ -65,6 +65,20 @@ export class AnalysesService {
 
             const result = await postRequest(`${this.apiUrl}/analyses`, request, this.headers)
             console.log('submitContract with bytecode only response:', result.data)
+
+            return result.data
+        }
+        catch (err) {
+            errorHandler(err)
+        }
+    }
+
+    public async submitSourceCode(sourceCode: string, contractName: string, toolName?: string): Promise<SubmitContractRes | undefined> {
+        try {
+            const request = generateSourceCodeRequest(sourceCode, contractName, toolName)
+
+            const result = await postRequest(`${this.apiUrl}/analyses`, request, this.headers)
+            console.log('submitContract with sourcecode only response:', result.data)
 
             return result.data
         }
