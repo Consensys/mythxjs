@@ -2,15 +2,13 @@ import { postRequest, getRequest } from '../http'
 
 import { errorHandler } from '../util/errorHandler'
 import { getHeaders } from '../util/getHeaders'
-import { submitBytecodeRequest } from '../util/submitBytecodeRequest'
+import { generateBytecodeRequest } from '../util/generateBytecodeRequest'
 
 import { API_URL_PRODUCTION, API_URL_STAGING } from '../util/constants'
 
 import { isTokenValid } from '../util/isTokenValid'
 
 import { SubmitContractRes } from '..'
-
-import { submitContractRequest } from '../analyses/submitContractRequest'
 
 export class AnalysesService {
     public token
@@ -61,9 +59,9 @@ export class AnalysesService {
         }
     }
 
-    public async submitContract(bytecode: string): Promise<SubmitContractRes | undefined> {
+    public async submitBytecode(bytecode: string, toolName?: string): Promise<SubmitContractRes | undefined> {
         try {
-            const request = submitBytecodeRequest(bytecode)
+            const request = generateBytecodeRequest(bytecode, toolName)
 
             const result = await postRequest(`${this.apiUrl}/analyses`, request, this.headers)
             console.log('submitContract with bytecode only response:', result.data)
