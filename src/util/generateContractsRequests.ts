@@ -1,24 +1,24 @@
 export function generateBytecodeRequest(bytecode: string, toolName?: string) {
-    const clientToolName = toolName || "MythxJS"
+    const clientToolName = toolName || 'MythxJS'
     return {
-        "clientToolName": clientToolName,
-        "data":
+        'clientToolName': clientToolName,
+        'data':
         {
-            "bytecode": `${bytecode}`
+            'bytecode': `${bytecode}`
         }
     }
 }
 
 export function generateSourceCodeRequest(sourceCode: string, contractName: string, toolName?: string) {
-    const clientToolName = toolName || "MythxJS"
+    const clientToolName = toolName || 'MythxJS'
     return {
-        "clientToolName": clientToolName,
-        "data":
+        'clientToolName': clientToolName,
+        'data':
         {
-            "contractName": contractName,
-            "sources": {
+            'contractName': contractName,
+            'sources': {
                 [`${contractName}.sol`]: {
-                    "source": sourceCode
+                    'source': sourceCode
                 }
             }
         }
