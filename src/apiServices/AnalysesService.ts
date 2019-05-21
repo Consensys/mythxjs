@@ -24,7 +24,7 @@ export class AnalysesService {
 
     public async getAnalysesList() {
         try {
-            const { headers, accessToken } = getHeaders(this.jwtTokens)
+            const { headers, accessToken } = await getHeaders(this.jwtTokens)
             this.jwtTokens.access = accessToken
 
             const result = await getRequest(`${this.apiUrl}/analyses`, headers)
@@ -37,7 +37,7 @@ export class AnalysesService {
 
     public async getAnalysisStatus(uuid: string) {
         try {
-            const { headers, accessToken } = getHeaders(this.jwtTokens)
+            const { headers, accessToken } = await getHeaders(this.jwtTokens)
             this.jwtTokens.access = accessToken
 
             const result = await getRequest(`${this.apiUrl}/analyses/${uuid}`, headers)
@@ -51,7 +51,7 @@ export class AnalysesService {
 
     public async getDetectedIssues(uuid: string) {
         try {
-            const { headers, accessToken } = getHeaders(this.jwtTokens)
+            const { headers, accessToken } = await getHeaders(this.jwtTokens)
             this.jwtTokens.access = accessToken
 
             const result = await getRequest(`${this.apiUrl}/analyses/${uuid}/issues`, headers)
@@ -65,7 +65,7 @@ export class AnalysesService {
 
     public async submitBytecode(bytecode: string, toolName?: string): Promise<SubmitContractRes | void> {
         try {
-            const { headers, accessToken } = getHeaders(this.jwtTokens)
+            const { headers, accessToken } = await getHeaders(this.jwtTokens)
             this.jwtTokens.access = accessToken
 
             const request = generateBytecodeRequest(bytecode, toolName)
@@ -85,7 +85,7 @@ export class AnalysesService {
         toolName?: string,
     ): Promise<SubmitContractRes | void> {
         try {
-            const { headers, accessToken } = getHeaders(this.jwtTokens)
+            const { headers, accessToken } = await getHeaders(this.jwtTokens)
             this.jwtTokens.access = accessToken
 
             const request = generateSourceCodeRequest(sourceCode, contractName, toolName)

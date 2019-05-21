@@ -2,6 +2,7 @@ import * as jwt from 'jsonwebtoken'
 
 import { refreshToken } from './refreshToken'
 import { JwtTokensInterface } from '..'
+import { access } from 'fs'
 
 interface jwtInterface {
     jti: string
@@ -11,13 +12,13 @@ interface jwtInterface {
     iat: number
 }
 
-export async function validateToken(jwtTokens: JwtTokensInterface) {
-    if (isTokenValid(jwtTokens.access)) {
-        return jwt.access
+export async function validateToken(tokens: JwtTokensInterface) {
+    if (isTokenValid(tokens.access)) {
+        return tokens.access
     } else {
         // else return refreshed token
-        const tokens = (await refreshToken(jwtTokens)) as JwtTokensInterface
-        return tokens.access
+        const returnT = (await refreshToken(tokens)) as JwtTokensInterface
+        return returnT.access
     }
 }
 
