@@ -12,7 +12,6 @@ import { SubmitContractRes, JwtTokensInterface } from '..'
 
 export class AnalysesService {
     private apiUrl: string = API_URL_PRODUCTION
-    private headers
     private jwtTokens: JwtTokensInterface
 
     constructor(jwtTokens: JwtTokensInterface) {
@@ -26,8 +25,9 @@ export class AnalysesService {
     public async getAnalysesList() {
         try {
             const { headers, accessToken } = getHeaders(this.jwtTokens)
+            this.jwtTokens.access = accessToken
+
             const result = await getRequest(`${this.apiUrl}/analyses`, headers)
-            this.jwtTokens.access = accessToken as any
 
             return result.data
         } catch (err) {
@@ -37,7 +37,10 @@ export class AnalysesService {
 
     public async getAnalysisStatus(uuid: string) {
         try {
-            const result = await getRequest(`${this.apiUrl}/analyses/${uuid}`, this.headers)
+            const { headers, accessToken } = getHeaders(this.jwtTokens)
+            this.jwtTokens.access = accessToken
+
+            const result = await getRequest(`${this.apiUrl}/analyses/${uuid}`, headers)
             console.log('getAnalysisStatus response:', result.data)
 
             return result.data
@@ -48,7 +51,10 @@ export class AnalysesService {
 
     public async getDetectedIssues(uuid: string) {
         try {
-            const result = await getRequest(`${this.apiUrl}/analyses/${uuid}/issues`, this.headers)
+            const { headers, accessToken } = getHeaders(this.jwtTokens)
+            this.jwtTokens.access = accessToken
+
+            const result = await getRequest(`${this.apiUrl}/analyses/${uuid}/issues`, headers)
             console.log('GetDetectedIssues response:', result.data)
 
             return result.data
@@ -59,9 +65,12 @@ export class AnalysesService {
 
     public async submitBytecode(bytecode: string, toolName?: string): Promise<SubmitContractRes | void> {
         try {
+            const { headers, accessToken } = getHeaders(this.jwtTokens)
+            this.jwtTokens.access = accessToken
+
             const request = generateBytecodeRequest(bytecode, toolName)
 
-            const result = await postRequest(`${this.apiUrl}/analyses`, request, this.headers)
+            const result = await postRequest(`${this.apiUrl}/analyses`, request, headers)
             console.log('submitContract with bytecode only response:', result.data)
 
             return result.data
@@ -76,9 +85,12 @@ export class AnalysesService {
         toolName?: string,
     ): Promise<SubmitContractRes | void> {
         try {
+            const { headers, accessToken } = getHeaders(this.jwtTokens)
+            this.jwtTokens.access = accessToken
+
             const request = generateSourceCodeRequest(sourceCode, contractName, toolName)
 
-            const result = await postRequest(`${this.apiUrl}/analyses`, request, this.headers)
+            const result = await postRequest(`${this.apiUrl}/analyses`, request, headers)
             console.log('submitContract with sourcecode only response:', result.data)
 
             return result.data
