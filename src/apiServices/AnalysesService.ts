@@ -11,14 +11,13 @@ import { isTokenValid } from '../util/isTokenValid'
 import { SubmitContractRes, JwtTokensInterface } from '..'
 
 export class AnalysesService {
-    public accessToken
     private apiUrl: string = API_URL_PRODUCTION
     private headers
+    private jwtTokens: JwtTokensInterface
 
     constructor(jwtTokens: JwtTokensInterface) {
         if (isTokenValid(jwtTokens.access)) {
-            this.accessToken = jwtTokens.access
-            this.headers = getHeaders(jwtTokens)
+            this.jwtTokens = jwtTokens as JwtTokensInterface
         } else {
             throw new Error('Access token has expired or is invalid!')
         }
@@ -26,7 +25,9 @@ export class AnalysesService {
 
     public async getAnalysesList() {
         try {
-            const result = await getRequest(`${this.apiUrl}/analyses`, this.headers)
+            const { headers, accessToken } = getHeaders(this.jwtTokens)
+            const result = await getRequest(`${this.apiUrl}/analyses`, headers)
+            this.jwtTokens.access = accessToken as any
 
             return result.data
         } catch (err) {

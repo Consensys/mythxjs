@@ -10,5 +10,5 @@ export function getHeaders(jwtTokens: JwtTokensInterface) {
         'Content-Type': 'application/json',
     }
 
-    return headers
+    return { accessToken, headers }
 }
