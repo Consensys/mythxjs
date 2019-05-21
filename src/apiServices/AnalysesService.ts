@@ -16,9 +16,7 @@ export class AnalysesService {
     private headers
 
     constructor(jwtTokens: JwtTokensInterface) {
-        console.log(jwtTokens.access, 'marioo')
         if (isTokenValid(jwtTokens.access)) {
-            console.log('TOKEN IS VALID FROM CONSTRUCT')
             this.accessToken = jwtTokens.access
             this.headers = getHeaders(jwtTokens)
         } else {
