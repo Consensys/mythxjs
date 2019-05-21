@@ -28,6 +28,6 @@ export interface SubmitContractRes {
 
 // SERVICE INTERFACES AND FACTORIES
 
-export { AuthService as MythxAuth } from './apiServices/AuthService';
-export { AnalysesService as MythxAnalyses } from './apiServices/AnalysesService';
+export { AuthService as MythxAuth } from './apiServices/AuthService'
+export { AnalysesService as MythxAnalyses } from './apiServices/AnalysesService'
 // export var __useDefault = true;

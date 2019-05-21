@@ -32,17 +32,16 @@ describe('loginUser', () => {
         expect(result).to.equal(tokens);
     });
 
-    it('should fail with error 401 ', async () => {
-        const err = 'MythxJS ';
+    it('should fail with error ', async () => {
+        const err = 'MythxJS. Error with your request.';
 
-        loginUserStub.rejects(new Error('whatever'));
+        loginUserStub.rejects(new Error(err));
 
         try {
             await AUTH.login();
             expect.fail('login should be rejected');
         } catch (err) {
-            expect(err.message).to.eql('whatever');
+            expect(err.message).to.eql(err);
         }
-        // expect(await AUTH.login());
     });
 });
