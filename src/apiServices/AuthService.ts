@@ -39,7 +39,7 @@ export class AuthService {
     public async logout() {
         if (this.isUserLoggedIn()) {
             try {
-                const headers = getHeaders(this.jwtTokens.access)
+                const headers = getHeaders(this.jwtTokens)
 
                 const result = await postRequest(`${API_URL_PRODUCTION}/auth/logout`, {}, headers)
                 this.jwtTokens.access = this.jwtTokens.refresh = ''
@@ -56,7 +56,7 @@ export class AuthService {
     public async refreshToken() {
         if (this.isUserLoggedIn()) {
             try {
-                const headers = getHeaders(this.jwtTokens.access)
+                const headers = getHeaders(this.jwtTokens)
                 const reqBody = {
                     jwtTokens: this.jwtTokens,
                 }

@@ -8,17 +8,19 @@ import { API_URL_PRODUCTION, API_URL_STAGING } from '../util/constants'
 
 import { isTokenValid } from '../util/isTokenValid'
 
-import { SubmitContractRes } from '..'
+import { SubmitContractRes, JwtTokensInterface } from '..'
 
 export class AnalysesService {
-    public token
+    public accessToken
     private apiUrl: string = API_URL_PRODUCTION
     private headers
 
-    constructor(token) {
-        if (isTokenValid(token)) {
-            this.token = token
-            this.headers = getHeaders(this.token)
+    constructor(jwtTokens: JwtTokensInterface) {
+        console.log(jwtTokens.access, 'marioo')
+        if (isTokenValid(jwtTokens.access)) {
+            console.log('TOKEN IS VALID FROM CONSTRUCT')
+            this.accessToken = jwtTokens.access
+            this.headers = getHeaders(jwtTokens)
         } else {
             throw new Error('Access token has expired or is invalid!')
         }
@@ -29,8 +31,7 @@ export class AnalysesService {
             const result = await getRequest(`${this.apiUrl}/analyses`, this.headers)
 
             return result.data
-        }
-        catch (err) {
+        } catch (err) {
             errorHandler(err)
         }
     }
@@ -41,8 +42,7 @@ export class AnalysesService {
             console.log('getAnalysisStatus response:', result.data)
 
             return result.data
-        }
-        catch (err) {
+        } catch (err) {
             errorHandler(err)
         }
     }
@@ -53,13 +53,12 @@ export class AnalysesService {
             console.log('GetDetectedIssues response:', result.data)
 
             return result.data
-        }
-        catch (err) {
+        } catch (err) {
             errorHandler(err)
         }
     }
 
-    public async submitBytecode(bytecode: string, toolName?: string): Promise<SubmitContractRes | undefined> {
+    public async submitBytecode(bytecode: string, toolName?: string): Promise<SubmitContractRes | void> {
         try {
             const request = generateBytecodeRequest(bytecode, toolName)
 
@@ -67,13 +66,16 @@ export class AnalysesService {
             console.log('submitContract with bytecode only response:', result.data)
 
             return result.data
-        }
-        catch (err) {
+        } catch (err) {
             errorHandler(err)
         }
     }
 
-    public async submitSourceCode(sourceCode: string, contractName: string, toolName?: string): Promise<SubmitContractRes | undefined> {
+    public async submitSourceCode(
+        sourceCode: string,
+        contractName: string,
+        toolName?: string,
+    ): Promise<SubmitContractRes | void> {
         try {
             const request = generateSourceCodeRequest(sourceCode, contractName, toolName)
 
@@ -81,10 +83,8 @@ export class AnalysesService {
             console.log('submitContract with sourcecode only response:', result.data)
 
             return result.data
-        }
-        catch (err) {
+        } catch (err) {
             errorHandler(err)
         }
     }
-
 }
