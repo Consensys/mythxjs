@@ -6,7 +6,7 @@ import { generateBytecodeRequest, generateSourceCodeRequest } from '../util/gene
 
 import { API_URL_PRODUCTION, API_URL_STAGING } from '../util/constants'
 
-import { isTokenValid } from '../util/isTokenValid'
+import { isTokenValid } from '../util/validateToken'
 
 import { SubmitContractRes, JwtTokensInterface } from '..'
 

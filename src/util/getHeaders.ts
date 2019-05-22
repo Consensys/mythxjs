@@ -1,6 +1,5 @@
-import { validateToken } from './isTokenValid'
+import { validateToken } from './validateToken'
 import { JwtTokensInterface } from '..'
-//TODO : CHANGE IS TOKEN VALID FILE NAME
 
 export async function getHeaders(jwtTokens: JwtTokensInterface) {
     console.log(jwtTokens, 'jwtToken get Header')

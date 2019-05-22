@@ -2,7 +2,6 @@ import * as jwt from 'jsonwebtoken'
 
 import { refreshToken } from './refreshToken'
 import { JwtTokensInterface } from '..'
-import { access } from 'fs'
 
 interface jwtInterface {
     jti: string
