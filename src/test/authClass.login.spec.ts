@@ -57,7 +57,7 @@ describe('loginUser', () => {
             await AUTH.login()
             expect.fail('login should be rejected')
         } catch (err) {
-            expect(errorHandlerStub.calledWith(errMsg))
+            expect(errorHandlerStub.getCall(0).args[0].name).to.equal(errMsg)
         }
     })
 })
