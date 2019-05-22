@@ -25,6 +25,13 @@ describe('logout', () => {
         expect(logoutUserStub).to.be.a('function')
     })
 
+    it('returns a object type', async () => {
+        logoutUserStub.returns({})
+
+        const result = await AUTH.logout()
+        expect(result).to.be.a('object')
+    })
+
     it('returns an empty object', async () => {
         logoutUserStub.returns({})
 
