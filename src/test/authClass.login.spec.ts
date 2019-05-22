@@ -33,15 +33,15 @@ describe('loginUser', () => {
     })
 
     it('should fail with error ', async () => {
-        const err = 'MythxJS. Error with your request.'
+        const errMsg = 'MythxJS. Error with your request.'
 
-        loginUserStub.rejects(new Error(err))
+        loginUserStub.rejects(new Error(errMsg))
 
         try {
             await AUTH.login()
             expect.fail('login should be rejected')
         } catch (err) {
-            expect(err.message).to.eql(err)
+            expect(err.message).to.eql(errMsg)
         }
     })
 })
