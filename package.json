@@ -27,8 +27,24 @@
     "types": "dist/index.d.ts",
     "scripts": {
         "build": "tsc",
-        "test": "mocha -r ts-node/register src/**/*.spec.ts",
+        "test": "nyc mocha -r ts-node/register src/**/*.spec.ts",
         "precommit": "lint-staged"
+    },
+    "nyc": {
+        "include": [
+            "src/*.ts",
+            "src/**/*.ts"
+        ],
+        "extension": [
+            ".ts"
+        ],
+        "require": [
+            "ts-node/register"
+        ],
+        "reporter": [
+            "text-summary",
+            "html"
+        ]
     },
     "lint-staged": {
         "*.ts": [
@@ -50,6 +66,7 @@
         "eslint-config-prettier": "^4.3.0",
         "eslint-plugin-prettier": "^3.1.0",
         "mocha": "^6.1.4",
+        "nyc": "^14.1.1",
         "prettier": "^1.17.1",
         "sinon": "^7.3.2",
         "sinon-chai": "^3.3.0",

@@ -13,3 +13,4 @@ docs
 .env
 tokens.json
 __contracts
+coverage
