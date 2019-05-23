@@ -16,7 +16,7 @@ export class ClientService {
     }
 
     async login() {
-        this.jwtTokens = this.authService.login(this.ethAddress, this.password)
+        this.jwtTokens = await this.authService.login(this.ethAddress, this.password)
         this.analysesService = new AnalysesService(this.jwtTokens)
     }
 
