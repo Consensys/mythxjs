@@ -25,34 +25,34 @@ export class ClientService {
     }
 
     async logout() {
-        this.authService.logout()
+        return await this.authService.logout()
     }
 
     async getVersion() {
-        this.authService.getVersion()
+        return await this.authService.getVersion()
     }
 
     async refreshToken(jwtTokens?: JwtTokensInterface) {
-        this.analysesService.refreshToken(jwtTokens)
+        return await this.analysesService.refreshToken(jwtTokens)
     }
 
     async getAnalysesList() {
-        this.analysesService.getAnalysesList()
+        return await this.analysesService.getAnalysesList()
     }
 
     async getAnalysisStatus(uuid: string) {
-        this.analysesService.getAnalysisStatus(uuid)
+        return await this.analysesService.getAnalysisStatus(uuid)
     }
 
     async getDetectedIssues(uuid: string) {
-        this.analysesService.getDetectedIssues(uuid)
+        return await this.analysesService.getDetectedIssues(uuid)
     }
 
     async submitBytecode(bytecode: string, toolName?: string) {
-        this.analysesService.submitBytecode(bytecode, toolName)
+        return await this.analysesService.submitBytecode(bytecode, toolName)
     }
 
     async submitSourceCode(sourceCode: string, contractName: string, toolName?: string) {
-        this.analysesService.submitSourceCode(sourceCode, contractName, toolName)
+        return await this.analysesService.submitSourceCode(sourceCode, contractName, toolName)
     }
 }
