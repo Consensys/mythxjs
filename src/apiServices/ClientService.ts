@@ -1,7 +1,6 @@
-import {AuthService} from './AuthService'
-import {AnalysesService} from './AnalysesService'
-import { JwtTokensInterface } from '..';
-
+import { AuthService } from './AuthService'
+import { AnalysesService } from './AnalysesService'
+import { JwtTokensInterface } from '..'
 
 export class ClientService {
     private ethAddress
@@ -21,8 +20,7 @@ export class ClientService {
         this.analysesService = new AnalysesService(this.jwtTokens)
     }
 
-
-    async loginWithToken (jwtTokens: JwtTokensInterface) {
+    async loginWithToken(jwtTokens: JwtTokensInterface) {
         this.analysesService = new AnalysesService(jwtTokens)
     }
 
@@ -54,10 +52,7 @@ export class ClientService {
         this.analysesService.submitBytecode(bytecode, toolName)
     }
 
-    async submitSourceCode(  sourceCode: string,
-        contractName: string,
-        toolName?: string,) {
+    async submitSourceCode(sourceCode: string, contractName: string, toolName?: string) {
         this.analysesService.submitSourceCode(sourceCode, contractName, toolName)
     }
-
 }
