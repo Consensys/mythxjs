@@ -8,16 +8,18 @@ export class ClientService {
     private authService
     private analysesService
     private jwtTokens
+    private toolName
 
-    constructor(ethAddress: string, password: string) {
+    constructor(ethAddress: string, password: string, toolName: string = 'MythXJS') {
         this.ethAddress = ethAddress
         this.password = password
         this.authService = new AuthService(ethAddress, password)
+        this.toolName = toolName
     }
 
     async login() {
         this.jwtTokens = await this.authService.login(this.ethAddress, this.password)
-        this.analysesService = new AnalysesService(this.jwtTokens)
+        this.analysesService = new AnalysesService(this.jwtTokens, this.toolName)
     }
 
     async loginWithToken(jwtTokens: JwtTokensInterface) {
@@ -48,11 +50,11 @@ export class ClientService {
         return await this.analysesService.getDetectedIssues(uuid)
     }
 
-    async submitBytecode(bytecode: string, toolName?: string) {
-        return await this.analysesService.submitBytecode(bytecode, toolName)
+    async submitBytecode(bytecode: string) {
+        return await this.analysesService.submitBytecode(bytecode)
     }
 
-    async submitSourceCode(sourceCode: string, contractName: string, toolName?: string) {
-        return await this.analysesService.submitSourceCode(sourceCode, contractName, toolName)
+    async submitSourceCode(sourceCode: string, contractName: string) {
+        return await this.analysesService.submitSourceCode(sourceCode, contractName)
     }
 }
