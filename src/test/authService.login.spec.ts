@@ -4,22 +4,21 @@ import * as sinon from 'sinon'
 import { AuthService } from '../apiServices/AuthService'
 import { JwtTokensInterface } from '..'
 
-const postRequest = require ('../http/index')
+const loginUser = require('../auth/loginUser')
 const errorHandler = require('../util/errorHandler')
 
-describe('refreshToken', () => {
+describe('loginUser', () => {
     const tokens: JwtTokensInterface = {
         access: 'access',
         refresh: 'refresh',
     }
 
-    let postRequestStub: any
+    let loginUserStub: any
     let errorHandlerStub: any
     let setCredentialsStub: any
-
     let AUTH
     beforeEach(() => {
-        postRequestStub = sinon.stub(postRequest, 'postRequest')
+        loginUserStub = sinon.stub(loginUser, 'loginUser')
         errorHandlerStub = sinon.stub(errorHandler, 'errorHandler')
 
         AUTH = new AuthService('user', 'password')
@@ -27,37 +26,38 @@ describe('refreshToken', () => {
     })
 
     afterEach(() => {
-        postRequestStub.restore()
+        loginUserStub.restore()
         errorHandlerStub.restore()
+        setCredentialsStub.restore()
     })
 
     it('is a function', () => {
-        expect(AUTH.refreshToken).to.be.a('function')
+        expect(AUTH.login).to.be.a('function')
     })
 
-    it('returns a set of tokens', async() => {
-        postRequestStub.resolves({
-            data: { jwtTokens: tokens }
+    it('should return and set access and refresh tokens', async () => {
+        loginUserStub.resolves({
+            data: { jwtTokens: tokens },
         })
 
-        const result = await AUTH.refreshToken({access:'aa', refresh:'bb'})
+        const result = await AUTH.login()
+
+        expect(loginUserStub.calledWith('user', 'password', sinon.match.string)).to.be.true
         expect(setCredentialsStub.calledWith(tokens)).to.be.true
         expect(result).to.equal(tokens)
-
     })
 
-    it('should fail with error ', async () => {
+    it('should fail with error', async () => {
         const errMsg = 'MythxJS. Error with your request.'
 
-        postRequestStub.throws(errMsg)
+        loginUserStub.throws(errMsg)
         errorHandlerStub.throws()
 
         try {
-            await AUTH.refreshToken()
-            expect.fail('refreshToken should be rejected')
+            await AUTH.login()
+            expect.fail('login should be rejected')
         } catch (err) {
             expect(errorHandlerStub.getCall(0).args[0].name).to.equal(errMsg)
         }
     })
-
 })

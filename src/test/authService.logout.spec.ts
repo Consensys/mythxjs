@@ -5,7 +5,7 @@ import { AuthService } from '../apiServices/AuthService'
 import { JwtTokensInterface } from '..'
 
 const getHeaders = require('../util/getHeaders')
-const postRequest = require ('../http/index')
+const postRequest = require('../http/index')
 const errorHandler = require('../util/errorHandler')
 
 describe('logout', () => {
@@ -13,7 +13,7 @@ describe('logout', () => {
         access: 'access',
         refresh: 'refresh',
     }
-    
+
     let getHeadersStub: any
     let postRequestStub: any
     let errorHandlerStub: any
@@ -45,13 +45,13 @@ describe('logout', () => {
 
         getHeadersStub.resolves({
             headers: 'headers',
-            foo: 'token'
+            foo: 'token',
         })
 
         postRequestStub.resolves({
-            data: {}
+            data: {},
         })
-        
+
         const result = await AUTH.logout()
         expect(result).to.deep.equal({})
         expect(getHeadersStub.calledOnce).to.be.true
@@ -66,7 +66,6 @@ describe('logout', () => {
         } catch (err) {
             expect(err.message).to.equal('No valid token found')
         }
-
     })
 
     it('should fail if there is something wrong with the request', async () => {
@@ -74,11 +73,11 @@ describe('logout', () => {
 
         getHeadersStub.resolves({
             headers: 'headers',
-            foo: 'token'
+            foo: 'token',
         })
 
         postRequestStub.throws('400')
-        
+
         try {
             await AUTH.logout()
             expect.fail('login should be rejected')
