@@ -19,6 +19,7 @@ describe('getDetectedIssues', () => {
     let getRequestStub: any
     let errorHandlerStub: any
     let isTokenValidStub: any
+    let getAnalysesStatusStub: any
 
     let ANALYSES
 
@@ -30,6 +31,7 @@ describe('getDetectedIssues', () => {
 
         isTokenValidStub.returns(true)
         ANALYSES = new AnalysesService(tokens)
+        getAnalysesStatusStub = sinon.stub(ANALYSES, 'getAnalysisStatus')
     })
 
     afterEach(() => {
@@ -37,6 +39,7 @@ describe('getDetectedIssues', () => {
         getRequestStub.restore()
         errorHandlerStub.restore()
         isTokenValidStub.restore()
+        getAnalysesStatusStub.restore()
     })
 
     it('is a function', () => {
@@ -55,6 +58,10 @@ describe('getDetectedIssues', () => {
             foo: 'token',
         })
 
+        getAnalysesStatusStub.resolves({
+            status: 'Finished',
+        })
+
         getRequestStub.resolves({
             data: response,
         })
@@ -62,6 +69,7 @@ describe('getDetectedIssues', () => {
         const result = await ANALYSES.getDetectedIssues(uuid)
         expect(result).to.deep.equal(response)
         expect(getHeadersStub.calledOnce).to.be.true
+        expect(getRequestStub.calledWith('https://api.mythx.io/v1/analyses/123-456-789/issues')).to.be.true
     })
 
     it('should fail if there is something wrong with the request', async () => {
@@ -70,6 +78,10 @@ describe('getDetectedIssues', () => {
         getHeadersStub.resolves({
             headers: 'headers',
             foo: 'token',
+        })
+
+        getAnalysesStatusStub.resolves({
+            status: 'Finished',
         })
 
         getRequestStub.throws('400')

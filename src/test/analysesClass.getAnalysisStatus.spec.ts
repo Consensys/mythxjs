@@ -72,6 +72,7 @@ describe('getAnalysisStatus', () => {
         const result = await ANALYSES.getAnalysisStatus(uuid)
         expect(result).to.deep.equal(value)
         expect(getHeadersStub.calledOnce).to.be.true
+        expect(getRequestStub.calledWith('https://api.mythx.io/v1/analyses/123-456-789')).to.be.true
     })
 
     it('should fail if there is something wrong with the request', async () => {

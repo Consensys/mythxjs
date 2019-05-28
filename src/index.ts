@@ -12,17 +12,17 @@ export interface loginResponse {
 }
 
 export interface AnalyzeOption {
-    tool_name?: string
-    contract_name?: string
+    toolName?: string
+    contractName?: string
     bytecode?: string
-    source_map?: string
-    deployed_bytecode?: string
-    deployed_source_map?: string
-    main_source?: string
+    sourceMap?: string
+    deployedBytecode?: string
+    deployedSourceMap?: string
+    mainSource?: string
     sources?: any
-    source_list?: Array<string>
-    solc_version?: string
-    analysis_mode?: string
+    sourceList?: Array<string>
+    solcVersion?: string
+    analysisMode?: string
 }
 
 // TODO: Move this to types folder

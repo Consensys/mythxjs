@@ -58,6 +58,19 @@ export class AnalysesService {
             const { headers, accessToken } = await getHeaders(this.jwtTokens)
             this.jwtTokens.access = accessToken
 
+            const getStatus = await this.getAnalysisStatus(uuid)
+            if (getStatus.status === 'Queued') {
+                await new Promise(resolve => {
+                    const timer = setInterval(async () => {
+                        const analysisReq = await this.getAnalysisStatus(uuid)
+                        if (analysisReq.status === 'Finished' || analysisReq.status === 'Error') {
+                            clearInterval(timer)
+                            resolve('done')
+                        }
+                    }, 5000)
+                })
+            }
+
             const result = await getRequest(`${this.apiUrl}/analyses/${uuid}/issues`, headers)
             console.log('GetDetectedIssues response:', result.data)
 
