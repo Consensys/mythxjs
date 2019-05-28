@@ -61,7 +61,7 @@ export class AnalysesService {
             this.jwtTokens.access = accessToken
 
             const getStatus = await this.getAnalysisStatus(uuid)
-            if (getStatus.status === 'Queued') {
+            if (getStatus.status === 'Queued' || getStatus.status === 'In progress') {
                 await new Promise(resolve => {
                     const timer = setInterval(async () => {
                         const analysisReq = await this.getAnalysisStatus(uuid)
