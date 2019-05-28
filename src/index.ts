@@ -11,6 +11,20 @@ export interface loginResponse {
     refresh: string
 }
 
+export interface AnalyzeOption {
+    toolName?: string
+    contractName?: string
+    bytecode?: string
+    sourceMap?: string
+    deployedBytecode?: string
+    deployedSourceMap?: string
+    mainSource?: string
+    sources?: any
+    sourceList?: Array<string>
+    solcVersion?: string
+    analysisMode?: string
+}
+
 // TODO: Move this to types folder
 export interface SubmitContractRes {
     apiVersion: string
