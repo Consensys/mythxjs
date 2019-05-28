@@ -11,7 +11,7 @@ export interface loginResponse {
     refresh: string
 }
 
-export interface AnalyzeOption {
+export interface AnalyzeOptions {
     toolName?: string
     contractName?: string
     bytecode?: string

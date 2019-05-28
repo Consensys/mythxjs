@@ -1,4 +1,4 @@
-import { AnalyzeOption } from '..'
+import { AnalyzeOptions } from '..'
 
 export function generateBytecodeRequest(bytecode: string, toolName: string = 'MythxJS') {
     return {
@@ -24,7 +24,7 @@ export function generateSourceCodeRequest(sourceCode: string, contractName: stri
     }
 }
 
-export function generateAnalysisRequest(options: AnalyzeOption) {
+export function generateAnalysisRequest(options: AnalyzeOptions) {
     const {
         toolName,
         contractName,

@@ -12,7 +12,7 @@ import { API_URL_PRODUCTION, API_URL_STAGING } from '../util/constants'
 
 import { isTokenValid } from '../util/validateToken'
 
-import { SubmitContractRes, JwtTokensInterface, AnalyzeOption } from '..'
+import { SubmitContractRes, JwtTokensInterface, AnalyzeOptions } from '..'
 
 export class AnalysesService {
     private apiUrl: string = API_URL_PRODUCTION
@@ -114,7 +114,7 @@ export class AnalysesService {
         }
     }
 
-    public async analyze(options: AnalyzeOption): Promise<any> {
+    public async analyze(options: AnalyzeOptions): Promise<any> {
         try {
             const { headers, accessToken } = await getHeaders(this.jwtTokens)
             this.jwtTokens.access = accessToken
