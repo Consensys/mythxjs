@@ -39,7 +39,3 @@ export interface SubmitContractRes {
     submittedBy: string
     uuid: string
 }
-
-// SERVICE INTERFACES AND FACTORIES
-
-export { ClientService as Mythxjs } from './apiServices/ClientService'

@@ -1,19 +1,17 @@
 import { AnalyzeOption } from '..'
 
-export function generateBytecodeRequest(bytecode: string, toolName?: string) {
-    const clientToolName = toolName || 'MythxJS'
+export function generateBytecodeRequest(bytecode: string, toolName: string = 'MythxJS') {
     return {
-        clientToolName: clientToolName,
+        clientToolName: toolName,
         data: {
             bytecode: `${bytecode}`,
         },
     }
 }
 
-export function generateSourceCodeRequest(sourceCode: string, contractName: string, toolName?: string) {
-    const clientToolName = toolName || 'MythxJS'
+export function generateSourceCodeRequest(sourceCode: string, contractName: string, toolName: string = 'MythxJS') {
     return {
-        clientToolName: clientToolName,
+        clientToolName: toolName,
         data: {
             contractName: contractName,
             sources: {

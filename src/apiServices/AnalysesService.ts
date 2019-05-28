@@ -17,13 +17,15 @@ import { SubmitContractRes, JwtTokensInterface, AnalyzeOption } from '..'
 export class AnalysesService {
     private apiUrl: string = API_URL_PRODUCTION
     private jwtTokens: JwtTokensInterface
+    private toolName: string
 
-    constructor(jwtTokens: JwtTokensInterface) {
+    constructor(jwtTokens: JwtTokensInterface, toolName: string = 'MythXJS') {
         if (isTokenValid(jwtTokens.access)) {
             this.jwtTokens = jwtTokens as JwtTokensInterface
         } else {
             throw new Error('Access token has expired or is invalid!')
         }
+        this.toolName = toolName
     }
 
     public async getAnalysesList() {
@@ -80,12 +82,12 @@ export class AnalysesService {
         }
     }
 
-    public async submitBytecode(bytecode: string, toolName?: string): Promise<SubmitContractRes | void> {
+    public async submitBytecode(bytecode: string): Promise<SubmitContractRes | void> {
         try {
             const { headers, accessToken } = await getHeaders(this.jwtTokens)
             this.jwtTokens.access = accessToken
 
-            const request = generateBytecodeRequest(bytecode, toolName)
+            const request = generateBytecodeRequest(bytecode, this.toolName)
 
             const result = await postRequest(`${this.apiUrl}/analyses`, request, headers)
             console.log('submitContract with bytecode only response:', result.data)
@@ -96,16 +98,12 @@ export class AnalysesService {
         }
     }
 
-    public async submitSourceCode(
-        sourceCode: string,
-        contractName: string,
-        toolName?: string,
-    ): Promise<SubmitContractRes | void> {
+    public async submitSourceCode(sourceCode: string, contractName: string): Promise<SubmitContractRes | void> {
         try {
             const { headers, accessToken } = await getHeaders(this.jwtTokens)
             this.jwtTokens.access = accessToken
 
-            const request = generateSourceCodeRequest(sourceCode, contractName, toolName)
+            const request = generateSourceCodeRequest(sourceCode, contractName, this.toolName)
 
             const result = await postRequest(`${this.apiUrl}/analyses`, request, headers)
             console.log('submitContract with sourcecode only response:', result.data)

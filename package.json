@@ -46,6 +46,9 @@
             "src/*.ts",
             "src/**/*.ts"
         ],
+        "exclude": [
+            "src/**/*.spec.ts"
+        ],
         "extension": [
             ".ts"
         ],
