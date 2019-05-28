@@ -2,13 +2,17 @@ import { postRequest, getRequest } from '../http'
 
 import { errorHandler } from '../util/errorHandler'
 import { getHeaders } from '../util/getHeaders'
-import { generateBytecodeRequest, generateSourceCodeRequest } from '../util/generateContractsRequests'
+import {
+    generateBytecodeRequest,
+    generateSourceCodeRequest,
+    generateAnalysisRequest,
+} from '../util/generateContractsRequests'
 
 import { API_URL_PRODUCTION, API_URL_STAGING } from '../util/constants'
 
 import { isTokenValid } from '../util/validateToken'
 
-import { SubmitContractRes, JwtTokensInterface } from '..'
+import { SubmitContractRes, JwtTokensInterface, AnalyzeOption } from '..'
 
 export class AnalysesService {
     private apiUrl: string = API_URL_PRODUCTION
@@ -92,6 +96,22 @@ export class AnalysesService {
 
             const result = await postRequest(`${this.apiUrl}/analyses`, request, headers)
             console.log('submitContract with sourcecode only response:', result.data)
+
+            return result.data
+        } catch (err) {
+            errorHandler(err)
+        }
+    }
+
+    public async analyze(options: AnalyzeOption): Promise<any> {
+        try {
+            const { headers, accessToken } = await getHeaders(this.jwtTokens)
+            this.jwtTokens.access = accessToken
+
+            const request = generateAnalysisRequest(options)
+
+            const result = await postRequest(`${this.apiUrl}/analyses`, request, headers)
+            console.log('submitContract with analyze object response:', result.data)
 
             return result.data
         } catch (err) {
