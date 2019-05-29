@@ -103,7 +103,7 @@ describe('submitSourceCode', () => {
         postRequestStub.throws('400')
 
         try {
-            await ANALYSES.submitBytecode(bytecode)
+            await ANALYSES.submitSourceCode(bytecode)
             expect.fail('submitSourceCode should be rejected')
         } catch (err) {
             expect(errorHandlerStub.getCall(0).args[0].name).to.equal('400')
