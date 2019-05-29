@@ -7,10 +7,10 @@ import { JwtTokensInterface } from '..'
 const getHeaders = require('../util/getHeaders')
 const postRequest = require('../http/index')
 const errorHandler = require('../util/errorHandler')
-const generateBytecodeRequest = require('../util/generateContractsRequests')
+const generateSourceCodeRequest = require('../util/generateContractsRequests')
 const isTokenValid = require('../util/validateToken')
 
-describe('submitBytecode', () => {
+describe('submitSourceCode', () => {
     const tokens: JwtTokensInterface = {
         access: 'access',
         refresh: 'refresh',
@@ -20,7 +20,7 @@ describe('submitBytecode', () => {
     let postRequestStub: any
     let errorHandlerStub: any
     let isTokenValidStub: any
-    let generateBytecodeRequestStub: any
+    let generateSourceCodeRequestStub: any
 
     let ANALYSES
 
@@ -29,7 +29,7 @@ describe('submitBytecode', () => {
         postRequestStub = sinon.stub(postRequest, 'postRequest')
         errorHandlerStub = sinon.stub(errorHandler, 'errorHandler')
         isTokenValidStub = sinon.stub(isTokenValid, 'isTokenValid')
-        generateBytecodeRequestStub = sinon.stub(generateBytecodeRequest, 'generateBytecodeRequest')
+        generateSourceCodeRequestStub = sinon.stub(generateSourceCodeRequest, 'generateSourceCodeRequest')
 
         isTokenValidStub.returns(true)
         ANALYSES = new AnalysesService(tokens)
@@ -40,15 +40,15 @@ describe('submitBytecode', () => {
         postRequestStub.restore()
         errorHandlerStub.restore()
         isTokenValidStub.restore()
-        generateBytecodeRequestStub.restore()
+        generateSourceCodeRequestStub.restore()
     })
 
     it('is a function', () => {
-        expect(ANALYSES.submitBytecode).to.be.a('function')
+        expect(ANALYSES.submitSourceCode).to.be.a('function')
     })
 
-    it('should return an object with info about submitted analysis using bytecode only', async () => {
-        const bytecode = '1111111'
+    it('should return an object with info about submitted analysis using source code only', async () => {
+        const sourceCode = 'solidity code'
 
         const response = {
             apiVersion: 'v1.4.14',
@@ -69,10 +69,16 @@ describe('submitBytecode', () => {
             foo: 'token',
         })
 
-        generateBytecodeRequestStub.resolves({
-            clientToolName: 'test',
+        generateSourceCodeRequestStub.resolves({
+            clientToolName: 'toolName',
             data: {
-                bytecode: bytecode,
+                contractName: 'contractName',
+                sources: {
+                    [`${'contractName'}.sol`]: {
+                        source: sourceCode,
+                    },
+                },
+                mainSource: `${'contractName'}.sol`,
             },
         })
 
@@ -80,7 +86,7 @@ describe('submitBytecode', () => {
             data: response,
         })
 
-        const result = await ANALYSES.submitBytecode(bytecode)
+        const result = await ANALYSES.submitSourceCode(sourceCode, 'contractName')
         expect(result).to.equal(response)
         expect(getHeadersStub.calledOnce).to.be.true
         expect(postRequestStub.calledWith('https://api.mythx.io/v1/analyses')).to.be.true
@@ -98,7 +104,7 @@ describe('submitBytecode', () => {
 
         try {
             await ANALYSES.submitBytecode(bytecode)
-            expect.fail('submitBytecode should be rejected')
+            expect.fail('submitSourceCode should be rejected')
         } catch (err) {
             expect(errorHandlerStub.getCall(0).args[0].name).to.equal('400')
         }
