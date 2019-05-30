@@ -6,7 +6,7 @@ import { AuthService } from '../apiServices/AuthService'
 const getRequest = require('../http/index')
 const errorHandler = require('../util/errorHandler')
 
-describe('getVersion', () => {
+describe('getOpenApiYAML', () => {
     let getRequestStub: any
     let errorHandlerStub: any
 
@@ -24,33 +24,29 @@ describe('getVersion', () => {
     })
 
     it('is a function', () => {
-        expect(AUTH.getVersion).to.be.a('function')
+        expect(AUTH.getOpenApiYAML).to.be.a('function')
     })
 
     it('returns an  object', async () => {
         const value = {
-            api: 'v1.2.5',
-            hash: 'c0d8ccbf9ba2623cc147da2860f20093',
-            harvey: 'v0.1.0',
-            maestro: '1.1.4',
-            maru: '0.1.0',
-            mythril: 'v1.2.3',
+            yaml: 'yaml',
         }
 
         getRequestStub.resolves({
             data: value,
         })
 
-        const result = await AUTH.getVersion()
+        const result = await AUTH.getOpenApiYAML()
         expect(result).to.deep.equal(value)
+        expect(getRequestStub.calledWith('https://api.mythx.io/v1/openapi.yaml')).to.be.true
     })
 
     it('should fail if there is something wrong with the request', async () => {
         getRequestStub.throws('400')
 
         try {
-            await AUTH.getVersion()
-            expect.fail('getVersion should be rejected')
+            await AUTH.getOpenApiYAML()
+            expect.fail('openApiYAML should be rejected')
         } catch (err) {
             expect(errorHandlerStub.getCall(0).args[0].name).to.equal('400')
         }

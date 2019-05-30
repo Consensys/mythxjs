@@ -26,7 +26,7 @@ Performing a `login` request
 
 ```
 // Logs in and returns an object containing access and refresh token
-const token = await mythx.login()
+const tokens = await mythx.login()
 
 ```
 
