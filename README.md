@@ -17,30 +17,30 @@ npm install mythxjs
 Creating a new instance of the library using ES6 modules
 
 ```
-    import { Client } from 'mythxjs'
+import { Client } from 'mythxjs'
 
-    const mythx = new Client('0x0000000000000000000000000000000000000000', 'trial');
+const mythx = new Client('0x0000000000000000000000000000000000000000', 'trial');
 ```
 
 Performing a `login` request
 
 ```
-    // Logs in and returns an object containing access and refresh token
-    const token = await mythx.login()
+// Logs in and returns an object containing access and refresh token
+const token = await mythx.login()
 
 ```
 
 Submitting an analysis using bytecode only
 
 ```
-    const bytecode = '0xfe'
-    await mythx.submitBytecode(bytecode)
+const bytecode = '0xfe'
+await mythx.submitBytecode(bytecode)
 ```
 
 Getting a list of detected issues
 
 ```
-    await mythx.getDetectedIssues('1111-2222-3333-4444')
+await mythx.getDetectedIssues('1111-2222-3333-4444')
 ```
 
 ## Contributing
