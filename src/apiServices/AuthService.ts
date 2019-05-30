@@ -83,6 +83,26 @@ export class AuthService {
         }
     }
 
+    public async getOpenApiHTML() {
+        try {
+            const result = await getRequest(`${API_URL_PRODUCTION}/openapi`, null)
+
+            return result.data
+        } catch (err) {
+            errorHandler(err)
+        }
+    }
+
+    public async getOpenApiYAML() {
+        try {
+            const result = await getRequest(`${API_URL_PRODUCTION}/openapi.yaml`, null)
+
+            return result.data
+        } catch (err) {
+            errorHandler(err)
+        }
+    }
+
     private isUserLoggedIn() {
         return !!this.jwtTokens.access && !!this.jwtTokens.refresh
     }
