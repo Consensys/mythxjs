@@ -18,6 +18,7 @@ jobs:
             - restore_cache:
                   keys:
                       - v1-dependencies-{{ checksum "package.json" }}
+                      # fallback to using the latest cache if no exact match is found
                       - v1-dependencies-
 
             - run: npm install
@@ -33,9 +34,31 @@ jobs:
             - persist_to_workspace:
                   root: ~/repo
                   paths: .
+    deploy:
+        <<: *defaults
+        steps:
+            - attach_workspace:
+                  at: ~/repo
+            - run:
+                  name: Authenticate with registry
+                  command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
+            - run:
+                  name: Publish package
+                  command: npm publish
 
 workflows:
     version: 2
-    only_test:
+    test-deploy:
         jobs:
-            - test
+            - test:
+                  filters:
+                      tags:
+                          only: /^v.*/
+            - deploy:
+                  requires:
+                      - test
+                  filters:
+                      tags:
+                          only: /^v.*/
+                      branches:
+                          ignore: /.*/
