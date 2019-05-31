@@ -17,10 +17,10 @@ export class ClientService {
         this.toolName = toolName
     }
 
-    async login() {
+    async login(): Promise<JwtTokensInterface> {
         this.jwtTokens = await this.authService.login(this.ethAddress, this.password)
         this.analysesService = new AnalysesService(this.jwtTokens, this.toolName)
-        return await this.jwtTokens
+        return this.jwtTokens
     }
 
     async loginWithToken(jwtTokens: JwtTokensInterface) {
