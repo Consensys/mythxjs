@@ -119,7 +119,7 @@ export class AnalysesService {
             const { headers, accessToken } = await getHeaders(this.jwtTokens)
             this.jwtTokens.access = accessToken
 
-            const request = generateAnalysisRequest(options)
+            const request = generateAnalysisRequest(options, this.toolName)
 
             const result = await postRequest(`${this.apiUrl}/analyses`, request, headers)
             console.log('submitContract with analyze object response:', result.data)
