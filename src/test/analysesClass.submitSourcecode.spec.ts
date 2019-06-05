@@ -1,46 +1,37 @@
 import { expect } from 'chai'
 import * as sinon from 'sinon'
+import * as jwt from 'jsonwebtoken'
 
 import { AnalysesService } from '../apiServices/AnalysesService'
 import { JwtTokensInterface } from '..'
 
-const getHeaders = require('../util/getHeaders')
 const postRequest = require('../http/index')
-const errorHandler = require('../util/errorHandler')
-const generateSourceCodeRequest = require('../util/generateContractsRequests')
-const isTokenValid = require('../util/validateToken')
 
 describe('submitSourceCode', () => {
+    const accessToken = {
+        jti: '',
+        iss: '',
+        exp: Math.floor(new Date().getTime() / 1000) + 60 * 20,
+        userId: '',
+        iat: 0,
+    }
     const tokens: JwtTokensInterface = {
-        access: 'access',
+        access: jwt.sign(accessToken, 'secret'),
         refresh: 'refresh',
     }
 
-    let getHeadersStub: any
     let postRequestStub: any
-    let errorHandlerStub: any
-    let isTokenValidStub: any
-    let generateSourceCodeRequestStub: any
 
     let ANALYSES
 
     beforeEach(() => {
-        getHeadersStub = sinon.stub(getHeaders, 'getHeaders')
         postRequestStub = sinon.stub(postRequest, 'postRequest')
-        errorHandlerStub = sinon.stub(errorHandler, 'errorHandler')
-        isTokenValidStub = sinon.stub(isTokenValid, 'isTokenValid')
-        generateSourceCodeRequestStub = sinon.stub(generateSourceCodeRequest, 'generateSourceCodeRequest')
 
-        isTokenValidStub.returns(true)
-        ANALYSES = new AnalysesService(tokens)
+        ANALYSES = new AnalysesService(tokens, 'MythXJTest')
     })
 
     afterEach(() => {
-        getHeadersStub.restore()
         postRequestStub.restore()
-        errorHandlerStub.restore()
-        isTokenValidStub.restore()
-        generateSourceCodeRequestStub.restore()
     })
 
     it('is a function', () => {
@@ -64,13 +55,8 @@ describe('submitSourceCode', () => {
             uuid: '1111-2222-3333-4444',
         }
 
-        getHeadersStub.resolves({
-            headers: 'headers',
-            foo: 'token',
-        })
-
-        generateSourceCodeRequestStub.resolves({
-            clientToolName: 'toolName',
+        const expected = {
+            clientToolName: 'MythXJTest',
             data: {
                 contractName: 'contractName',
                 sources: {
@@ -80,7 +66,7 @@ describe('submitSourceCode', () => {
                 },
                 mainSource: `${'contractName'}.sol`,
             },
-        })
+        }
 
         postRequestStub.resolves({
             data: response,
@@ -88,25 +74,19 @@ describe('submitSourceCode', () => {
 
         const result = await ANALYSES.submitSourceCode(sourceCode, 'contractName')
         expect(result).to.equal(response)
-        expect(getHeadersStub.calledOnce).to.be.true
-        expect(postRequestStub.calledWith('https://api.mythx.io/v1/analyses')).to.be.true
+        expect(postRequestStub.calledWith('https://api.mythx.io/v1/analyses', expected)).to.be.true
     })
 
     it('should fail if there is something wrong with the request', async () => {
-        const bytecode = '1111111'
-
-        getHeadersStub.resolves({
-            headers: 'headers',
-            foo: 'token',
-        })
+        const sourceCode = 'source code'
 
         postRequestStub.throws('400')
 
         try {
-            await ANALYSES.submitSourceCode(bytecode)
+            await ANALYSES.submitSourceCode(sourceCode, 'contractName')
             expect.fail('submitSourceCode should be rejected')
         } catch (err) {
-            expect(errorHandlerStub.getCall(0).args[0].name).to.equal('400')
+            expect(err.message).to.equal('MythxJS. Error with your request. 400')
         }
     })
 })
