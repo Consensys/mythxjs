@@ -24,33 +24,24 @@ export function generateSourceCodeRequest(sourceCode: string, contractName: stri
     }
 }
 
-export function generateAnalysisRequest(options: AnalyzeOptions) {
-    const {
-        toolName,
-        contractName,
-        bytecode,
-        sourceMap,
-        deployedBytecode,
-        deployedSourceMap,
-        mainSource,
-        sources,
-        sourceList,
-        solcVersion,
-        analysisMode,
-    } = options
-    return {
-        clientToolName: toolName,
-        data: {
-            contractName: contractName,
-            bytecode: bytecode,
-            sourceMap: sourceMap,
-            deployedBytecode: deployedBytecode,
-            deployedSourceMap: deployedSourceMap,
-            mainSource: mainSource,
-            sources: sources,
-            sourceList: sourceList,
-            version: solcVersion,
-            analysisMode: analysisMode,
-        },
+export function generateAnalysisRequest(options: AnalyzeOptions, toolName: string = 'MythXJS') {
+    if (options.toolName) {
+        toolName = options.toolName
     }
+    let result = {
+        clientToolName: toolName,
+        data: {},
+    }
+    if (typeof options.contractName !== 'undefined') result.data['contractName'] = options.contractName
+    if (typeof options.bytecode !== 'undefined') result.data['bytecode'] = options.bytecode
+    if (typeof options.sourceMap !== 'undefined') result.data['sourceMap'] = options.sourceMap
+    if (typeof options.deployedBytecode !== 'undefined') result.data['deployedBytecode'] = options.deployedBytecode
+    if (typeof options.deployedSourceMap !== 'undefined') result.data['deployedSourceMap'] = options.deployedSourceMap
+    if (typeof options.mainSource !== 'undefined') result.data['mainSource'] = options.mainSource
+    if (typeof options.sources !== 'undefined') result.data['sources'] = options.sources
+    if (typeof options.sourceList !== 'undefined') result.data['sources'] = options.sources
+    if (typeof options.solcVersion !== 'undefined') result.data['version'] = options.solcVersion
+    if (typeof options.analysisMode !== 'undefined') result.data['analysisMode'] = options.analysisMode
+
+    return result
 }
