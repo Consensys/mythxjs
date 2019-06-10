@@ -1,39 +1,38 @@
 import { expect } from 'chai'
 import * as sinon from 'sinon'
+import * as jwt from 'jsonwebtoken'
 
 import { AuthService } from '../apiServices/AuthService'
 import { JwtTokensInterface } from '..'
 
-const getHeaders = require('../util/getHeaders')
 const postRequest = require('../http/index')
-const errorHandler = require('../util/errorHandler')
 
 describe('logout', () => {
-    const tokens: JwtTokensInterface = {
-        access: 'access',
-        refresh: 'refresh',
+    const accessToken = {
+        jti: '',
+        iss: '',
+        exp: Math.floor(new Date().getTime() / 1000) + 60 * 20,
+        userId: '',
+        iat: 0,
     }
-
-    let getHeadersStub: any
     let postRequestStub: any
-    let errorHandlerStub: any
 
     let AUTH
     let isUserLoggedInStub: any
     beforeEach(() => {
-        getHeadersStub = sinon.stub(getHeaders, 'getHeaders')
         postRequestStub = sinon.stub(postRequest, 'postRequest')
-        errorHandlerStub = sinon.stub(errorHandler, 'errorHandler')
-
         AUTH = new AuthService('user', 'password')
+        AUTH.jwtTokens = {
+            access: jwt.sign(accessToken, 'secret'),
+            refresh: 'refresh',
+        }
         isUserLoggedInStub = sinon.stub(AUTH, 'isUserLoggedIn')
     })
 
     afterEach(() => {
-        getHeadersStub.restore()
         postRequestStub.restore()
-        errorHandlerStub.restore()
         isUserLoggedInStub.restore()
+        delete AUTH.jwtTokens
     })
 
     it('is a function', () => {
@@ -41,12 +40,8 @@ describe('logout', () => {
     })
 
     it('returns an empty object', async () => {
+        console.log(AUTH.jwtTokens, 'first test')
         isUserLoggedInStub.returns(true)
-
-        getHeadersStub.resolves({
-            headers: 'headers',
-            foo: 'token',
-        })
 
         postRequestStub.resolves({
             data: {},
@@ -54,35 +49,31 @@ describe('logout', () => {
 
         const result = await AUTH.logout()
         expect(result).to.deep.equal({})
-        expect(getHeadersStub.calledOnce).to.be.true
     })
 
     it('should fail if user is not logged in', async () => {
+        console.log(AUTH.jwtTokens, 'second test')
         isUserLoggedInStub.returns(false)
 
         try {
             await AUTH.logout()
-            expect.fail('login should be rejected')
+            expect.fail('logout should be rejected')
         } catch (err) {
             expect(err.message).to.equal('No valid token found')
         }
     })
 
     it('should fail if there is something wrong with the request', async () => {
+        console.log(AUTH.jwtTokens, 'last test')
         isUserLoggedInStub.returns(true)
-
-        getHeadersStub.resolves({
-            headers: 'headers',
-            foo: 'token',
-        })
 
         postRequestStub.throws('400')
 
         try {
             await AUTH.logout()
-            expect.fail('login should be rejected')
+            expect.fail('logout should be rejected')
         } catch (err) {
-            expect(errorHandlerStub.getCall(0).args[0].name).to.equal('400')
+            expect(err.message).to.equal('MythxJS. Error with your request. 400')
         }
     })
 })

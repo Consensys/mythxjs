@@ -3,39 +3,39 @@ import * as sinon from 'sinon'
 
 import { AnalysesService } from '../apiServices/AnalysesService'
 import { JwtTokensInterface } from '..'
+import * as jwt from 'jsonwebtoken'
 
-const getHeaders = require('../util/getHeaders')
 const getRequest = require('../http/index')
-const errorHandler = require('../util/errorHandler')
 const isTokenValid = require('../util/validateToken')
 
 describe('getAnalysisStatus', () => {
+    const accessToken = {
+        jti: '',
+        iss: '',
+        exp: Math.floor(new Date().getTime() / 1000) + 60 * 20,
+        userId: '',
+        iat: 0,
+    }
     const tokens: JwtTokensInterface = {
-        access: 'access',
+        access: jwt.sign(accessToken, 'secret'),
         refresh: 'refresh',
     }
 
-    let getHeadersStub: any
     let getRequestStub: any
-    let errorHandlerStub: any
     let isTokenValidStub: any
 
     let ANALYSES
 
     beforeEach(() => {
-        getHeadersStub = sinon.stub(getHeaders, 'getHeaders')
         getRequestStub = sinon.stub(getRequest, 'getRequest')
-        errorHandlerStub = sinon.stub(errorHandler, 'errorHandler')
         isTokenValidStub = sinon.stub(isTokenValid, 'isTokenValid')
 
         isTokenValidStub.returns(true)
-        ANALYSES = new AnalysesService(tokens)
+        ANALYSES = new AnalysesService(tokens, 'MythXJTest')
     })
 
     afterEach(() => {
-        getHeadersStub.restore()
         getRequestStub.restore()
-        errorHandlerStub.restore()
         isTokenValidStub.restore()
     })
 
@@ -60,28 +60,17 @@ describe('getAnalysisStatus', () => {
             uuid: '4ac074eb-fe26-4dc9-bb0c-061da1f00862',
         }
 
-        getHeadersStub.resolves({
-            headers: 'headers',
-            foo: 'token',
-        })
-
         getRequestStub.resolves({
             data: value,
         })
 
         const result = await ANALYSES.getAnalysisStatus(uuid)
         expect(result).to.deep.equal(value)
-        expect(getHeadersStub.calledOnce).to.be.true
         expect(getRequestStub.calledWith('https://api.mythx.io/v1/analyses/123-456-789')).to.be.true
     })
 
     it('should fail if there is something wrong with the request', async () => {
         const uuid = '123-456-789'
-
-        getHeadersStub.resolves({
-            headers: 'headers',
-            foo: 'token',
-        })
 
         getRequestStub.throws('400')
 
@@ -89,7 +78,7 @@ describe('getAnalysisStatus', () => {
             await ANALYSES.getAnalysisStatus(uuid)
             expect.fail('getAnalysisStatus should be rejected')
         } catch (err) {
-            expect(errorHandlerStub.getCall(0).args[0].name).to.equal('400')
+            expect(err.message).to.equal('MythxJS. Error with your request. 400')
         }
     })
 })
