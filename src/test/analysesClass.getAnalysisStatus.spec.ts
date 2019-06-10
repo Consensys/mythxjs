@@ -1,9 +1,9 @@
 import { expect } from 'chai'
 import * as sinon from 'sinon'
+import * as jwt from 'jsonwebtoken'
 
 import { AnalysesService } from '../apiServices/AnalysesService'
 import { JwtTokensInterface } from '..'
-import * as jwt from 'jsonwebtoken'
 
 const getRequest = require('../http/index')
 const isTokenValid = require('../util/validateToken')
@@ -31,7 +31,7 @@ describe('getAnalysisStatus', () => {
         isTokenValidStub = sinon.stub(isTokenValid, 'isTokenValid')
 
         isTokenValidStub.returns(true)
-        ANALYSES = new AnalysesService(tokens, 'MythXJTest')
+        ANALYSES = new AnalysesService(tokens, 'MythXJSTest')
     })
 
     afterEach(() => {
