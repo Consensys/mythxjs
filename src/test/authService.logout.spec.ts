@@ -3,7 +3,6 @@ import * as sinon from 'sinon'
 import * as jwt from 'jsonwebtoken'
 
 import { AuthService } from '../apiServices/AuthService'
-import { JwtTokensInterface } from '..'
 
 const postRequest = require('../http/index')
 
@@ -21,17 +20,20 @@ describe('logout', () => {
     let isUserLoggedInStub: any
     beforeEach(() => {
         postRequestStub = sinon.stub(postRequest, 'postRequest')
+
         AUTH = new AuthService('user', 'password')
         AUTH.jwtTokens = {
             access: jwt.sign(accessToken, 'secret'),
             refresh: 'refresh',
         }
+
         isUserLoggedInStub = sinon.stub(AUTH, 'isUserLoggedIn')
     })
 
     afterEach(() => {
         postRequestStub.restore()
         isUserLoggedInStub.restore()
+
         delete AUTH.jwtTokens
     })
 
@@ -40,7 +42,6 @@ describe('logout', () => {
     })
 
     it('returns an empty object', async () => {
-        console.log(AUTH.jwtTokens, 'first test')
         isUserLoggedInStub.returns(true)
 
         postRequestStub.resolves({
@@ -52,7 +53,6 @@ describe('logout', () => {
     })
 
     it('should fail if user is not logged in', async () => {
-        console.log(AUTH.jwtTokens, 'second test')
         isUserLoggedInStub.returns(false)
 
         try {
@@ -64,7 +64,6 @@ describe('logout', () => {
     })
 
     it('should fail if there is something wrong with the request', async () => {
-        console.log(AUTH.jwtTokens, 'last test')
         isUserLoggedInStub.returns(true)
 
         postRequestStub.throws('400')
