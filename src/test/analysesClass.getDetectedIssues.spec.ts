@@ -6,7 +6,6 @@ import { AnalysesService } from '../apiServices/AnalysesService'
 import { JwtTokensInterface } from '..'
 
 const getRequest = require('../http/index')
-const isTokenValid = require('../util/validateToken')
 
 describe('getDetectedIssues', () => {
     const accessToken = {
@@ -22,15 +21,12 @@ describe('getDetectedIssues', () => {
     }
 
     let getRequestStub: any
-    let isTokenValidStub: any
     let getAnalysesStatusStub: any
 
     let ANALYSES
 
     beforeEach(() => {
         getRequestStub = sinon.stub(getRequest, 'getRequest')
-        isTokenValidStub = sinon.stub(isTokenValid, 'isTokenValid')
-        isTokenValidStub.returns(true)
 
         ANALYSES = new AnalysesService(tokens, 'MythXJS test')
 
@@ -39,7 +35,6 @@ describe('getDetectedIssues', () => {
 
     afterEach(() => {
         getRequestStub.restore()
-        isTokenValidStub.restore()
         getAnalysesStatusStub.restore()
     })
 
