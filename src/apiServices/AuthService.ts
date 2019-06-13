@@ -50,7 +50,7 @@ export class AuthService {
                 errorHandler(err)
             }
         } else {
-            throw new Error('No valid token found')
+            throw new Error('MythxJS no valid token found. Please login')
         }
     }
 
@@ -100,6 +100,23 @@ export class AuthService {
             return result.data
         } catch (err) {
             errorHandler(err)
+        }
+    }
+
+    public async getStats(queryString: string) {
+        if (this.isUserLoggedIn()) {
+            try {
+                const { headers, accessToken } = await getHeaders(this.jwtTokens)
+                this.jwtTokens.access = accessToken
+
+                const result = await getRequest(`${API_URL_PRODUCTION}/stats/users-analyses?${queryString}`, headers)
+
+                return result.data
+            } catch (err) {
+                errorHandler(err)
+            }
+        } else {
+            throw new Error('MythxJS no valid token found. Please login.')
         }
     }
 

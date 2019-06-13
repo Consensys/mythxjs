@@ -59,7 +59,7 @@ describe('logout', () => {
             await AUTH.logout()
             expect.fail('logout should be rejected')
         } catch (err) {
-            expect(err.message).to.equal('No valid token found')
+            expect(err.message).to.equal('MythxJS no valid token found. Please login')
         }
     })
 
