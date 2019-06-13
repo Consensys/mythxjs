@@ -4,23 +4,19 @@ import * as sinon from 'sinon'
 import { AuthService } from '../apiServices/AuthService'
 
 const getRequest = require('../http/index')
-const errorHandler = require('../util/errorHandler')
 
 describe('getVersion', () => {
     let getRequestStub: any
-    let errorHandlerStub: any
 
     let AUTH
     beforeEach(() => {
         getRequestStub = sinon.stub(getRequest, 'getRequest')
-        errorHandlerStub = sinon.stub(errorHandler, 'errorHandler')
 
         AUTH = new AuthService('user', 'password')
     })
 
     afterEach(() => {
         getRequestStub.restore()
-        errorHandlerStub.restore()
     })
 
     it('is a function', () => {
@@ -52,7 +48,7 @@ describe('getVersion', () => {
             await AUTH.getVersion()
             expect.fail('getVersion should be rejected')
         } catch (err) {
-            expect(errorHandlerStub.getCall(0).args[0].name).to.equal('400')
+            expect(err.message).to.equal('MythxJS. Error with your request. 400')
         }
     })
 })

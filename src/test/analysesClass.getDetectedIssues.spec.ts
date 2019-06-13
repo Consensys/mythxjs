@@ -1,44 +1,40 @@
 import { expect } from 'chai'
 import * as sinon from 'sinon'
+import * as jwt from 'jsonwebtoken'
 
 import { AnalysesService } from '../apiServices/AnalysesService'
 import { JwtTokensInterface } from '..'
 
-const getHeaders = require('../util/getHeaders')
 const getRequest = require('../http/index')
-const errorHandler = require('../util/errorHandler')
-const isTokenValid = require('../util/validateToken')
 
 describe('getDetectedIssues', () => {
+    const accessToken = {
+        jti: '',
+        iss: '',
+        exp: Math.floor(new Date().getTime() / 1000) + 60 * 20,
+        userId: '',
+        iat: 0,
+    }
     const tokens: JwtTokensInterface = {
-        access: 'access',
+        access: jwt.sign(accessToken, 'secret'),
         refresh: 'refresh',
     }
 
-    let getHeadersStub: any
     let getRequestStub: any
-    let errorHandlerStub: any
-    let isTokenValidStub: any
     let getAnalysesStatusStub: any
 
     let ANALYSES
 
     beforeEach(() => {
-        getHeadersStub = sinon.stub(getHeaders, 'getHeaders')
         getRequestStub = sinon.stub(getRequest, 'getRequest')
-        errorHandlerStub = sinon.stub(errorHandler, 'errorHandler')
-        isTokenValidStub = sinon.stub(isTokenValid, 'isTokenValid')
 
-        isTokenValidStub.returns(true)
-        ANALYSES = new AnalysesService(tokens)
+        ANALYSES = new AnalysesService(tokens, 'MythXJS test')
+
         getAnalysesStatusStub = sinon.stub(ANALYSES, 'getAnalysisStatus')
     })
 
     afterEach(() => {
-        getHeadersStub.restore()
         getRequestStub.restore()
-        errorHandlerStub.restore()
-        isTokenValidStub.restore()
         getAnalysesStatusStub.restore()
     })
 
@@ -53,11 +49,6 @@ describe('getDetectedIssues', () => {
             issues: [],
         }
 
-        getHeadersStub.resolves({
-            headers: 'headers',
-            foo: 'token',
-        })
-
         getAnalysesStatusStub.resolves({
             status: 'Finished',
         })
@@ -68,17 +59,11 @@ describe('getDetectedIssues', () => {
 
         const result = await ANALYSES.getDetectedIssues(uuid)
         expect(result).to.deep.equal(response)
-        expect(getHeadersStub.calledOnce).to.be.true
         expect(getRequestStub.calledWith('https://api.mythx.io/v1/analyses/123-456-789/issues')).to.be.true
     })
 
     it('should fail if there is something wrong with the request', async () => {
         const uuid = '123-456-789'
-
-        getHeadersStub.resolves({
-            headers: 'headers',
-            foo: 'token',
-        })
 
         getAnalysesStatusStub.resolves({
             status: 'Finished',
@@ -90,7 +75,7 @@ describe('getDetectedIssues', () => {
             await ANALYSES.getDetectedIssues(uuid)
             expect.fail('getDetectedIssues should be rejected')
         } catch (err) {
-            expect(errorHandlerStub.getCall(0).args[0].name).to.equal('400')
+            expect(err.message).to.equal('MythxJS. Error with your request. 400')
         }
     })
 })
