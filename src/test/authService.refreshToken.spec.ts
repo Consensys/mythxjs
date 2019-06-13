@@ -16,7 +16,6 @@ describe('refreshToken', () => {
     }
 
     let postRequestStub: any
-    let setCredentialsStub: any
 
     let AUTH
     beforeEach(() => {
@@ -27,8 +26,6 @@ describe('refreshToken', () => {
             access: jwt.sign(accessToken, 'secret'),
             refresh: 'refresh',
         }
-
-        setCredentialsStub = sinon.stub(AUTH, 'setCredentials')
     })
 
     afterEach(() => {
@@ -49,8 +46,9 @@ describe('refreshToken', () => {
         })
 
         const result = await AUTH.refreshToken({ access: 'aa', refresh: 'bb' })
-        expect(setCredentialsStub.calledWith(tokens)).to.be.true
         expect(result).to.equal(tokens)
+        expect(AUTH.jwtTokens.access).to.equal(jwt.sign(accessToken, 'secret'))
+        expect(AUTH.jwtTokens.refresh).to.equal('refresh')
     })
 
     it('should fail with error ', async () => {
