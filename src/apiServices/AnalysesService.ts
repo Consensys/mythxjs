@@ -23,7 +23,7 @@ export class AnalysesService {
         if (isTokenValid(jwtTokens.access)) {
             this.jwtTokens = jwtTokens as JwtTokensInterface
         } else {
-            throw new Error('Access token has expired or is invalid!')
+            throw new Error('Access token has expired or is invalid! Please login again.')
         }
         this.toolName = toolName
     }

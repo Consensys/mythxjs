@@ -1,6 +1,6 @@
 import { AuthService } from './AuthService'
 import { AnalysesService } from './AnalysesService'
-import { JwtTokensInterface } from '..'
+import { JwtTokensInterface, AnalyzeOptions } from '..'
 
 export class ClientService {
     private ethAddress
@@ -62,5 +62,9 @@ export class ClientService {
 
     async submitSourceCode(sourceCode: string, contractName: string) {
         return await this.analysesService.submitSourceCode(sourceCode, contractName)
+    }
+
+    async analyze(options: AnalyzeOptions) {
+        return await this.analysesService.analyze(options)
     }
 }
