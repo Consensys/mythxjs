@@ -103,7 +103,7 @@ export class AuthService {
         }
     }
 
-    public async getStats(queryString: string) {
+    public async getStats(queryString?: string) {
         if (this.isUserLoggedIn()) {
             try {
                 const { headers, accessToken } = await getHeaders(this.jwtTokens)

@@ -20,6 +20,7 @@ export class ClientService {
     async login(): Promise<JwtTokensInterface> {
         this.jwtTokens = await this.authService.login(this.ethAddress, this.password)
         this.analysesService = new AnalysesService(this.jwtTokens, this.toolName)
+        console.log(this.jwtTokens, 'tokensss')
         return this.jwtTokens
     }
 
@@ -37,6 +38,10 @@ export class ClientService {
 
     async refreshToken(jwtTokens?: JwtTokensInterface) {
         return await this.analysesService.refreshToken(jwtTokens)
+    }
+
+    async getStats(queryString?: string) {
+        return await this.authService.getStats(queryString)
     }
 
     async getAnalysesList() {
