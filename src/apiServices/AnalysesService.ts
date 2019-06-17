@@ -47,7 +47,6 @@ export class AnalysesService {
             this.jwtTokens.access = accessToken
 
             const result = await getRequest(`${this.apiUrl}/analyses/${uuid}`, headers)
-            console.log('getAnalysisStatus response:', result.data)
 
             return result.data
         } catch (err) {
@@ -74,7 +73,6 @@ export class AnalysesService {
             }
 
             const result = await getRequest(`${this.apiUrl}/analyses/${uuid}/issues`, headers)
-            console.log('GetDetectedIssues response:', result.data)
 
             return result.data
         } catch (err) {
@@ -90,7 +88,6 @@ export class AnalysesService {
             const request = generateBytecodeRequest(bytecode, this.toolName)
 
             const result = await postRequest(`${this.apiUrl}/analyses`, request, headers)
-            console.log('submitContract with bytecode only response:', result.data)
 
             return result.data
         } catch (err) {
@@ -106,7 +103,6 @@ export class AnalysesService {
             const request = generateSourceCodeRequest(sourceCode, contractName, this.toolName)
 
             const result = await postRequest(`${this.apiUrl}/analyses`, request, headers)
-            console.log('submitContract with sourcecode only response:', result.data)
 
             return result.data
         } catch (err) {
@@ -122,7 +118,6 @@ export class AnalysesService {
             const request = generateAnalysisRequest(options, this.toolName)
 
             const result = await postRequest(`${this.apiUrl}/analyses`, request, headers)
-            console.log('submitContract with analyze object response:', result.data)
 
             return result.data
         } catch (err) {
