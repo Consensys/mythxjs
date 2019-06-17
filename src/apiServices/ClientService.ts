@@ -3,8 +3,8 @@ import { AnalysesService } from './AnalysesService'
 import { JwtTokensInterface, AnalyzeOptions } from '..'
 
 /**
- * Main service exposed to outside
- * Needs to be instatiated with username, password and toolName (optional) fields
+ * Main service exposed to outside.
+ * Needs to be instantiated with username, password and toolName (optional) fields.
  * @example
  * `let myClass = new ClientService('user', 'pass', 'testTool');`
  */
@@ -53,8 +53,8 @@ export class ClientService {
     }
 
     /**
-     *  Login to the API using a set of pre-existing tokens
-     *   Can be used when user has previously log in and stored those tokens in memory
+     *  Login to the API using a set of pre-existing tokens.
+     *   Can be used when user has previously log in and stored those tokens in memory.
      * @param jwtTokens object containing access + refresh token
      * - example: loginWithToken({access:'foo', refresh: 'foo2'})
      * @return {void}
@@ -64,7 +64,7 @@ export class ClientService {
     }
 
     /**
-     *  Logout from the API
+     *  Logout from the API.
      * @returns Resolves with API response or throw error
      */
     async logout() {
@@ -72,8 +72,8 @@ export class ClientService {
     }
 
     /**
-     *   Returns API current version
-     *   Does not require login
+     *   Returns API current version.
+     *   Does not require login.
      */
     async getVersion() {
         return await this.authService.getVersion()
@@ -89,8 +89,8 @@ export class ClientService {
     }
 
     /**
-     *   Returns API stats
-     *   Internal only
+     *   Returns API stats.
+     *   Internal only, needs admin credentials to be accessed.
      */
     async getStats(queryString?: string) {
         return await this.authService.getStats(queryString)
@@ -101,7 +101,7 @@ export class ClientService {
     }
 
     /**
-     * Get status for analysis on given UUID
+     * Get status for analysis on given UUID.
      * @param uuid - unique identifier of analysis job
      * @return {Promise<any>} Resolves with API response, or throws error
      */
@@ -120,7 +120,7 @@ export class ClientService {
     }
 
     /**
-     * Submit a smart contract using bytecode only
+     * Submit a smart contract using bytecode only.
      *
      * @param {String} bytecode - Compiled bytecode of a smart contract for example "0xfe".
      * @return {Promise} Resolves with API response, or throws an
@@ -131,7 +131,7 @@ export class ClientService {
     }
 
     /**
-     * Submit a smart contract using sourcecode only
+     * Submit a smart contract using sourcecode only.
      *
      * @param {String} sourceCode - String containing smart contract sourcecode.
      * @param {String} contractName - Name of the contract to submit for analysis.
@@ -143,7 +143,7 @@ export class ClientService {
     }
 
     /**
-     * Submit a smart contract using sourcecode only
+     * Submit a smart contract using custom parameters.
      *
      * @param {Object} options - Object containing options to submit to API
      * @return {Promise} Resolves with API response, or throws an
