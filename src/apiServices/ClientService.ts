@@ -2,12 +2,36 @@ import { AuthService } from './AuthService'
 import { AnalysesService } from './AnalysesService'
 import { JwtTokensInterface, AnalyzeOptions } from '..'
 
+/**
+ * Main service exposed to outside
+ * Needs to be instatiated with username, password and toolName (optional) fields
+ * @example
+ * `let myClass = new ClientService('user', 'pass', 'testTool');`
+ */
 export class ClientService {
+    /**
+     * @ignore
+     */
     private ethAddress
+    /**
+     * @ignore
+     */
     private password
+    /**
+     * @ignore
+     */
     private authService
+    /**
+     * @ignore
+     */
     private analysesService
+    /**
+     * @ignore
+     */
     private jwtTokens
+    /**
+     * @ignore
+     */
     private toolName
 
     constructor(ethAddress: string, password: string, toolName: string = 'MythXJS') {
@@ -17,29 +41,57 @@ export class ClientService {
         this.toolName = toolName
     }
 
+    /**
+     *  Login to the API using ethAddress and password specified in the library constructor.
+     * @return {Promise<JwtTokensInterface>}  Returns an object containing two tokens (access+refresh) that can be saved in storage.
+     */
     async login(): Promise<JwtTokensInterface> {
         this.jwtTokens = await this.authService.login(this.ethAddress, this.password)
         this.analysesService = new AnalysesService(this.jwtTokens, this.toolName)
-        console.log(this.jwtTokens, 'tokensss')
+
         return this.jwtTokens
     }
 
-    async loginWithToken(jwtTokens: JwtTokensInterface) {
+    /**
+     *  Login to the API using a set of pre-existing tokens
+     *   Can be used when user has previously log in and stored those tokens in memory
+     * @param jwtTokens object containing access + refresh token
+     * - example: loginWithToken({access:'foo', refresh: 'foo2'})
+     * @return {void}
+     */
+    loginWithToken(jwtTokens: JwtTokensInterface) {
         this.analysesService = new AnalysesService(jwtTokens)
     }
 
+    /**
+     *  Logout from the API
+     * @returns Resolves with API response or throw error
+     */
     async logout() {
         return await this.authService.logout()
     }
 
+    /**
+     *   Returns API current version
+     *   Does not require login
+     */
     async getVersion() {
         return await this.authService.getVersion()
     }
 
+    /**
+     *  Refresh current set of tokens.
+     * @param jwtTokens - Object containing access + refresh token
+     * @return {Promise<any>}  Returns new set of tokens or throws error.
+     */
     async refreshToken(jwtTokens?: JwtTokensInterface) {
-        return await this.analysesService.refreshToken(jwtTokens)
+        return await this.authService.refreshToken(jwtTokens)
     }
 
+    /**
+     *   Returns API stats
+     *   Internal only
+     */
     async getStats(queryString?: string) {
         return await this.authService.getStats(queryString)
     }
@@ -48,22 +100,55 @@ export class ClientService {
         return await this.analysesService.getAnalysesList()
     }
 
+    /**
+     * Get status for analysis on given UUID
+     * @param uuid - unique identifier of analysis job
+     * @return {Promise<any>} Resolves with API response, or throws error
+     */
     async getAnalysisStatus(uuid: string) {
         return await this.analysesService.getAnalysisStatus(uuid)
     }
 
+    /**
+     * Gets the array of issues from the API.
+     *
+     * @param {String} uuid - unique identifier of analysis job
+     * @returns {Promise} Resolves with API response, or throws error
+     */
     async getDetectedIssues(uuid: string) {
         return await this.analysesService.getDetectedIssues(uuid)
     }
 
-    async submitBytecode(bytecode: string) {
+    /**
+     * Submit a smart contract using bytecode only
+     *
+     * @param {String} bytecode - Compiled bytecode of a smart contract for example "0xfe".
+     * @return {Promise} Resolves with API response, or throws an
+     *  an error.
+     */
+    async submitBytecode(bytecode: string): Promise<any> {
         return await this.analysesService.submitBytecode(bytecode)
     }
 
+    /**
+     * Submit a smart contract using sourcecode only
+     *
+     * @param {String} sourceCode - String containing smart contract sourcecode.
+     * @param {String} contractName - Name of the contract to submit for analysis.
+     * @return {Promise} Resolves with API response, or throws an
+     *  an error.
+     */
     async submitSourceCode(sourceCode: string, contractName: string) {
         return await this.analysesService.submitSourceCode(sourceCode, contractName)
     }
 
+    /**
+     * Submit a smart contract using sourcecode only
+     *
+     * @param {Object} options - Object containing options to submit to API
+     * @return {Promise} Resolves with API response, or throws an
+     *  an error.
+     */
     async analyze(options: AnalyzeOptions) {
         return await this.analysesService.analyze(options)
     }

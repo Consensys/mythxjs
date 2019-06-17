@@ -26,9 +26,6 @@ export class AuthService {
             const result = await loginUser(this.ethAddress, this.password, `${API_URL_PRODUCTION}/auth/login`)
             const tokens: JwtTokensInterface = result.data.jwtTokens
             this.setCredentials(tokens)
-            console.log('You are logged in!')
-            console.log(`Access: ${tokens.access}`)
-            console.log(`Refresh: ${tokens.refresh}`)
 
             return tokens
         } catch (err) {

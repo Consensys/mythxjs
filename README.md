@@ -19,7 +19,7 @@ Creating a new instance of the library using ES6 modules
 ```
 import { Client } from 'mythxjs'
 
-const mythx = new Client('0x0000000000000000000000000000000000000000', 'trial');
+const mythx = new Client('0x0000000000000000000000000000000000000000', 'trial', 'testTool');
 ```
 
 Performing a `login` request
@@ -53,7 +53,7 @@ For the versions available, see [the tags on this repository](https://github.com
 
 ## Projects using MythxJS
 
-:(
+TBA
 
 ## See also
 
