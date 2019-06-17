@@ -28,7 +28,8 @@
     "scripts": {
         "build": "tsc",
         "test": "nyc mocha -r ts-node/register src/**/*.spec.ts",
-        "precommit": "lint-staged"
+        "precommit": "lint-staged",
+        "docs": "typedoc --out docs src"
     },
     "lint-staged": {
         "*.ts": [
