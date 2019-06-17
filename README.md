@@ -43,6 +43,9 @@ Getting a list of detected issues
 await mythx.getDetectedIssues('1111-2222-3333-4444')
 ```
 
+## Documentation
+For a complete list of functionality available on the library please check our [docs](https://consensys.github.io/mythxjs/classes/_apiservices_clientservice_.clientservice.html)
+
 ## Contributing
 
 Please read [CONTRIBUTING.md](https://github.com/ConsenSys/mythxjs/blob/master/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.

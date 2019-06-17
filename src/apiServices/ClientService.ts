@@ -5,8 +5,11 @@ import { JwtTokensInterface, AnalyzeOptions } from '..'
 /**
  * Main service exposed to outside.
  * Needs to be instantiated with username, password and toolName (optional) fields.
+ * Please note that this is exported as `Client`.
  * @example
- * `let myClass = new ClientService('user', 'pass', 'testTool');`
+ * `import { Client } from 'mythxjs'`.
+ *
+ * `const mythx = new Client('0x0000000000000000000000000000000000000000', 'trial', 'testTool');`
  */
 export class ClientService {
     /**
