@@ -33,10 +33,10 @@ export class AuthService {
         }
     }
 
-    public async loginWithMetamask(message: string): Promise<JwtTokensInterface | void> {
+    public async loginWithMetamask(signature: string): Promise<JwtTokensInterface | void> {
         try {
             const headers = {
-                Authorization: `MetaMask ${message}`,
+                Authorization: `MetaMask ${signature}`,
             }
             const result = await postRequest(`${API_URL_PRODUCTION}/auth/login`, null, headers)
             const tokens: JwtTokensInterface = result.data.jwtTokens
