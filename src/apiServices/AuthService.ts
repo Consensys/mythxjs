@@ -33,6 +33,21 @@ export class AuthService {
         }
     }
 
+    public async loginWithMetamask(message: string): Promise<JwtTokensInterface | void> {
+        try {
+            const headers = {
+                Authorization: `MetaMask ${message}`,
+            }
+            const result = await postRequest(`${API_URL_PRODUCTION}/auth/login`, null, headers)
+            const tokens: JwtTokensInterface = result.data.jwtTokens
+            this.setCredentials(tokens)
+
+            return tokens
+        } catch (err) {
+            errorHandler(err)
+        }
+    }
+
     public async logout() {
         if (this.isUserLoggedIn()) {
             try {
@@ -114,6 +129,15 @@ export class AuthService {
             }
         } else {
             throw new Error('MythxJS no valid token found. Please login.')
+        }
+    }
+
+    public async getChallenge(): Promise<any | void> {
+        try {
+            const result = await getRequest(`${API_URL_PRODUCTION}/auth/challenge?ethAddress=${this.ethAddress}`, {})
+            return result.data
+        } catch (err) {
+            console.error(err)
         }
     }
 

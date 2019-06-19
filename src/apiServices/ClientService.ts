@@ -67,6 +67,26 @@ export class ClientService {
     }
 
     /**
+     *  Login to the API using metamask challenge result message.
+     *  In order to get the message use `getChallenge` and handle Metamask login in the frontend.
+     * @param message string returned from `getChallenge`
+     * @return {Promise<JwtTokensInterface>}  Returns an object containing two tokens (access+refresh) that can be saved in storage.
+     */
+    async loginWithMetamask(message: string): Promise<JwtTokensInterface | void> {
+        return await this.authService.loginWithMetamask(message)
+    }
+
+    /**
+     *  Generates authentication challenge (Metamask only for now).
+     *  The Metamask flow needs to be handled on the front end since MythXJS does not have Web3 dependencies.
+     * @returns Resolves with API response or throw error
+     */
+
+    async getChallenge(): Promise<any | void> {
+        return await this.authService.getChallenge()
+    }
+
+    /**
      *  Logout from the API.
      * @returns Resolves with API response or throw error
      */
