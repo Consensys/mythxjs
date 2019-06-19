@@ -69,7 +69,7 @@ export class ClientService {
     /**
      *  Login to the API using metamask challenge result message.
      *  In order to get the object containing the message use `getChallenge` and handle Metamask login in the frontend.
-     * @param message string returned from `getChallenge`
+     * @param message message.value property contained in object returned from `getChallenge`.
      * @return {Promise<JwtTokensInterface>}  Returns an object containing two tokens (access+refresh) that can be saved in storage.
      */
     async loginWithMetamask(message: string): Promise<JwtTokensInterface | void> {
