@@ -137,7 +137,7 @@ export class AuthService {
             const result = await getRequest(`${API_URL_PRODUCTION}/auth/challenge?ethAddress=${this.ethAddress}`, {})
             return result.data
         } catch (err) {
-            console.error(err)
+            errorHandler(err)
         }
     }
 
