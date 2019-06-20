@@ -70,10 +70,11 @@ export class ClientService {
      *  Login to the API using metamask challenge result message.
      *  In order to get the object containing the message use `getChallenge` and handle Metamask login in the frontend.
      * @param signature message.value property contained in object returned from `getChallenge`.
+     * @param provider pass a provider value for the HTTP headers. If nothing is passed defaults to MetaMask
      * @return {Promise<JwtTokensInterface>}  Returns an object containing two tokens (access+refresh) that can be saved in storage.
      */
-    async loginWithSignature(signature: string): Promise<JwtTokensInterface | void> {
-        return await this.authService.loginWithSignature(signature)
+    async loginWithSignature(signature: string, provider: string): Promise<JwtTokensInterface | void> {
+        return await this.authService.loginWithSignature(signature, provider)
     }
 
     /**
