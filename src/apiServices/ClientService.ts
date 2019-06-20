@@ -72,8 +72,8 @@ export class ClientService {
      * @param signature message.value property contained in object returned from `getChallenge`.
      * @return {Promise<JwtTokensInterface>}  Returns an object containing two tokens (access+refresh) that can be saved in storage.
      */
-    async loginWithMetamask(signature: string): Promise<JwtTokensInterface | void> {
-        return await this.authService.loginWithMetamask(signature)
+    async loginWithSignature(signature: string): Promise<JwtTokensInterface | void> {
+        return await this.authService.loginWithSignature(signature)
     }
 
     /**

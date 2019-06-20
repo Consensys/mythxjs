@@ -33,7 +33,7 @@ export class AuthService {
         }
     }
 
-    public async loginWithMetamask(signature: string): Promise<JwtTokensInterface | void> {
+    public async loginWithSignature(signature: string): Promise<JwtTokensInterface | void> {
         try {
             const headers = {
                 Authorization: `MetaMask ${signature}`,

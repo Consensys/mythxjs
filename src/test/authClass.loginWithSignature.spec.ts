@@ -6,7 +6,7 @@ import { JwtTokensInterface } from '..'
 
 const postRequest = require('../http/index')
 
-describe('loginWithMetamask', () => {
+describe('loginWithSignature', () => {
     const tokens: JwtTokensInterface = {
         access: 'access',
         refresh: 'refresh',
@@ -30,7 +30,7 @@ describe('loginWithMetamask', () => {
     })
 
     it('is a function', () => {
-        expect(AUTH.loginWithMetamask).to.be.a('function')
+        expect(AUTH.loginWithSignature).to.be.a('function')
     })
 
     it('should return and set access and refresh tokens', async () => {
@@ -38,7 +38,7 @@ describe('loginWithMetamask', () => {
             data: { jwtTokens: tokens },
         })
 
-        const result = await AUTH.loginWithMetamask()
+        const result = await AUTH.loginWithSignature()
 
         expect(setCredentialsStub.calledWith(tokens)).to.be.true
         expect(result).to.equal(tokens)
@@ -48,8 +48,8 @@ describe('loginWithMetamask', () => {
         postRequestStub.throws('400')
 
         try {
-            await AUTH.loginWithMetamask()
-            expect.fail('loginWithMetamask should be rejected')
+            await AUTH.loginWithSignature()
+            expect.fail('loginWithSignature should be rejected')
         } catch (err) {
             expect(err.message).to.equal('MythxJS. Error with your request. 400')
         }
