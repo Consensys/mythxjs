@@ -13,14 +13,12 @@ describe('loginWithSignature', () => {
     }
 
     let postRequestStub: any
-    let setCredentialsStub: any
 
     let AUTH
     beforeEach(() => {
         postRequestStub = sinon.stub(postRequest, 'postRequest')
 
         AUTH = new AuthService('user', 'password')
-        setCredentialsStub = sinon.stub(AUTH, 'setCredentials')
     })
 
     afterEach(() => {
@@ -40,7 +38,6 @@ describe('loginWithSignature', () => {
 
         const result = await AUTH.loginWithSignature()
 
-        expect(setCredentialsStub.calledWith(tokens)).to.be.true
         expect(result).to.equal(tokens)
     })
 
