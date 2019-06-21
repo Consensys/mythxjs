@@ -46,6 +46,8 @@ export class ClientService {
 
     /**
      *  Login to the API using ethAddress and password specified in the library constructor.
+     * @param ethAddress Ethereum address for Mythx account
+     * @param password  Password for Ethereum address
      * @return {Promise<JwtTokensInterface>}  Returns an object containing two tokens (access+refresh) that can be saved in storage.
      */
     async login(ethAddress?: string, password?: string): Promise<JwtTokensInterface> {
