@@ -23,20 +23,20 @@ describe('getChallenge', () => {
         expect(AUTH.getChallenge).to.be.a('function')
     })
 
-    it('returns a object'),
-        async () => {
-            const value = {
-                domain: { name: 'MythX API Platform' },
-                message: { value: 'message' },
-                primaryType: 'Challenge',
-                types: {},
-            }
-
-            getRequestStub.resolves({ data: value })
-
-            const result = await AUTH.getChallenge()
-            expect(result).to.deep.equal(value)
+    it('returns a object', async () => {
+        const value = {
+            domain: { name: 'MythX API Platform' },
+            message: { value: 'message' },
+            primaryType: 'Challenge',
+            types: {},
         }
+
+        getRequestStub.resolves({ data: value })
+
+        const result = await AUTH.getChallenge()
+        console.error(result)
+        expect(result).to.deep.equal(value)
+    })
 
     it('should fail if there is something wrong with the request', async () => {
         getRequestStub.throws('400')

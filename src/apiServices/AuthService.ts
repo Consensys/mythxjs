@@ -39,7 +39,7 @@ export class AuthService {
 
     /**
      *  Login to the API using metamask challenge result message.
-     *  In order to get the object containing the message use `getChallenge` and handle Metamask login in the frontend.
+     *  In order to get the object containing the message, use `getChallenge` and handle Metamask login in the frontend.
      * @param signature message.value property contained in object returned from `getChallenge`.
      * @param provider pass a provider value for the HTTP headers. If nothing is passed defaults to MetaMask
      * @return {Promise<JwtTokensInterface>}  Returns an object containing two tokens (access+refresh) that can be saved in storage.
@@ -154,8 +154,7 @@ export class AuthService {
      */
     public async getChallenge(ethAddress?: string): Promise<any | void> {
         try {
-            let address
-            ethAddress ? (address = ethAddress) : (address = this.ethAddress)
+            const address = ethAddress ? ethAddress : this.ethAddress
             const result = await getRequest(`${API_URL_PRODUCTION}/auth/challenge?ethAddress=${address}`, {})
             return result.data
         } catch (err) {
