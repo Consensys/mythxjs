@@ -21,9 +21,38 @@ export class AuthService {
         this.password = password as string
     }
 
-    public async login(): Promise<JwtTokensInterface | undefined> {
+    public async login(ethAddress?: string, password?: string): Promise<JwtTokensInterface | undefined> {
         try {
+            if (ethAddress && password) {
+                this.ethAddress = ethAddress
+                this.password = password
+            }
             const result = await loginUser(this.ethAddress, this.password, `${API_URL_PRODUCTION}/auth/login`)
+            const tokens: JwtTokensInterface = result.data.jwtTokens
+            this.setCredentials(tokens)
+
+            return tokens
+        } catch (err) {
+            errorHandler(err)
+        }
+    }
+
+    /**
+     *  Login to the API using metamask challenge result message.
+     *  In order to get the object containing the message, use `getChallenge` and handle Metamask login in the frontend.
+     * @param signature message.value property contained in object returned from `getChallenge`.
+     * @param provider pass a provider value for the HTTP headers. If nothing is passed defaults to MetaMask
+     * @return {Promise<JwtTokensInterface>}  Returns an object containing two tokens (access+refresh) that can be saved in storage.
+     */
+    public async loginWithSignature(
+        signature: string,
+        provider: string = 'MetaMask',
+    ): Promise<JwtTokensInterface | void> {
+        try {
+            const headers = {
+                Authorization: `${provider} ${signature}`,
+            }
+            const result = await postRequest(`${API_URL_PRODUCTION}/auth/login`, null, headers)
             const tokens: JwtTokensInterface = result.data.jwtTokens
             this.setCredentials(tokens)
 
@@ -114,6 +143,22 @@ export class AuthService {
             }
         } else {
             throw new Error('MythxJS no valid token found. Please login.')
+        }
+    }
+
+    /**
+     *  Generates authentication challenge (Metamask only for now).
+     *  The Metamask flow needs to be handled on the front end since MythXJS does not have Web3 dependencies.
+     * @param ethAddress Ethereum address for Mythx account
+     * @returns Resolves with API response or throw error
+     */
+    public async getChallenge(ethAddress?: string): Promise<any | void> {
+        try {
+            const address = ethAddress ? ethAddress : this.ethAddress
+            const result = await getRequest(`${API_URL_PRODUCTION}/auth/challenge?ethAddress=${address}`, {})
+            return result.data
+        } catch (err) {
+            errorHandler(err)
         }
     }
 

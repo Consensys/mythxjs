@@ -37,7 +37,7 @@ export class ClientService {
      */
     private toolName
 
-    constructor(ethAddress: string, password: string, toolName: string = 'MythXJS') {
+    constructor(ethAddress?: string, password?: string, toolName: string = 'MythXJS') {
         this.ethAddress = ethAddress
         this.password = password
         this.authService = new AuthService(ethAddress, password)
@@ -46,9 +46,15 @@ export class ClientService {
 
     /**
      *  Login to the API using ethAddress and password specified in the library constructor.
+     * @param ethAddress Ethereum address for Mythx account
+     * @param password  Password for Ethereum address
      * @return {Promise<JwtTokensInterface>}  Returns an object containing two tokens (access+refresh) that can be saved in storage.
      */
-    async login(): Promise<JwtTokensInterface> {
+    async login(ethAddress?: string, password?: string): Promise<JwtTokensInterface> {
+        if (ethAddress && password) {
+            this.ethAddress = ethAddress
+            this.password = password
+        }
         this.jwtTokens = await this.authService.login(this.ethAddress, this.password)
         this.analysesService = new AnalysesService(this.jwtTokens, this.toolName)
 
@@ -64,6 +70,28 @@ export class ClientService {
      */
     loginWithToken(jwtTokens: JwtTokensInterface) {
         this.analysesService = new AnalysesService(jwtTokens)
+    }
+
+    /**
+     *  Login to the API using metamask challenge result message.
+     *  In order to get the object containing the message use `getChallenge` and handle Metamask login in the frontend.
+     * @param signature Signature passed by provider. In case of metamask this will be returned after signing challenge.
+     * @param provider pass a provider value for the HTTP headers. If nothing is passed defaults to MetaMask
+     * @return {Promise<JwtTokensInterface>}  Returns an object containing two tokens (access+refresh) that can be saved in storage.
+     */
+    async loginWithSignature(signature: string, provider: string): Promise<JwtTokensInterface | void> {
+        return await this.authService.loginWithSignature(signature, provider)
+    }
+
+    /**
+     *  Generates authentication challenge (Metamask only for now).
+     *  The Metamask flow needs to be handled on the front end since MythXJS does not have Web3 dependencies.
+     * @param ethAddress Ethereum address for Mythx account
+     * @returns Resolves with API response or throw error
+     */
+
+    async getChallenge(ethAddress?: string): Promise<any | void> {
+        return await this.authService.getChallenge(ethAddress)
     }
 
     /**

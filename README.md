@@ -43,6 +43,53 @@ Getting a list of detected issues
 await mythx.getDetectedIssues('1111-2222-3333-4444')
 ```
 
+### Logging in with MetaMask
+In order to keep MythXJS as lean as possible we do not handle MetaMask integration ourself. Instead we provide two methods: getChallenge() and loginWithSignature() and leave the user handle the MetaMask integration the way they better prefer on their front end. This also lets the user work with their preffered version of `web3`.
+
+Example using react app and `web3@1.0.0-beta.37`:
+```
+const handleSignMessage = (account, data) => {
+    try {
+        return new Promise((resolve) => {
+            const {value} = data.message
+            if (!account) {
+              console.error('no-account')
+            }
+              const params = [account, JSON.stringify(data)]
+              web3.currentProvider.send(
+                        { method: 'eth_signTypedData_v3', params, from: account },
+                        (err, result) => {
+                          if (err || result.error) {
+                            console.error('Error with handling signature.', err)
+                          }
+                          resolve(value + '.' + result.result)
+                        }
+                    )
+            }).catch((error) => {
+              console.error(error)
+            })
+    } catch(err) {
+        console.error(err)
+    }
+}
+
+const loginWithMM = async () => {
+    const accounts = await web3.eth.getAccounts();
+    const account = accounts[0]
+
+    const data = await mythx.getChallenge(account.toLowerCase())
+    
+    handleSignMessage(account, data).then(
+        async (message) => {
+            // Returns set of tokens
+            const result = await mythx.loginWithSignature(message)
+            console.log(result, 'ress')
+        }
+    ).catch(err => console.error(err))
+}
+```
+
+
 ## Documentation
 For a complete list of functionality available on the library please check our [docs](https://consensys.github.io/mythxjs/classes/_apiservices_clientservice_.clientservice.html)
 
