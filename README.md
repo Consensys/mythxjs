@@ -86,7 +86,8 @@ const loginWithMM = async () => {
             console.log(result, 'ress')
         }
     ).catch(err => console.error(err))
-}```
+}
+```
 
 
 ## Documentation
