@@ -149,11 +149,14 @@ export class AuthService {
     /**
      *  Generates authentication challenge (Metamask only for now).
      *  The Metamask flow needs to be handled on the front end since MythXJS does not have Web3 dependencies.
+     * @param ethAddress Ethereum address for Mythx account
      * @returns Resolves with API response or throw error
      */
-    public async getChallenge(): Promise<any | void> {
+    public async getChallenge(ethAddress?: string): Promise<any | void> {
         try {
-            const result = await getRequest(`${API_URL_PRODUCTION}/auth/challenge?ethAddress=${this.ethAddress}`, {})
+            let address
+            ethAddress ? (address = ethAddress) : (address = this.ethAddress)
+            const result = await getRequest(`${API_URL_PRODUCTION}/auth/challenge?ethAddress=${address}`, {})
             return result.data
         } catch (err) {
             errorHandler(err)
