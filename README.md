@@ -16,7 +16,7 @@ npm install mythxjs
 
 Creating a new instance of the library using ES6 modules
 
-```
+```typescript
 import { Client } from 'mythxjs'
 
 const mythx = new Client('0x0000000000000000000000000000000000000000', 'trial', 'testTool');
@@ -24,7 +24,7 @@ const mythx = new Client('0x0000000000000000000000000000000000000000', 'trial', 
 
 Performing a `login` request
 
-```
+```typescript
 // Logs in and returns an object containing access and refresh token
 const tokens = await mythx.login()
 
@@ -32,14 +32,14 @@ const tokens = await mythx.login()
 
 Submitting an analysis using bytecode only
 
-```
+```typescript
 const bytecode = '0xfe'
 await mythx.submitBytecode(bytecode)
 ```
 
 Getting a list of detected issues
 
-```
+```typescript
 await mythx.getDetectedIssues('1111-2222-3333-4444')
 ```
 
@@ -47,7 +47,7 @@ await mythx.getDetectedIssues('1111-2222-3333-4444')
 In order to keep MythXJS as lean as possible we do not handle MetaMask integration ourself. Instead we provide two methods: getChallenge() and loginWithSignature() and leave the user handle the MetaMask integration the way they better prefer on their front end. This also lets the user work with their preffered version of `web3`.
 
 Example using react app and `web3@1.0.0-beta.37`:
-```
+```typescript
 const handleSignMessage = (account, data) => {
     try {
         return new Promise((resolve) => {
