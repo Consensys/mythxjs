@@ -21,8 +21,12 @@ export class AuthService {
         this.password = password as string
     }
 
-    public async login(): Promise<JwtTokensInterface | undefined> {
+    public async login(ethAddress?: string, password?: string): Promise<JwtTokensInterface | undefined> {
         try {
+            if (ethAddress && password) {
+                this.ethAddress = ethAddress
+                this.password = password
+            }
             const result = await loginUser(this.ethAddress, this.password, `${API_URL_PRODUCTION}/auth/login`)
             const tokens: JwtTokensInterface = result.data.jwtTokens
             this.setCredentials(tokens)
