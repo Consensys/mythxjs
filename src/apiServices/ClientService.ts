@@ -127,6 +127,15 @@ export class ClientService {
         return await this.authService.getStats(queryString)
     }
 
+    /**
+     * Retrieve list of registred API users or just caller user object if no required permission.
+     * @param queryString Query string for detailed list (query parameters: offset, orderBy, email, ethAddress)
+     * @returns Resolves with API response or throw error
+     */
+    async getUsers(queryString: string) {
+        return await this.authService.getUsers(queryString)
+    }
+
     async getAnalysesList() {
         return await this.analysesService.getAnalysesList()
     }

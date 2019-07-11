@@ -162,6 +162,30 @@ export class AuthService {
         }
     }
 
+    /**
+     * Retrieve list of registred API users. Allows lookup by email and Ethereum addresses.
+     * If no USER_LOOKUP permission it will just retrieve the caller user id.
+     * @param queryString Query string for detailed list (query parameters: offset, orderBy, email, ethAddress)
+     * @returns Resolves with API response or throw error
+     */
+
+    public async getUsers(queryString?: string) {
+        if (this.isUserLoggedIn()) {
+            try {
+                const { headers, accessToken } = await getHeaders(this.jwtTokens)
+                this.jwtTokens.access = accessToken
+
+                const result = await getRequest(`${API_URL_PRODUCTION}/users?${queryString}`, headers)
+
+                return result.data
+            } catch (err) {
+                errorHandler(err)
+            }
+        } else {
+            throw new Error('MythxJS no valid token found. Please login.')
+        }
+    }
+
     private isUserLoggedIn() {
         return !!this.jwtTokens.access && !!this.jwtTokens.refresh
     }
