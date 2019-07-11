@@ -163,13 +163,12 @@ export class AuthService {
     }
 
     /**
-     * Retrieve list of registred API users. Allows lookup by email and Ethereum addresses.
-     * If no USER_LOOKUP permission it will just retrieve the caller user id.
+     * Retrieve list of registred API users or just caller user object if no required permission.
      * @param queryString Query string for detailed list (query parameters: offset, orderBy, email, ethAddress)
      * @returns Resolves with API response or throw error
      */
 
-    public async getUsers(queryString?: string) {
+    public async getUsers(queryString: string = '') {
         if (this.isUserLoggedIn()) {
             try {
                 const { headers, accessToken } = await getHeaders(this.jwtTokens)
