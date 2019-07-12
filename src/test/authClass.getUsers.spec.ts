@@ -6,7 +6,7 @@ import { AuthService } from '../apiServices/AuthService'
 
 const getRequest = require('../http/index')
 
-describe('getStats', () => {
+describe('getUsers', () => {
     const accessToken = {
         jti: '',
         iss: '',
@@ -38,27 +38,34 @@ describe('getStats', () => {
     })
 
     it('is a function', () => {
-        expect(AUTH.getStats).to.be.a('function')
+        expect(AUTH.getUsers).to.be.a('function')
     })
 
-    it('returns an object containg stats', async () => {
-        const response = [
-            {
-                from: '2018-01-01T00:00:00.000Z',
-                interval: 'LIFE_TIME',
-                createdAt: '2019-06-14T12:32:59.794Z',
-                type: 'USERS_ANALYSES',
-                revision: 14,
-                data: { numUsers: [], numAnalyses: [], analysis: [] },
-            },
-        ]
+    it('returns an object containg user object', async () => {
+        const response = {
+            total: 1,
+            users: [
+                {
+                    id: '5c18ee88eba3190015f7bc02',
+                    createdAt: '2018-12-18T12:56:40.000Z',
+                    email: {},
+                    ethAddress: '0x79b483371e87d664cd39491b5f06250165e4b184',
+                    roles: ['trusted_user', 'Free'],
+                    preferences: {
+                        newsletter: false,
+                    },
+                    termsId: 'no_terms',
+                },
+            ],
+        }
+
         isUserLoggedInStub.returns(true)
 
         getRequestStub.resolves({
             data: response,
         })
 
-        const result = await AUTH.getStats()
+        const result = await AUTH.getUsers()
         expect(result).to.deep.equal(response)
     })
 
@@ -68,8 +75,8 @@ describe('getStats', () => {
         getRequestStub.throws('400')
 
         try {
-            await AUTH.getStats()
-            expect.fail('getStats should be rejected')
+            await AUTH.getUsers()
+            expect.fail('getUsers should be rejected')
         } catch (err) {
             expect(err.message).to.equal('MythxJS. Error with your request. 400')
         }

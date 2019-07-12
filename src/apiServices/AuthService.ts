@@ -162,6 +162,29 @@ export class AuthService {
         }
     }
 
+    /**
+     * Retrieve list of registred API users or just caller user object if no required permission.
+     * @param queryString Query string for detailed list (query parameters: offset, orderBy, email, ethAddress)
+     * @returns Resolves with API response or throw error
+     */
+
+    public async getUsers(queryString: string = '') {
+        if (this.isUserLoggedIn()) {
+            try {
+                const { headers, accessToken } = await getHeaders(this.jwtTokens)
+                this.jwtTokens.access = accessToken
+
+                const result = await getRequest(`${API_URL_PRODUCTION}/users?${queryString}`, headers)
+
+                return result.data
+            } catch (err) {
+                errorHandler(err)
+            }
+        } else {
+            throw new Error('MythxJS no valid token found. Please login.')
+        }
+    }
+
     private isUserLoggedIn() {
         return !!this.jwtTokens.access && !!this.jwtTokens.refresh
     }
