@@ -4,12 +4,12 @@ import { JwtTokensInterface, AnalyzeOptions } from '..'
 
 /**
  * Main service exposed to outside.
- * Needs to be instantiated with username, password and toolName (optional) fields.
+ * Needs to be instantiated with username, password, toolName (optional) and environment (optional) fields. If no environment specified it will default to prod.
  * Please note that this is exported as `Client`.
  * @example
  * `import { Client } from 'mythxjs'`.
  *
- * `const mythx = new Client('0x0000000000000000000000000000000000000000', 'trial', 'testTool');`
+ * `const mythx = new Client('0x0000000000000000000000000000000000000000', 'trial', 'testTool', 'https://staging.api.mythx.io/v1/');`
  */
 export class ClientService {
     /**
