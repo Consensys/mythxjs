@@ -1,6 +1,7 @@
 import { expect } from 'chai'
 import * as sinon from 'sinon'
 
+import { ClientService } from '../apiServices/ClientService'
 import { AuthService } from '../apiServices/AuthService'
 
 const getRequest = require('../http/index')
@@ -34,7 +35,7 @@ describe('getOpenApiHTML', () => {
 
         const result = await AUTH.getOpenApiHTML()
         expect(result).to.deep.equal(value)
-        expect(getRequestStub.calledWith('https://api.mythx.io/v1/openapi')).to.be.true
+        expect(getRequestStub.calledWith(`${ClientService.MYTHX_API_ENVIRONMENT}/openapi`)).to.be.true
     })
 
     it('should fail if there is something wrong with the request', async () => {

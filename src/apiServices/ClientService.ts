@@ -37,9 +37,17 @@ export class ClientService {
      */
     private toolName
 
-    constructor(ethAddress?: string, password?: string, toolName: string = 'MythXJS') {
+    static MYTHX_API_ENVIRONMENT
+
+    constructor(
+        ethAddress?: string,
+        password?: string,
+        toolName: string = 'MythXJS',
+        environment: string = 'https://api.mythx.io/v1',
+    ) {
         this.ethAddress = ethAddress
         this.password = password
+        ClientService.MYTHX_API_ENVIRONMENT = environment
         this.authService = new AuthService(ethAddress, password)
         this.toolName = toolName
     }

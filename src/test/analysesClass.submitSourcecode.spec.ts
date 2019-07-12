@@ -2,6 +2,7 @@ import { expect } from 'chai'
 import * as sinon from 'sinon'
 import * as jwt from 'jsonwebtoken'
 
+import { ClientService } from '../apiServices/ClientService'
 import { AnalysesService } from '../apiServices/AnalysesService'
 import { JwtTokensInterface } from '..'
 
@@ -74,7 +75,7 @@ describe('submitSourceCode', () => {
 
         const result = await ANALYSES.submitSourceCode(sourceCode, 'contractName')
         expect(result).to.equal(response)
-        expect(postRequestStub.calledWith('https://api.mythx.io/v1/analyses', expected)).to.be.true
+        expect(postRequestStub.calledWith(`${ClientService.MYTHX_API_ENVIRONMENT}/analyses`, expected)).to.be.true
     })
 
     it('should fail if there is something wrong with the request', async () => {

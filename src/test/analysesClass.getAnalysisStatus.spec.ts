@@ -2,6 +2,7 @@ import { expect } from 'chai'
 import * as sinon from 'sinon'
 import * as jwt from 'jsonwebtoken'
 
+import { ClientService } from '../apiServices/ClientService'
 import { AnalysesService } from '../apiServices/AnalysesService'
 import { JwtTokensInterface } from '..'
 
@@ -61,7 +62,7 @@ describe('getAnalysisStatus', () => {
 
         const result = await ANALYSES.getAnalysisStatus(uuid)
         expect(result).to.deep.equal(value)
-        expect(getRequestStub.calledWith('https://api.mythx.io/v1/analyses/123-456-789')).to.be.true
+        expect(getRequestStub.calledWith(`${ClientService.MYTHX_API_ENVIRONMENT}/analyses/123-456-789`)).to.be.true
     })
 
     it('should fail if there is something wrong with the request', async () => {

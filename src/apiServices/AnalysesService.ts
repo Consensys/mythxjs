@@ -1,3 +1,5 @@
+import { ClientService } from './ClientService'
+
 import { postRequest, getRequest } from '../http'
 
 import { errorHandler } from '../util/errorHandler'
@@ -8,14 +10,12 @@ import {
     generateAnalysisRequest,
 } from '../util/generateContractsRequests'
 
-import { API_URL_PRODUCTION, API_URL_STAGING } from '../util/constants'
-
 import { isTokenValid } from '../util/validateToken'
 
 import { SubmitContractRes, JwtTokensInterface, AnalyzeOptions } from '..'
 
 export class AnalysesService {
-    private apiUrl: string = API_URL_PRODUCTION
+    private API_URL: string = ClientService.MYTHX_API_ENVIRONMENT
     private jwtTokens: JwtTokensInterface
     private toolName: string
 
@@ -33,7 +33,7 @@ export class AnalysesService {
             const { headers, accessToken } = await getHeaders(this.jwtTokens)
             this.jwtTokens.access = accessToken
 
-            const result = await getRequest(`${this.apiUrl}/analyses`, headers)
+            const result = await getRequest(`${this.API_URL}/analyses`, headers)
 
             return result.data
         } catch (err) {
@@ -46,7 +46,7 @@ export class AnalysesService {
             const { headers, accessToken } = await getHeaders(this.jwtTokens)
             this.jwtTokens.access = accessToken
 
-            const result = await getRequest(`${this.apiUrl}/analyses/${uuid}`, headers)
+            const result = await getRequest(`${this.API_URL}/analyses/${uuid}`, headers)
 
             return result.data
         } catch (err) {
@@ -72,7 +72,7 @@ export class AnalysesService {
                 })
             }
 
-            const result = await getRequest(`${this.apiUrl}/analyses/${uuid}/issues`, headers)
+            const result = await getRequest(`${this.API_URL}/analyses/${uuid}/issues`, headers)
 
             return result.data
         } catch (err) {
@@ -87,7 +87,7 @@ export class AnalysesService {
 
             const request = generateBytecodeRequest(bytecode, this.toolName)
 
-            const result = await postRequest(`${this.apiUrl}/analyses`, request, headers)
+            const result = await postRequest(`${this.API_URL}/analyses`, request, headers)
 
             return result.data
         } catch (err) {
@@ -102,7 +102,7 @@ export class AnalysesService {
 
             const request = generateSourceCodeRequest(sourceCode, contractName, this.toolName)
 
-            const result = await postRequest(`${this.apiUrl}/analyses`, request, headers)
+            const result = await postRequest(`${this.API_URL}/analyses`, request, headers)
 
             return result.data
         } catch (err) {
@@ -117,7 +117,7 @@ export class AnalysesService {
 
             const request = generateAnalysisRequest(options, this.toolName)
 
-            const result = await postRequest(`${this.apiUrl}/analyses`, request, headers)
+            const result = await postRequest(`${this.API_URL}/analyses`, request, headers)
 
             return result.data
         } catch (err) {
