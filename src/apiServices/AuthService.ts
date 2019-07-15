@@ -1,10 +1,11 @@
+import { ClientService } from './ClientService'
+
 import { postRequest, getRequest } from '../http'
 
 import { loginUser } from '../auth/loginUser'
 
 import { getHeaders } from '../util/getHeaders'
 import { errorHandler } from '../util/errorHandler'
-import { API_URL_PRODUCTION } from '../util/constants'
 
 import { JwtTokensInterface } from '..'
 
@@ -15,6 +16,7 @@ export class AuthService {
         access: '',
         refresh: '',
     }
+    private API_URL = ClientService.MYTHX_API_ENVIRONMENT
 
     constructor(ethAddress?: string, password?: string) {
         this.ethAddress = ethAddress as string
@@ -27,7 +29,7 @@ export class AuthService {
                 this.ethAddress = ethAddress
                 this.password = password
             }
-            const result = await loginUser(this.ethAddress, this.password, `${API_URL_PRODUCTION}/auth/login`)
+            const result = await loginUser(this.ethAddress, this.password, `${this.API_URL}/auth/login`)
             const tokens: JwtTokensInterface = result.data.jwtTokens
             this.setCredentials(tokens)
 
@@ -52,7 +54,7 @@ export class AuthService {
             const headers = {
                 Authorization: `${provider} ${signature}`,
             }
-            const result = await postRequest(`${API_URL_PRODUCTION}/auth/login`, null, headers)
+            const result = await postRequest(`${this.API_URL}/auth/login`, null, headers)
             const tokens: JwtTokensInterface = result.data.jwtTokens
             this.setCredentials(tokens)
 
@@ -68,7 +70,7 @@ export class AuthService {
                 const { headers, accessToken } = await getHeaders(this.jwtTokens)
                 this.jwtTokens.access = accessToken
 
-                const result = await postRequest(`${API_URL_PRODUCTION}/auth/logout`, {}, headers)
+                const result = await postRequest(`${this.API_URL}/auth/logout`, {}, headers)
                 this.jwtTokens.access = this.jwtTokens.refresh = ''
 
                 return result.data
@@ -80,28 +82,9 @@ export class AuthService {
         }
     }
 
-    public async refreshToken(jwtTokens?: JwtTokensInterface) {
-        try {
-            let reqBody: JwtTokensInterface = this.jwtTokens
-
-            // assign to parameter if passed
-            if (jwtTokens) {
-                reqBody = jwtTokens
-            }
-
-            const result = await postRequest(`${API_URL_PRODUCTION}/auth/refresh`, reqBody, {})
-            const tokens: JwtTokensInterface = result.data.jwtTokens
-            this.setCredentials(tokens)
-
-            return tokens
-        } catch (err) {
-            errorHandler(err)
-        }
-    }
-
     public async getVersion() {
         try {
-            const result = await getRequest(`${API_URL_PRODUCTION}/version`, null)
+            const result = await getRequest(`${this.API_URL}/version`, null)
 
             return result.data
         } catch (err) {
@@ -111,7 +94,7 @@ export class AuthService {
 
     public async getOpenApiHTML() {
         try {
-            const result = await getRequest(`${API_URL_PRODUCTION}/openapi`, null)
+            const result = await getRequest(`${this.API_URL}/openapi`, null)
 
             return result.data
         } catch (err) {
@@ -121,7 +104,7 @@ export class AuthService {
 
     public async getOpenApiYAML() {
         try {
-            const result = await getRequest(`${API_URL_PRODUCTION}/openapi.yaml`, null)
+            const result = await getRequest(`${this.API_URL}/openapi.yaml`, null)
 
             return result.data
         } catch (err) {
@@ -135,7 +118,7 @@ export class AuthService {
                 const { headers, accessToken } = await getHeaders(this.jwtTokens)
                 this.jwtTokens.access = accessToken
 
-                const result = await getRequest(`${API_URL_PRODUCTION}/stats/users-analyses?${queryString}`, headers)
+                const result = await getRequest(`${this.API_URL}/stats/users-analyses?${queryString}`, headers)
 
                 return result.data
             } catch (err) {
@@ -155,7 +138,7 @@ export class AuthService {
     public async getChallenge(ethAddress?: string): Promise<any | void> {
         try {
             const address = ethAddress ? ethAddress : this.ethAddress
-            const result = await getRequest(`${API_URL_PRODUCTION}/auth/challenge?ethAddress=${address}`, {})
+            const result = await getRequest(`${this.API_URL}/auth/challenge?ethAddress=${address}`, {})
             return result.data
         } catch (err) {
             errorHandler(err)
@@ -174,7 +157,7 @@ export class AuthService {
                 const { headers, accessToken } = await getHeaders(this.jwtTokens)
                 this.jwtTokens.access = accessToken
 
-                const result = await getRequest(`${API_URL_PRODUCTION}/users?${queryString}`, headers)
+                const result = await getRequest(`${this.API_URL}/users?${queryString}`, headers)
 
                 return result.data
             } catch (err) {

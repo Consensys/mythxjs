@@ -1,7 +1,7 @@
+import { ClientService } from '../apiServices/ClientService'
+
 import { postRequest } from '../http'
-import { getHeaders } from './getHeaders'
 import { JwtTokensInterface } from '..'
-import { API_URL_PRODUCTION } from './constants'
 import { errorHandler } from './errorHandler'
 
 export async function refreshToken(jwtTokens: JwtTokensInterface): Promise<JwtTokensInterface | void> {
@@ -10,7 +10,7 @@ export async function refreshToken(jwtTokens: JwtTokensInterface): Promise<JwtTo
             jwtTokens: jwtTokens,
         }
 
-        const result = await postRequest(`${API_URL_PRODUCTION}/auth/refresh`, reqBody, {})
+        const result = await postRequest(`${ClientService.MYTHX_API_ENVIRONMENT}/auth/refresh`, reqBody, {})
         const tokens: JwtTokensInterface = result.data.jwtTokens
 
         return tokens
