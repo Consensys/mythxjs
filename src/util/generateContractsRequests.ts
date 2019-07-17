@@ -39,7 +39,7 @@ export function generateAnalysisRequest(options: AnalyzeOptions, toolName: strin
     if (typeof options.deployedSourceMap !== 'undefined') result.data['deployedSourceMap'] = options.deployedSourceMap
     if (typeof options.mainSource !== 'undefined') result.data['mainSource'] = options.mainSource
     if (typeof options.sources !== 'undefined') result.data['sources'] = options.sources
-    if (typeof options.sourceList !== 'undefined') result.data['sources'] = options.sources
+    if (typeof options.sourceList !== 'undefined') result.data['sourceList'] = options.sourceList
     if (typeof options.solcVersion !== 'undefined') result.data['version'] = options.solcVersion
     if (typeof options.analysisMode !== 'undefined') result.data['analysisMode'] = options.analysisMode
 
