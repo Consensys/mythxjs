@@ -50,5 +50,6 @@ export function generateAnalysisRequest(
     if (typeof options.sourceList !== 'undefined') result.data['sourceList'] = options.sourceList
     if (typeof options.solcVersion !== 'undefined') result.data['version'] = options.solcVersion
     if (typeof options.analysisMode !== 'undefined') result.data['analysisMode'] = options.analysisMode
+
     return result
 }
