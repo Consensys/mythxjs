@@ -52,6 +52,7 @@ describe('analyze', () => {
 
         const expected = {
             clientToolName: 'MythXJTest',
+            noCacheLookup: false,
             data: {
                 contractName: 'contractName',
                 bytecode: 'bytecode',
@@ -90,6 +91,7 @@ describe('analyze', () => {
     it('should fail if there is something wrong with the request', async () => {
         const options: AnalyzeOptions = {
             toolName: 'test',
+            noCacheLookup: false,
             contractName: 'contractName',
             bytecode: 'bytecode',
             sourceMap: 'sourceMap',

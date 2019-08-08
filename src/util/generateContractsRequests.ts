@@ -24,12 +24,20 @@ export function generateSourceCodeRequest(sourceCode: string, contractName: stri
     }
 }
 
-export function generateAnalysisRequest(options: AnalyzeOptions, toolName: string = 'MythXJS') {
+export function generateAnalysisRequest(
+    options: AnalyzeOptions,
+    toolName: string = 'MythXJS',
+    noCacheLookup: boolean = false,
+) {
     if (options.toolName) {
         toolName = options.toolName
     }
+    if (options.noCacheLookup !== undefined) {
+        noCacheLookup = options.noCacheLookup
+    }
     let result = {
         clientToolName: toolName,
+        noCacheLookup: noCacheLookup,
         data: {},
     }
     if (typeof options.contractName !== 'undefined') result.data['contractName'] = options.contractName
@@ -42,6 +50,5 @@ export function generateAnalysisRequest(options: AnalyzeOptions, toolName: strin
     if (typeof options.sourceList !== 'undefined') result.data['sourceList'] = options.sourceList
     if (typeof options.solcVersion !== 'undefined') result.data['version'] = options.solcVersion
     if (typeof options.analysisMode !== 'undefined') result.data['analysisMode'] = options.analysisMode
-
     return result
 }

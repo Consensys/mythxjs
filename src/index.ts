@@ -13,6 +13,7 @@ export interface loginResponse {
 
 export interface AnalyzeOptions {
     toolName?: string
+    noCacheLookup?: boolean
     contractName?: string
     bytecode?: string
     sourceMap?: string
