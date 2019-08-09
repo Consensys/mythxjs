@@ -24,20 +24,13 @@ export function generateSourceCodeRequest(sourceCode: string, contractName: stri
     }
 }
 
-export function generateAnalysisRequest(
-    options: AnalyzeOptions,
-    toolName: string = 'MythXJS',
-    noCacheLookup: boolean = false,
-) {
+export function generateAnalysisRequest(options: AnalyzeOptions, toolName: string = 'MythXJS') {
     if (options.toolName) {
         toolName = options.toolName
     }
-    if (options.noCacheLookup !== undefined) {
-        noCacheLookup = options.noCacheLookup
-    }
     let result = {
         clientToolName: toolName,
-        noCacheLookup: noCacheLookup,
+        noCacheLookup: options.noCacheLookup === undefined ? false : options.noCacheLookup,
         data: {},
     }
     if (typeof options.contractName !== 'undefined') result.data['contractName'] = options.contractName
