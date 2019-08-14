@@ -103,9 +103,9 @@ For the versions available, see [the tags on this repository](https://github.com
 
 ## Projects using MythxJS
 
-[MythX for VSCode](https://marketplace.visualstudio.com/items?itemName=mirkogarozzo.mythxvsc)
-[truffle security](https://github.com/ConsenSys/truffle-security)
-[remix-mythx-plugin](https://github.com/aquiladev/remix-mythx-plugin)
+-   [MythX for VSCode](https://marketplace.visualstudio.com/items?itemName=mirkogarozzo.mythxvsc)
+-   [truffle security](https://github.com/ConsenSys/truffle-security)
+-   [remix-mythx-plugin](https://github.com/aquiladev/remix-mythx-plugin)
 
 ## See also
 
