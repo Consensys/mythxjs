@@ -30,6 +30,7 @@ export function generateAnalysisRequest(options: AnalyzeOptions, toolName: strin
     }
     let result = {
         clientToolName: toolName,
+        noCacheLookup: options.noCacheLookup === undefined ? false : options.noCacheLookup,
         data: {},
     }
     if (typeof options.contractName !== 'undefined') result.data['contractName'] = options.contractName
