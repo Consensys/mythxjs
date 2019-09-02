@@ -119,15 +119,6 @@ export class ClientService {
     }
 
     /**
-     *  Refresh current set of tokens.
-     * @param jwtTokens - Object containing access + refresh token
-     * @return {Promise<any>}  Returns new set of tokens or throws error.
-     */
-    async refreshToken(jwtTokens?: JwtTokensInterface) {
-        return await this.authService.refreshToken(jwtTokens)
-    }
-
-    /**
      *   Returns API stats.
      *   Internal only, needs admin credentials to be accessed.
      */
