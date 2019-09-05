@@ -2,11 +2,11 @@ import { validateToken } from './validateToken'
 import { JwtTokensInterface } from '..'
 
 export async function getHeaders(jwtTokens: JwtTokensInterface) {
-    const accessToken = await validateToken(jwtTokens)
+    const tokens = await validateToken(jwtTokens)
     const headers = {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${tokens.access}`,
         'Content-Type': 'application/json',
     }
 
-    return { accessToken, headers }
+    return { tokens, headers }
 }

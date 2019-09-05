@@ -30,8 +30,8 @@ export class AnalysesService {
 
     public async getAnalysesList() {
         try {
-            const { headers, accessToken } = await getHeaders(this.jwtTokens)
-            this.jwtTokens.access = accessToken
+            const { headers, tokens } = await getHeaders(this.jwtTokens)
+            this.jwtTokens = tokens
 
             const result = await getRequest(`${this.API_URL}/analyses`, headers)
 
@@ -43,8 +43,8 @@ export class AnalysesService {
 
     public async getAnalysisStatus(uuid: string) {
         try {
-            const { headers, accessToken } = await getHeaders(this.jwtTokens)
-            this.jwtTokens.access = accessToken
+            const { headers, tokens } = await getHeaders(this.jwtTokens)
+            this.jwtTokens = tokens
 
             const result = await getRequest(`${this.API_URL}/analyses/${uuid}`, headers)
 
@@ -56,8 +56,8 @@ export class AnalysesService {
 
     public async getDetectedIssues(uuid: string) {
         try {
-            const { headers, accessToken } = await getHeaders(this.jwtTokens)
-            this.jwtTokens.access = accessToken
+            const { headers, tokens } = await getHeaders(this.jwtTokens)
+            this.jwtTokens = tokens
 
             const getStatus = await this.getAnalysisStatus(uuid)
             if (getStatus.status === 'Queued' || getStatus.status === 'In progress') {
@@ -82,8 +82,8 @@ export class AnalysesService {
 
     public async submitBytecode(bytecode: string): Promise<SubmitContractRes | void> {
         try {
-            const { headers, accessToken } = await getHeaders(this.jwtTokens)
-            this.jwtTokens.access = accessToken
+            const { headers, tokens } = await getHeaders(this.jwtTokens)
+            this.jwtTokens = tokens
 
             const request = generateBytecodeRequest(bytecode, this.toolName)
 
@@ -97,8 +97,8 @@ export class AnalysesService {
 
     public async submitSourceCode(sourceCode: string, contractName: string): Promise<SubmitContractRes | void> {
         try {
-            const { headers, accessToken } = await getHeaders(this.jwtTokens)
-            this.jwtTokens.access = accessToken
+            const { headers, tokens } = await getHeaders(this.jwtTokens)
+            this.jwtTokens = tokens
 
             const request = generateSourceCodeRequest(sourceCode, contractName, this.toolName)
 
@@ -112,8 +112,8 @@ export class AnalysesService {
 
     public async analyze(options: AnalyzeOptions): Promise<any> {
         try {
-            const { headers, accessToken } = await getHeaders(this.jwtTokens)
-            this.jwtTokens.access = accessToken
+            const { headers, tokens } = await getHeaders(this.jwtTokens)
+            this.jwtTokens = tokens
 
             const request = generateAnalysisRequest(options, this.toolName)
 

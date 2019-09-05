@@ -67,8 +67,8 @@ export class AuthService {
     public async logout() {
         if (this.isUserLoggedIn()) {
             try {
-                const { headers, accessToken } = await getHeaders(this.jwtTokens)
-                this.jwtTokens.access = accessToken
+                const { headers, tokens } = await getHeaders(this.jwtTokens)
+                this.jwtTokens = tokens
 
                 const result = await postRequest(`${this.API_URL}/auth/logout`, {}, headers)
                 this.jwtTokens.access = this.jwtTokens.refresh = ''
@@ -115,8 +115,8 @@ export class AuthService {
     public async getStats(queryString?: string) {
         if (this.isUserLoggedIn()) {
             try {
-                const { headers, accessToken } = await getHeaders(this.jwtTokens)
-                this.jwtTokens.access = accessToken
+                const { headers, tokens } = await getHeaders(this.jwtTokens)
+                this.jwtTokens = tokens
 
                 const result = await getRequest(`${this.API_URL}/stats/users-analyses?${queryString}`, headers)
 
@@ -154,8 +154,8 @@ export class AuthService {
     public async getUsers(queryString: string = '') {
         if (this.isUserLoggedIn()) {
             try {
-                const { headers, accessToken } = await getHeaders(this.jwtTokens)
-                this.jwtTokens.access = accessToken
+                const { headers, tokens } = await getHeaders(this.jwtTokens)
+                this.jwtTokens = tokens
 
                 const result = await getRequest(`${this.API_URL}/users?${queryString}`, headers)
 

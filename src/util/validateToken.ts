@@ -11,13 +11,13 @@ interface jwtInterface {
     iat: number
 }
 
-export async function validateToken(tokens: JwtTokensInterface) {
+export async function validateToken(tokens: JwtTokensInterface): Promise<JwtTokensInterface> {
     if (isTokenValid(tokens.access)) {
-        return tokens.access
+        return tokens
     } else {
         // else return refreshed token
         const returnT = (await refreshToken(tokens)) as JwtTokensInterface
-        return returnT.access
+        return returnT
     }
 }
 
