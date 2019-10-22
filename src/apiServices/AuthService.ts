@@ -64,7 +64,7 @@ export class AuthService {
         }
     }
 
-    public async logout() {
+    public async logout(): Promise<{} | void> {
         if (this.isUserLoggedIn()) {
             try {
                 const { headers, tokens } = await getHeaders(this.jwtTokens)

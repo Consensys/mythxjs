@@ -106,7 +106,7 @@ export class ClientService {
      *  Logout from the API.
      * @returns Resolves with API response or throw error
      */
-    async logout(): Promise<any | void> {
+    async logout(): Promise<{} | void> {
         return await this.authService.logout()
     }
 
@@ -122,6 +122,7 @@ export class ClientService {
     /**
      *   Returns API stats.
      *   Internal only, needs admin credentials to be accessed.
+     *   @returns Resolves with API response or throw error
      */
     async getStats(queryString?: string) {
         return await this.authService.getStats(queryString)
