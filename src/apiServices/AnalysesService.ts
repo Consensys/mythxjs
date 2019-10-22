@@ -12,7 +12,7 @@ import {
 
 import { isTokenValid } from '../util/validateToken'
 
-import { SubmitContractRes, JwtTokensInterface, AnalyzeOptions } from '..'
+import { SubmitContractRes, JwtTokensInterface, AnalyzeOptions, AnalysisStatusResponse } from '..'
 
 export class AnalysesService {
     private API_URL: string = ClientService.MYTHX_API_ENVIRONMENT
@@ -41,14 +41,15 @@ export class AnalysesService {
         }
     }
 
-    public async getAnalysisStatus(uuid: string) {
+    public async getAnalysisStatus(uuid: string): Promise<AnalysisStatusResponse | undefined> {
         try {
             const { headers, tokens } = await getHeaders(this.jwtTokens)
             this.jwtTokens = tokens
 
             const result = await getRequest(`${this.API_URL}/analyses/${uuid}`, headers)
+            const analysisRes: AnalysisStatusResponse = result.data
 
-            return result.data
+            return analysisRes
         } catch (err) {
             errorHandler(err)
         }
@@ -60,10 +61,12 @@ export class AnalysesService {
             this.jwtTokens = tokens
 
             const getStatus = await this.getAnalysisStatus(uuid)
+            if (!getStatus) throw new Error('error with getting your analysis status')
             if (getStatus.status === 'Queued' || getStatus.status === 'In progress') {
                 await new Promise(resolve => {
                     const timer = setInterval(async () => {
                         const analysisReq = await this.getAnalysisStatus(uuid)
+                        if (!analysisReq) throw new Error('error with getting your analysis status')
                         if (analysisReq.status === 'Finished' || analysisReq.status === 'Error') {
                             clearInterval(timer)
                             resolve('done')

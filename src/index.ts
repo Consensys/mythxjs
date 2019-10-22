@@ -43,6 +43,21 @@ interface Users {
     termsId: string
 }
 
+export interface AnalysisStatusResponse {
+    apiVersion: string
+    clientToolName: string
+    harveyVersion: string
+    maestroVersion: string
+    maruVersion: string
+    mythrilVersion: string
+    queueTime: number
+    runTime: number
+    status: string
+    submittedAt: string
+    submittedBy: string
+    uuid: string
+}
+
 export interface AnalyzeOptions {
     toolName?: string
     noCacheLookup?: boolean

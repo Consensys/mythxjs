@@ -1,6 +1,13 @@
 import { AuthService } from './AuthService'
 import { AnalysesService } from './AnalysesService'
-import { JwtTokensInterface, AnalyzeOptions, VersionResponse, StatsResponse, UsersResponse } from '..'
+import {
+    JwtTokensInterface,
+    AnalyzeOptions,
+    VersionResponse,
+    StatsResponse,
+    UsersResponse,
+    AnalysisStatusResponse,
+} from '..'
 
 /**
  * Main service exposed to outside.
@@ -122,7 +129,7 @@ export class ClientService {
     /**
      *   Returns API stats.
      *   Internal only, needs admin credentials to be accessed.
-     *   @returns Resolves with API response or throw error
+     *   @returns {Promise<StatsResponse>} Resolves with API response or throw error
      */
     async getStats(queryString?: string): Promise<StatsResponse> {
         return await this.authService.getStats(queryString)
@@ -131,7 +138,7 @@ export class ClientService {
     /**
      * Retrieve list of registred API users or just caller user object if no required permission.
      * @param queryString Query string for detailed list (query parameters: offset, orderBy, email, ethAddress)
-     * @returns Resolves with API response or throw error
+     * @returns {Promise<UsersResponse>} Resolves with API response or throw error
      */
     async getUsers(queryString: string): Promise<UsersResponse> {
         return await this.authService.getUsers(queryString)
@@ -144,9 +151,9 @@ export class ClientService {
     /**
      * Get status for analysis on given UUID.
      * @param uuid - unique identifier of analysis job
-     * @return {Promise<any>} Resolves with API response, or throws error
+     * @return {Promise<AnalysisStatusResponse>} Resolves with API response, or throws error
      */
-    async getAnalysisStatus(uuid: string) {
+    async getAnalysisStatus(uuid: string): Promise<AnalysisStatusResponse> {
         return await this.analysesService.getAnalysisStatus(uuid)
     }
 
