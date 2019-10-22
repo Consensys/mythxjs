@@ -7,7 +7,7 @@ import { loginUser } from '../auth/loginUser'
 import { getHeaders } from '../util/getHeaders'
 import { errorHandler } from '../util/errorHandler'
 
-import { JwtTokensInterface, VersionResponse } from '..'
+import { JwtTokensInterface, VersionResponse, StatsResponse } from '..'
 
 export class AuthService {
     public ethAddress: string
@@ -112,15 +112,16 @@ export class AuthService {
         }
     }
 
-    public async getStats(queryString?: string) {
+    public async getStats(queryString?: string): Promise<StatsResponse | void> {
         if (this.isUserLoggedIn()) {
             try {
                 const { headers, tokens } = await getHeaders(this.jwtTokens)
                 this.jwtTokens = tokens
 
                 const result = await getRequest(`${this.API_URL}/stats/users-analyses?${queryString}`, headers)
+                const stats: StatsResponse = result.data
 
-                return result.data
+                return stats
             } catch (err) {
                 errorHandler(err)
             }

@@ -1,6 +1,6 @@
 import { AuthService } from './AuthService'
 import { AnalysesService } from './AnalysesService'
-import { JwtTokensInterface, AnalyzeOptions, VersionResponse } from '..'
+import { JwtTokensInterface, AnalyzeOptions, VersionResponse, StatsResponse } from '..'
 
 /**
  * Main service exposed to outside.
@@ -115,7 +115,7 @@ export class ClientService {
      *   Does not require login.
      *   @returns Resolves with API response or throw error
      */
-    async getVersion(): Promise<VersionResponse | void> {
+    async getVersion(): Promise<VersionResponse> {
         return await this.authService.getVersion()
     }
 
@@ -124,7 +124,7 @@ export class ClientService {
      *   Internal only, needs admin credentials to be accessed.
      *   @returns Resolves with API response or throw error
      */
-    async getStats(queryString?: string) {
+    async getStats(queryString?: string): Promise<StatsResponse> {
         return await this.authService.getStats(queryString)
     }
 

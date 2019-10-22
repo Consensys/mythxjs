@@ -19,6 +19,15 @@ export interface VersionResponse {
     mythril: string
 }
 
+export interface StatsResponse {
+    from: string
+    interval: string
+    createdAt: string
+    type: string
+    revision: number
+    data: any
+}
+
 export interface AnalyzeOptions {
     toolName?: string
     noCacheLookup?: boolean
