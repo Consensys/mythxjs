@@ -41,7 +41,7 @@ export class AnalysesService {
         }
     }
 
-    public async getAnalysisStatus(uuid: string): Promise<AnalysisStatusResponse | undefined> {
+    public async getAnalysisStatus(uuid: string): Promise<AnalysisStatusResponse> {
         try {
             const { headers, tokens } = await getHeaders(this.jwtTokens)
             this.jwtTokens = tokens
@@ -52,6 +52,7 @@ export class AnalysesService {
             return analysisRes
         } catch (err) {
             errorHandler(err)
+            throw err
         }
     }
 
@@ -61,12 +62,10 @@ export class AnalysesService {
             this.jwtTokens = tokens
 
             const getStatus = await this.getAnalysisStatus(uuid)
-            if (!getStatus) throw new Error('error with getting your analysis status')
             if (getStatus.status === 'Queued' || getStatus.status === 'In progress') {
                 await new Promise(resolve => {
                     const timer = setInterval(async () => {
                         const analysisReq = await this.getAnalysisStatus(uuid)
-                        if (!analysisReq) throw new Error('error with getting your analysis status')
                         if (analysisReq.status === 'Finished' || analysisReq.status === 'Error') {
                             clearInterval(timer)
                             resolve('done')
