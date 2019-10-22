@@ -11,6 +11,14 @@ export interface loginResponse {
     refresh: string
 }
 
+export interface VersionResponse {
+    api: string
+    harvey: string
+    hash: string
+    maru: string
+    mythril: string
+}
+
 export interface AnalyzeOptions {
     toolName?: string
     noCacheLookup?: boolean

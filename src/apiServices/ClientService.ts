@@ -1,6 +1,6 @@
 import { AuthService } from './AuthService'
 import { AnalysesService } from './AnalysesService'
-import { JwtTokensInterface, AnalyzeOptions } from '..'
+import { JwtTokensInterface, AnalyzeOptions, VersionResponse } from '..'
 
 /**
  * Main service exposed to outside.
@@ -106,15 +106,16 @@ export class ClientService {
      *  Logout from the API.
      * @returns Resolves with API response or throw error
      */
-    async logout() {
+    async logout(): Promise<any | void> {
         return await this.authService.logout()
     }
 
     /**
      *   Returns API current version.
      *   Does not require login.
+     *   @returns Resolves with API response or throw error
      */
-    async getVersion() {
+    async getVersion(): Promise<VersionResponse | void> {
         return await this.authService.getVersion()
     }
 

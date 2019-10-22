@@ -7,7 +7,7 @@ import { loginUser } from '../auth/loginUser'
 import { getHeaders } from '../util/getHeaders'
 import { errorHandler } from '../util/errorHandler'
 
-import { JwtTokensInterface } from '..'
+import { JwtTokensInterface, VersionResponse } from '..'
 
 export class AuthService {
     public ethAddress: string
@@ -82,7 +82,7 @@ export class AuthService {
         }
     }
 
-    public async getVersion() {
+    public async getVersion(): Promise<VersionResponse | void> {
         try {
             const result = await getRequest(`${this.API_URL}/version`, null)
 
