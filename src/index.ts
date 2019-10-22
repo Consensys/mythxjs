@@ -28,6 +28,21 @@ export interface StatsResponse {
     data: any
 }
 
+export interface UsersResponse {
+    total: number
+    users: Array<Users>
+}
+
+interface Users {
+    id: string
+    createdAt: string
+    email: any
+    ethAddress: string
+    roles: Array<string>
+    preferences: any
+    termsId: string
+}
+
 export interface AnalyzeOptions {
     toolName?: string
     noCacheLookup?: boolean

@@ -1,6 +1,6 @@
 import { AuthService } from './AuthService'
 import { AnalysesService } from './AnalysesService'
-import { JwtTokensInterface, AnalyzeOptions, VersionResponse, StatsResponse } from '..'
+import { JwtTokensInterface, AnalyzeOptions, VersionResponse, StatsResponse, UsersResponse } from '..'
 
 /**
  * Main service exposed to outside.
@@ -133,7 +133,7 @@ export class ClientService {
      * @param queryString Query string for detailed list (query parameters: offset, orderBy, email, ethAddress)
      * @returns Resolves with API response or throw error
      */
-    async getUsers(queryString: string) {
+    async getUsers(queryString: string): Promise<UsersResponse> {
         return await this.authService.getUsers(queryString)
     }
 

@@ -7,7 +7,7 @@ import { loginUser } from '../auth/loginUser'
 import { getHeaders } from '../util/getHeaders'
 import { errorHandler } from '../util/errorHandler'
 
-import { JwtTokensInterface, VersionResponse, StatsResponse } from '..'
+import { JwtTokensInterface, VersionResponse, StatsResponse, UsersResponse } from '..'
 
 export class AuthService {
     public ethAddress: string
@@ -152,15 +152,16 @@ export class AuthService {
      * @returns Resolves with API response or throw error
      */
 
-    public async getUsers(queryString: string = '') {
+    public async getUsers(queryString: string = ''): Promise<UsersResponse | void> {
         if (this.isUserLoggedIn()) {
             try {
                 const { headers, tokens } = await getHeaders(this.jwtTokens)
                 this.jwtTokens = tokens
 
                 const result = await getRequest(`${this.API_URL}/users?${queryString}`, headers)
+                const users: UsersResponse = result.data
 
-                return result.data
+                return users
             } catch (err) {
                 errorHandler(err)
             }
