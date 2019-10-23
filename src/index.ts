@@ -11,14 +11,6 @@ export interface loginResponse {
     refresh: string
 }
 
-export interface VersionResponse {
-    api: string
-    harvey: string
-    hash: string
-    maru: string
-    mythril: string
-}
-
 export interface StatsResponse {
     from: string
     interval: string
@@ -41,42 +33,6 @@ interface Users {
     roles: Array<string>
     preferences: any
     termsId: string
-}
-
-export interface AnalysisDataResponse {
-    apiVersion: string
-    clientToolName: string
-    harveyVersion: string
-    maestroVersion: string
-    maruVersion: string
-    mythrilVersion: string
-    queueTime: number
-    runTime: number
-    status: string
-    submittedAt: string
-    submittedBy: string
-    uuid: string
-}
-
-export interface DetectedIssuesResponse {
-    issues: Array<Issue>
-    sourceType: string
-    sourceFormat: string
-    sourceList: Array<string>
-    meta: any
-}
-
-interface Issue {
-    swcID: string
-    swcTitle: string
-    description: {
-        head: string
-        tail: string
-    }
-    severity: string
-    locations: Array<any>
-    extra: any
-    decodedLocations?: Array<Array<any>>
 }
 
 export interface AnalyzeOptions {

@@ -1,14 +1,8 @@
 import { AuthService } from './AuthService'
 import { AnalysesService } from './AnalysesService'
-import {
-    JwtTokensInterface,
-    AnalyzeOptions,
-    VersionResponse,
-    StatsResponse,
-    UsersResponse,
-    AnalysisDataResponse,
-    DetectedIssuesResponse,
-} from '..'
+import { JwtTokensInterface, AnalyzeOptions, StatsResponse, UsersResponse } from '..'
+
+import { AnalysisList, AnalysisSubmission, DetectedIssues, Version } from '../types'
 
 /**
  * Main service exposed to outside.
@@ -123,7 +117,7 @@ export class ClientService {
      *   Does not require login.
      *   @returns Resolves with API response or throw error
      */
-    async getVersion(): Promise<VersionResponse> {
+    async getVersion(): Promise<Version> {
         return await this.authService.getVersion()
     }
 
@@ -145,7 +139,7 @@ export class ClientService {
         return await this.authService.getUsers(queryString)
     }
 
-    async getAnalysesList() {
+    async getAnalysesList(): Promise<AnalysisList> {
         return await this.analysesService.getAnalysesList()
     }
 
@@ -154,7 +148,7 @@ export class ClientService {
      * @param uuid - unique identifier of analysis job
      * @return {Promise<AnalysisStatusResponse>} Resolves with API response, or throws error
      */
-    async getAnalysisStatus(uuid: string): Promise<AnalysisDataResponse> {
+    async getAnalysisStatus(uuid: string): Promise<AnalysisSubmission> {
         return await this.analysesService.getAnalysisStatus(uuid)
     }
 
@@ -164,7 +158,7 @@ export class ClientService {
      * @param {String} uuid - unique identifier of analysis job
      * @returns {Promise} Resolves with API response, or throws error
      */
-    async getDetectedIssues(uuid: string): Promise<Array<DetectedIssuesResponse>> {
+    async getDetectedIssues(uuid: string): Promise<DetectedIssues> {
         return await this.analysesService.getDetectedIssues(uuid)
     }
 
@@ -176,7 +170,7 @@ export class ClientService {
      * @return {Promise} Resolves with API response, or throws an
      *  an error.
      */
-    async submitBytecode(bytecode: string): Promise<AnalysisDataResponse> {
+    async submitBytecode(bytecode: string): Promise<AnalysisSubmission> {
         return await this.analysesService.submitBytecode(bytecode)
     }
 
@@ -189,7 +183,7 @@ export class ClientService {
      * @return {Promise} Resolves with API response, or throws an
      *  an error.
      */
-    async submitSourceCode(sourceCode: string, contractName: string): Promise<AnalysisDataResponse> {
+    async submitSourceCode(sourceCode: string, contractName: string): Promise<AnalysisSubmission> {
         return await this.analysesService.submitSourceCode(sourceCode, contractName)
     }
 
@@ -200,7 +194,7 @@ export class ClientService {
      * @return {Promise} Resolves with API response, or throws an
      *  an error.
      */
-    async analyze(options: AnalyzeOptions): Promise<AnalysisDataResponse> {
+    async analyze(options: AnalyzeOptions): Promise<AnalysisSubmission> {
         return await this.analysesService.analyze(options)
     }
 }

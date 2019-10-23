@@ -7,7 +7,9 @@ import { loginUser } from '../auth/loginUser'
 import { getHeaders } from '../util/getHeaders'
 import { errorHandler } from '../util/errorHandler'
 
-import { JwtTokensInterface, VersionResponse, StatsResponse, UsersResponse } from '..'
+import { JwtTokensInterface, StatsResponse, UsersResponse } from '..'
+
+import { Openapi, Version } from '../types'
 
 export class AuthService {
     public ethAddress: string
@@ -82,27 +84,31 @@ export class AuthService {
         }
     }
 
-    public async getVersion(): Promise<VersionResponse | void> {
+    public async getVersion(): Promise<Version> {
         try {
             const result = await getRequest(`${this.API_URL}/version`, null)
+            const version: Version = result.data
 
-            return result.data
+            return version
         } catch (err) {
             errorHandler(err)
+            throw err
         }
     }
 
-    public async getOpenApiHTML() {
+    public async getOpenApiHTML(): Promise<Openapi> {
         try {
             const result = await getRequest(`${this.API_URL}/openapi`, null)
+            const openApi: Openapi = result.data
 
             return result.data
         } catch (err) {
             errorHandler(err)
+            throw err
         }
     }
 
-    public async getOpenApiYAML() {
+    public async getOpenApiYAML(): Promise<any> {
         try {
             const result = await getRequest(`${this.API_URL}/openapi.yaml`, null)
 
@@ -152,7 +158,7 @@ export class AuthService {
      * @returns Resolves with API response or throw error
      */
 
-    public async getUsers(queryString: string = ''): Promise<UsersResponse | void> {
+    public async getUsers(queryString: string = ''): Promise<UsersResponse> {
         if (this.isUserLoggedIn()) {
             try {
                 const { headers, tokens } = await getHeaders(this.jwtTokens)
@@ -164,6 +170,7 @@ export class AuthService {
                 return users
             } catch (err) {
                 errorHandler(err)
+                throw err
             }
         } else {
             throw new Error('MythxJS no valid token found. Please login.')
