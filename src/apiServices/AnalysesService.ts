@@ -12,7 +12,13 @@ import {
 
 import { isTokenValid } from '../util/validateToken'
 
-import { SubmitContractRes, JwtTokensInterface, AnalyzeOptions, AnalysisStatusResponse } from '..'
+import {
+    SubmitContractRes,
+    JwtTokensInterface,
+    AnalyzeOptions,
+    AnalysisStatusResponse,
+    DetectedIssuesResponse,
+} from '..'
 
 export class AnalysesService {
     private API_URL: string = ClientService.MYTHX_API_ENVIRONMENT
@@ -56,7 +62,7 @@ export class AnalysesService {
         }
     }
 
-    public async getDetectedIssues(uuid: string) {
+    public async getDetectedIssues(uuid: string): Promise<Array<DetectedIssuesResponse>> {
         try {
             const { headers, tokens } = await getHeaders(this.jwtTokens)
             this.jwtTokens = tokens
@@ -75,10 +81,12 @@ export class AnalysesService {
             }
 
             const result = await getRequest(`${this.API_URL}/analyses/${uuid}/issues`, headers)
+            const detectedIssues: Array<DetectedIssuesResponse> = result.data
 
-            return result.data
+            return detectedIssues
         } catch (err) {
             errorHandler(err)
+            throw err
         }
     }
 

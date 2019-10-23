@@ -112,14 +112,14 @@ export class AuthService {
         }
     }
 
-    public async getStats(queryString?: string): Promise<StatsResponse | void> {
+    public async getStats(queryString?: string): Promise<Array<StatsResponse> | void> {
         if (this.isUserLoggedIn()) {
             try {
                 const { headers, tokens } = await getHeaders(this.jwtTokens)
                 this.jwtTokens = tokens
 
                 const result = await getRequest(`${this.API_URL}/stats/users-analyses?${queryString}`, headers)
-                const stats: StatsResponse = result.data
+                const stats: Array<StatsResponse> = result.data
 
                 return stats
             } catch (err) {

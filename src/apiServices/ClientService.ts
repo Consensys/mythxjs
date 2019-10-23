@@ -7,6 +7,7 @@ import {
     StatsResponse,
     UsersResponse,
     AnalysisStatusResponse,
+    DetectedIssuesResponse,
 } from '..'
 
 /**
@@ -131,7 +132,7 @@ export class ClientService {
      *   Internal only, needs admin credentials to be accessed.
      *   @returns {Promise<StatsResponse>} Resolves with API response or throw error
      */
-    async getStats(queryString?: string): Promise<StatsResponse> {
+    async getStats(queryString?: string): Promise<Array<StatsResponse>> {
         return await this.authService.getStats(queryString)
     }
 
@@ -163,7 +164,7 @@ export class ClientService {
      * @param {String} uuid - unique identifier of analysis job
      * @returns {Promise} Resolves with API response, or throws error
      */
-    async getDetectedIssues(uuid: string) {
+    async getDetectedIssues(uuid: string): Promise<Array<DetectedIssuesResponse>> {
         return await this.analysesService.getDetectedIssues(uuid)
     }
 

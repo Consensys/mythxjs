@@ -58,6 +58,27 @@ export interface AnalysisStatusResponse {
     uuid: string
 }
 
+export interface DetectedIssuesResponse {
+    issues: Array<Issue>
+    sourceType: string
+    sourceFormat: string
+    sourceList: Array<string>
+    meta: any
+}
+
+interface Issue {
+    swcID: string
+    swcTitle: string
+    description: {
+        head: string
+        tail: string
+    }
+    severity: string
+    locations: Array<any>
+    extra: any
+    decodedLocations?: Array<Array<any>>
+}
+
 export interface AnalyzeOptions {
     toolName?: string
     noCacheLookup?: boolean
