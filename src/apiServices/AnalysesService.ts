@@ -12,13 +12,7 @@ import {
 
 import { isTokenValid } from '../util/validateToken'
 
-import {
-    SubmitContractRes,
-    JwtTokensInterface,
-    AnalyzeOptions,
-    AnalysisStatusResponse,
-    DetectedIssuesResponse,
-} from '..'
+import { JwtTokensInterface, AnalyzeOptions, AnalysisDataResponse, DetectedIssuesResponse } from '..'
 
 export class AnalysesService {
     private API_URL: string = ClientService.MYTHX_API_ENVIRONMENT
@@ -47,13 +41,13 @@ export class AnalysesService {
         }
     }
 
-    public async getAnalysisStatus(uuid: string): Promise<AnalysisStatusResponse> {
+    public async getAnalysisStatus(uuid: string): Promise<AnalysisDataResponse> {
         try {
             const { headers, tokens } = await getHeaders(this.jwtTokens)
             this.jwtTokens = tokens
 
             const result = await getRequest(`${this.API_URL}/analyses/${uuid}`, headers)
-            const analysisRes: AnalysisStatusResponse = result.data
+            const analysisRes: AnalysisDataResponse = result.data
 
             return analysisRes
         } catch (err) {
@@ -90,7 +84,7 @@ export class AnalysesService {
         }
     }
 
-    public async submitBytecode(bytecode: string): Promise<SubmitContractRes | void> {
+    public async submitBytecode(bytecode: string): Promise<AnalysisDataResponse> {
         try {
             const { headers, tokens } = await getHeaders(this.jwtTokens)
             this.jwtTokens = tokens
@@ -98,14 +92,16 @@ export class AnalysesService {
             const request = generateBytecodeRequest(bytecode, this.toolName)
 
             const result = await postRequest(`${this.API_URL}/analyses`, request, headers)
+            const analysisRes: AnalysisDataResponse = result.data
 
-            return result.data
+            return analysisRes
         } catch (err) {
             errorHandler(err)
+            throw err
         }
     }
 
-    public async submitSourceCode(sourceCode: string, contractName: string): Promise<SubmitContractRes | void> {
+    public async submitSourceCode(sourceCode: string, contractName: string): Promise<AnalysisDataResponse> {
         try {
             const { headers, tokens } = await getHeaders(this.jwtTokens)
             this.jwtTokens = tokens
@@ -113,14 +109,16 @@ export class AnalysesService {
             const request = generateSourceCodeRequest(sourceCode, contractName, this.toolName)
 
             const result = await postRequest(`${this.API_URL}/analyses`, request, headers)
+            const analysisRes: AnalysisDataResponse = result.data
 
-            return result.data
+            return analysisRes
         } catch (err) {
             errorHandler(err)
+            throw err
         }
     }
 
-    public async analyze(options: AnalyzeOptions): Promise<any> {
+    public async analyze(options: AnalyzeOptions): Promise<AnalysisDataResponse> {
         try {
             const { headers, tokens } = await getHeaders(this.jwtTokens)
             this.jwtTokens = tokens
@@ -128,10 +126,12 @@ export class AnalysesService {
             const request = generateAnalysisRequest(options, this.toolName)
 
             const result = await postRequest(`${this.API_URL}/analyses`, request, headers)
+            const analysisRes: AnalysisDataResponse = result.data
 
-            return result.data
+            return analysisRes
         } catch (err) {
             errorHandler(err)
+            throw err
         }
     }
 }

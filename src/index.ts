@@ -43,7 +43,7 @@ interface Users {
     termsId: string
 }
 
-export interface AnalysisStatusResponse {
+export interface AnalysisDataResponse {
     apiVersion: string
     clientToolName: string
     harveyVersion: string
@@ -92,19 +92,4 @@ export interface AnalyzeOptions {
     sourceList?: Array<string>
     solcVersion?: string
     analysisMode?: string
-}
-
-// TODO: Move this to types folder
-export interface SubmitContractRes {
-    apiVersion: string
-    harveyVersion: string
-    maestroVersion: string
-    maruVersion: string
-    mythrilVersion: string
-    queueTime: number
-    runTime: number
-    status: string
-    submittedAt: string
-    submittedBy: string
-    uuid: string
 }

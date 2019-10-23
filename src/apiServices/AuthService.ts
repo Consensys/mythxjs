@@ -23,7 +23,7 @@ export class AuthService {
         this.password = password as string
     }
 
-    public async login(ethAddress?: string, password?: string): Promise<JwtTokensInterface | undefined> {
+    public async login(ethAddress?: string, password?: string): Promise<JwtTokensInterface> {
         try {
             if (ethAddress && password) {
                 this.ethAddress = ethAddress
@@ -36,6 +36,7 @@ export class AuthService {
             return tokens
         } catch (err) {
             errorHandler(err)
+            throw err
         }
     }
 
@@ -46,10 +47,7 @@ export class AuthService {
      * @param provider pass a provider value for the HTTP headers. If nothing is passed defaults to MetaMask
      * @return {Promise<JwtTokensInterface>}  Returns an object containing two tokens (access+refresh) that can be saved in storage.
      */
-    public async loginWithSignature(
-        signature: string,
-        provider: string = 'MetaMask',
-    ): Promise<JwtTokensInterface | void> {
+    public async loginWithSignature(signature: string, provider: string = 'MetaMask'): Promise<JwtTokensInterface> {
         try {
             const headers = {
                 Authorization: `${provider} ${signature}`,
@@ -61,10 +59,11 @@ export class AuthService {
             return tokens
         } catch (err) {
             errorHandler(err)
+            throw err
         }
     }
 
-    public async logout(): Promise<{} | void> {
+    public async logout(): Promise<{}> {
         if (this.isUserLoggedIn()) {
             try {
                 const { headers, tokens } = await getHeaders(this.jwtTokens)
@@ -76,6 +75,7 @@ export class AuthService {
                 return result.data
             } catch (err) {
                 errorHandler(err)
+                throw err
             }
         } else {
             throw new Error('MythxJS no valid token found. Please login')
@@ -136,7 +136,7 @@ export class AuthService {
      * @param ethAddress Ethereum address for Mythx account
      * @returns Resolves with API response or throw error
      */
-    public async getChallenge(ethAddress?: string): Promise<any | void> {
+    public async getChallenge(ethAddress?: string): Promise<any> {
         try {
             const address = ethAddress ? ethAddress : this.ethAddress
             const result = await getRequest(`${this.API_URL}/auth/challenge?ethAddress=${address}`, {})
