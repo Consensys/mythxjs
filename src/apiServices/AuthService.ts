@@ -7,7 +7,9 @@ import { loginUser } from '../auth/loginUser'
 import { getHeaders } from '../util/getHeaders'
 import { errorHandler } from '../util/errorHandler'
 
-import { JwtTokensInterface } from '..'
+import { JwtTokensInterface, StatsResponse, UsersResponse } from '..'
+
+import { Openapi, Version } from '../types'
 
 export class AuthService {
     public ethAddress: string
@@ -23,7 +25,7 @@ export class AuthService {
         this.password = password as string
     }
 
-    public async login(ethAddress?: string, password?: string): Promise<JwtTokensInterface | undefined> {
+    public async login(ethAddress?: string, password?: string): Promise<JwtTokensInterface> {
         try {
             if (ethAddress && password) {
                 this.ethAddress = ethAddress
@@ -36,6 +38,7 @@ export class AuthService {
             return tokens
         } catch (err) {
             errorHandler(err)
+            throw err
         }
     }
 
@@ -46,10 +49,7 @@ export class AuthService {
      * @param provider pass a provider value for the HTTP headers. If nothing is passed defaults to MetaMask
      * @return {Promise<JwtTokensInterface>}  Returns an object containing two tokens (access+refresh) that can be saved in storage.
      */
-    public async loginWithSignature(
-        signature: string,
-        provider: string = 'MetaMask',
-    ): Promise<JwtTokensInterface | void> {
+    public async loginWithSignature(signature: string, provider: string = 'MetaMask'): Promise<JwtTokensInterface> {
         try {
             const headers = {
                 Authorization: `${provider} ${signature}`,
@@ -61,10 +61,11 @@ export class AuthService {
             return tokens
         } catch (err) {
             errorHandler(err)
+            throw err
         }
     }
 
-    public async logout() {
+    public async logout(): Promise<{}> {
         if (this.isUserLoggedIn()) {
             try {
                 const { headers, tokens } = await getHeaders(this.jwtTokens)
@@ -76,33 +77,38 @@ export class AuthService {
                 return result.data
             } catch (err) {
                 errorHandler(err)
+                throw err
             }
         } else {
             throw new Error('MythxJS no valid token found. Please login')
         }
     }
 
-    public async getVersion() {
+    public async getVersion(): Promise<Version> {
         try {
             const result = await getRequest(`${this.API_URL}/version`, null)
+            const version: Version = result.data
 
-            return result.data
+            return version
         } catch (err) {
             errorHandler(err)
+            throw err
         }
     }
 
-    public async getOpenApiHTML() {
+    public async getOpenApiHTML(): Promise<Openapi> {
         try {
             const result = await getRequest(`${this.API_URL}/openapi`, null)
+            const openApi: Openapi = result.data
 
             return result.data
         } catch (err) {
             errorHandler(err)
+            throw err
         }
     }
 
-    public async getOpenApiYAML() {
+    public async getOpenApiYAML(): Promise<any> {
         try {
             const result = await getRequest(`${this.API_URL}/openapi.yaml`, null)
 
@@ -112,15 +118,16 @@ export class AuthService {
         }
     }
 
-    public async getStats(queryString?: string) {
+    public async getStats(queryString?: string): Promise<Array<StatsResponse> | void> {
         if (this.isUserLoggedIn()) {
             try {
                 const { headers, tokens } = await getHeaders(this.jwtTokens)
                 this.jwtTokens = tokens
 
                 const result = await getRequest(`${this.API_URL}/stats/users-analyses?${queryString}`, headers)
+                const stats: Array<StatsResponse> = result.data
 
-                return result.data
+                return stats
             } catch (err) {
                 errorHandler(err)
             }
@@ -135,7 +142,7 @@ export class AuthService {
      * @param ethAddress Ethereum address for Mythx account
      * @returns Resolves with API response or throw error
      */
-    public async getChallenge(ethAddress?: string): Promise<any | void> {
+    public async getChallenge(ethAddress?: string): Promise<any> {
         try {
             const address = ethAddress ? ethAddress : this.ethAddress
             const result = await getRequest(`${this.API_URL}/auth/challenge?ethAddress=${address}`, {})
@@ -151,17 +158,19 @@ export class AuthService {
      * @returns Resolves with API response or throw error
      */
 
-    public async getUsers(queryString: string = '') {
+    public async getUsers(queryString: string = ''): Promise<UsersResponse> {
         if (this.isUserLoggedIn()) {
             try {
                 const { headers, tokens } = await getHeaders(this.jwtTokens)
                 this.jwtTokens = tokens
 
                 const result = await getRequest(`${this.API_URL}/users?${queryString}`, headers)
+                const users: UsersResponse = result.data
 
-                return result.data
+                return users
             } catch (err) {
                 errorHandler(err)
+                throw err
             }
         } else {
             throw new Error('MythxJS no valid token found. Please login.')

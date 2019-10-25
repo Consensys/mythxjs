@@ -11,6 +11,30 @@ export interface loginResponse {
     refresh: string
 }
 
+export interface StatsResponse {
+    from: string
+    interval: string
+    createdAt: string
+    type: string
+    revision: number
+    data: any
+}
+
+export interface UsersResponse {
+    total: number
+    users: Array<Users>
+}
+
+interface Users {
+    id: string
+    createdAt: string
+    email: any
+    ethAddress: string
+    roles: Array<string>
+    preferences: any
+    termsId: string
+}
+
 export interface AnalyzeOptions {
     toolName?: string
     noCacheLookup?: boolean
@@ -24,19 +48,4 @@ export interface AnalyzeOptions {
     sourceList?: Array<string>
     solcVersion?: string
     analysisMode?: string
-}
-
-// TODO: Move this to types folder
-export interface SubmitContractRes {
-    apiVersion: string
-    harveyVersion: string
-    maestroVersion: string
-    maruVersion: string
-    mythrilVersion: string
-    queueTime: number
-    runTime: number
-    status: string
-    submittedAt: string
-    submittedBy: string
-    uuid: string
 }

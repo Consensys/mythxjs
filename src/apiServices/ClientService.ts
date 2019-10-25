@@ -1,6 +1,8 @@
 import { AuthService } from './AuthService'
 import { AnalysesService } from './AnalysesService'
-import { JwtTokensInterface, AnalyzeOptions } from '..'
+import { JwtTokensInterface, AnalyzeOptions, StatsResponse, UsersResponse } from '..'
+
+import { AnalysisList, AnalysisSubmission, DetectedIssues, Version } from '../types'
 
 /**
  * Main service exposed to outside.
@@ -76,7 +78,7 @@ export class ClientService {
      * - example: loginWithToken({access:'foo', refresh: 'foo2'})
      * @return {void}
      */
-    loginWithToken(jwtTokens: JwtTokensInterface) {
+    loginWithToken(jwtTokens: JwtTokensInterface): void {
         this.analysesService = new AnalysesService(jwtTokens)
     }
 
@@ -87,7 +89,7 @@ export class ClientService {
      * @param provider pass a provider value for the HTTP headers. If nothing is passed defaults to MetaMask
      * @return {Promise<JwtTokensInterface>}  Returns an object containing two tokens (access+refresh) that can be saved in storage.
      */
-    async loginWithSignature(signature: string, provider: string): Promise<JwtTokensInterface | void> {
+    async loginWithSignature(signature: string, provider: string): Promise<JwtTokensInterface> {
         return await this.authService.loginWithSignature(signature, provider)
     }
 
@@ -98,7 +100,7 @@ export class ClientService {
      * @returns Resolves with API response or throw error
      */
 
-    async getChallenge(ethAddress?: string): Promise<any | void> {
+    async getChallenge(ethAddress?: string): Promise<any> {
         return await this.authService.getChallenge(ethAddress)
     }
 
@@ -106,45 +108,47 @@ export class ClientService {
      *  Logout from the API.
      * @returns Resolves with API response or throw error
      */
-    async logout() {
+    async logout(): Promise<{}> {
         return await this.authService.logout()
     }
 
     /**
      *   Returns API current version.
      *   Does not require login.
+     *   @returns Resolves with API response or throw error
      */
-    async getVersion() {
+    async getVersion(): Promise<Version> {
         return await this.authService.getVersion()
     }
 
     /**
      *   Returns API stats.
      *   Internal only, needs admin credentials to be accessed.
+     *   @returns {Promise<StatsResponse>} Resolves with API response or throw error
      */
-    async getStats(queryString?: string) {
+    async getStats(queryString?: string): Promise<Array<StatsResponse>> {
         return await this.authService.getStats(queryString)
     }
 
     /**
      * Retrieve list of registred API users or just caller user object if no required permission.
      * @param queryString Query string for detailed list (query parameters: offset, orderBy, email, ethAddress)
-     * @returns Resolves with API response or throw error
+     * @returns {Promise<UsersResponse>} Resolves with API response or throw error
      */
-    async getUsers(queryString: string) {
+    async getUsers(queryString: string): Promise<UsersResponse> {
         return await this.authService.getUsers(queryString)
     }
 
-    async getAnalysesList() {
+    async getAnalysesList(): Promise<AnalysisList> {
         return await this.analysesService.getAnalysesList()
     }
 
     /**
      * Get status for analysis on given UUID.
      * @param uuid - unique identifier of analysis job
-     * @return {Promise<any>} Resolves with API response, or throws error
+     * @return {Promise<AnalysisStatusResponse>} Resolves with API response, or throws error
      */
-    async getAnalysisStatus(uuid: string) {
+    async getAnalysisStatus(uuid: string): Promise<AnalysisSubmission> {
         return await this.analysesService.getAnalysisStatus(uuid)
     }
 
@@ -154,30 +158,32 @@ export class ClientService {
      * @param {String} uuid - unique identifier of analysis job
      * @returns {Promise} Resolves with API response, or throws error
      */
-    async getDetectedIssues(uuid: string) {
+    async getDetectedIssues(uuid: string): Promise<DetectedIssues> {
         return await this.analysesService.getDetectedIssues(uuid)
     }
 
     /**
      * Submit a smart contract using bytecode only.
+     * This will likely be deprecated in future.
      *
      * @param {String} bytecode - Compiled bytecode of a smart contract for example "0xfe".
      * @return {Promise} Resolves with API response, or throws an
      *  an error.
      */
-    async submitBytecode(bytecode: string): Promise<any> {
+    async submitBytecode(bytecode: string): Promise<AnalysisSubmission> {
         return await this.analysesService.submitBytecode(bytecode)
     }
 
     /**
      * Submit a smart contract using sourcecode only.
+     * This will likely be deprecated in future.
      *
      * @param {String} sourceCode - String containing smart contract sourcecode.
      * @param {String} contractName - Name of the contract to submit for analysis.
      * @return {Promise} Resolves with API response, or throws an
      *  an error.
      */
-    async submitSourceCode(sourceCode: string, contractName: string) {
+    async submitSourceCode(sourceCode: string, contractName: string): Promise<AnalysisSubmission> {
         return await this.analysesService.submitSourceCode(sourceCode, contractName)
     }
 
@@ -188,7 +194,7 @@ export class ClientService {
      * @return {Promise} Resolves with API response, or throws an
      *  an error.
      */
-    async analyze(options: AnalyzeOptions) {
+    async analyze(options: AnalyzeOptions): Promise<AnalysisSubmission> {
         return await this.analysesService.analyze(options)
     }
 }
