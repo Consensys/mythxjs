@@ -41,7 +41,7 @@ describe('analyze', () => {
 
     it('should return an object with info about submitted analysis', async () => {
         const options: AnalyzeOptions = {
-            groupUUID: '1111-2222-3333-4444',
+            groupId: '1111-2222-3333-4444',
             contractName: 'contractName',
             bytecode: 'bytecode',
             sourceMap: 'sourceMap',
@@ -91,7 +91,7 @@ describe('analyze', () => {
 
     it('should fail if there is something wrong with the request', async () => {
         const options: AnalyzeOptions = {
-            groupUUID: '1111-2222-3333-4444',
+            groupId: '1111-2222-3333-4444',
             toolName: 'test',
             noCacheLookup: false,
             contractName: 'contractName',
