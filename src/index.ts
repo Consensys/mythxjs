@@ -36,6 +36,7 @@ interface Users {
 }
 
 export interface AnalyzeOptions {
+    groupUUID?: string
     toolName?: string
     noCacheLookup?: boolean
     contractName?: string
