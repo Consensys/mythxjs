@@ -58,4 +58,17 @@ describe('getPdf', () => {
             getRequestStub.calledWith(`${ClientService.MYTHX_API_ENVIRONMENT}/analyses/1111-2222-3333-4444/pdf-report`),
         ).to.be.true
     })
+
+    it('should fail if there is something wrong with the request', async () => {
+        const uuid = '123-456-789'
+
+        getRequestStub.throws('400')
+
+        try {
+            await ANALYSES.getPdf(uuid)
+            expect.fail('getPdf should be rejected')
+        } catch (err) {
+            expect(err.message).to.equal('MythxJS. Error with your request. 400')
+        }
+    })
 })
