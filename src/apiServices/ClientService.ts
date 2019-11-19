@@ -1,6 +1,6 @@
 import { AuthService } from './AuthService'
 import { AnalysesService } from './AnalysesService'
-import { JwtTokensInterface, AnalyzeOptions, StatsResponse, UsersResponse } from '..'
+import { JwtTokensInterface, AnalyzeOptions, StatsResponse, UsersResponse, AnalysisGroups } from '..'
 
 import { AnalysisList, AnalysisSubmission, DetectedIssues, Version } from '../types'
 
@@ -203,5 +203,15 @@ export class ClientService {
      */
     async getPdf(uuid: string): Promise<any> {
         return await this.analysesService.getPdf(uuid)
+    }
+
+    /**
+     * Get API generated PDF.
+     *
+     * @param {String} queryString - Query string for detailed list of groups (query parameters: offset, createdBy, groupName, dateFrom, dateTo)
+     * @return {Promise} Resolves with API response, or throws error
+     */
+    async listGroups(queryString?: string): Promise<AnalysisGroups> {
+        return await this.analysesService.listGroups(queryString)
     }
 }
