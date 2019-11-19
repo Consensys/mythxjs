@@ -206,7 +206,7 @@ export class ClientService {
     }
 
     /**
-     * Get API generated PDF.
+     * Get list of analyses groups.
      *
      * @param {String} queryString - Query string for detailed list of groups (query parameters: offset, createdBy, groupName, dateFrom, dateTo)
      * @return {Promise} Resolves with API response, or throws error
