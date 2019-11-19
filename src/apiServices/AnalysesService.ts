@@ -145,7 +145,7 @@ export class AnalysesService {
             this.jwtTokens = tokens
 
             const result = await getRequest(`${this.API_URL}/analyses/${uuid}/pdf-report`, headers)
-            const analysisRes: AnalysisSubmission = result.data
+            const analysisRes: any = result.data
 
             return analysisRes
         } catch (err) {
