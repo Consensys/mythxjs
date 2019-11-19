@@ -167,8 +167,7 @@ export class ClientService {
      * This will likely be deprecated in future.
      *
      * @param {String} bytecode - Compiled bytecode of a smart contract for example "0xfe".
-     * @return {Promise} Resolves with API response, or throws an
-     *  an error.
+     * @return {Promise} Resolves with API response, or throws error
      */
     async submitBytecode(bytecode: string): Promise<AnalysisSubmission> {
         return await this.analysesService.submitBytecode(bytecode)
@@ -180,8 +179,7 @@ export class ClientService {
      *
      * @param {String} sourceCode - String containing smart contract sourcecode.
      * @param {String} contractName - Name of the contract to submit for analysis.
-     * @return {Promise} Resolves with API response, or throws an
-     *  an error.
+     * @return {Promise} Resolves with API response, or throws errors
      */
     async submitSourceCode(sourceCode: string, contractName: string): Promise<AnalysisSubmission> {
         return await this.analysesService.submitSourceCode(sourceCode, contractName)
@@ -191,10 +189,19 @@ export class ClientService {
      * Submit a smart contract using custom parameters.
      *
      * @param {Object} options - Object containing options to submit to API
-     * @return {Promise} Resolves with API response, or throws an
-     *  an error.
+     * @return {Promise} Resolves with API response, or throws error
      */
     async analyze(options: AnalyzeOptions): Promise<AnalysisSubmission> {
         return await this.analysesService.analyze(options)
+    }
+
+    /**
+     * Get API generated PDF.
+     *
+     * @param {String} uuid - Unique identifier of analysis job
+     * @return {Promise} Resolves with API response, or throws error
+     */
+    async getPdf(uuid: string): Promise<any> {
+        return await this.analysesService.getPdf(uuid)
     }
 }

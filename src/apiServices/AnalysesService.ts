@@ -138,4 +138,19 @@ export class AnalysesService {
             throw err
         }
     }
+
+    public async getPdf(uuid: string): Promise<any> {
+        try {
+            const { headers, tokens } = await getHeaders(this.jwtTokens)
+            this.jwtTokens = tokens
+
+            const result = await getRequest(`${this.API_URL}/analyses/${uuid}/pdf-report`, headers)
+            const analysisRes: any = result.data
+
+            return analysisRes
+        } catch (err) {
+            errorHandler(err)
+            throw err
+        }
+    }
 }
