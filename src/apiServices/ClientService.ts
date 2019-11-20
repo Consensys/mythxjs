@@ -1,6 +1,6 @@
 import { AuthService } from './AuthService'
 import { AnalysesService } from './AnalysesService'
-import { JwtTokensInterface, AnalyzeOptions, StatsResponse, UsersResponse, AnalysisGroups } from '..'
+import { JwtTokensInterface, AnalyzeOptions, StatsResponse, UsersResponse, AnalysisGroups, Group } from '..'
 
 import { AnalysisList, AnalysisSubmission, DetectedIssues, Version } from '../types'
 
@@ -213,5 +213,15 @@ export class ClientService {
      */
     async listGroups(queryString?: string): Promise<AnalysisGroups> {
         return await this.analysesService.listGroups(queryString)
+    }
+
+    /**
+     * Create an analysis submission group.
+     *
+     * @param {String} groupName (optional) - String that defines a unique group name
+     * @return {Promise} Resolves with API response, or throws error
+     */
+    async createGroup(groupName?: string): Promise<Group> {
+        return await this.analysesService.createGroup(groupName)
     }
 }

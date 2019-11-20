@@ -12,7 +12,7 @@ import {
 
 import { isTokenValid } from '../util/validateToken'
 
-import { JwtTokensInterface, AnalyzeOptions, AnalysisGroups } from '..'
+import { JwtTokensInterface, AnalyzeOptions, AnalysisGroups, Group } from '..'
 
 import { AnalysisList, AnalysisSubmission, DetectedIssues } from '../types'
 
@@ -154,7 +154,7 @@ export class AnalysesService {
         }
     }
 
-    public async listGroups(queryString: string = ''): Promise<AnalysisGroups> {
+    public async listGroups(queryString?): Promise<AnalysisGroups> {
         try {
             const { headers, tokens } = await getHeaders(this.jwtTokens)
             this.jwtTokens = tokens
@@ -163,6 +163,23 @@ export class AnalysesService {
             const groupsRes: AnalysisGroups = result.data
 
             return groupsRes
+        } catch (err) {
+            errorHandler(err)
+            throw err
+        }
+    }
+
+    public async createGroup(groupName?: string): Promise<Group> {
+        try {
+            const { headers, tokens } = await getHeaders(this.jwtTokens)
+            this.jwtTokens = tokens
+
+            const body = groupName ? { groupName: groupName } : null
+
+            const result = await postRequest(`${this.API_URL}/analysis-groups`, body, headers)
+            const groupRes: Group = result.data
+
+            return groupRes
         } catch (err) {
             errorHandler(err)
             throw err

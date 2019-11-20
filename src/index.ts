@@ -56,7 +56,7 @@ export interface AnalysisGroups {
     total: number
 }
 
-interface Group {
+export interface Group {
     id: string
     name: string
     createdAt: string
