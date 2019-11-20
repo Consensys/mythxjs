@@ -185,4 +185,21 @@ export class AnalysesService {
             throw err
         }
     }
+
+    public async groupOperation(groupId, operationType?): Promise<Group> {
+        try {
+            const { headers, tokens } = await getHeaders(this.jwtTokens)
+            this.jwtTokens = tokens
+
+            const body = operationType ? { type: operationType } : 'seal_group'
+
+            const result = await postRequest(`${this.API_URL}/analysis-groups/${groupId}`, body, headers)
+            const groupRes: Group = result.data
+
+            return groupRes
+        } catch (err) {
+            errorHandler(err)
+            throw err
+        }
+    }
 }

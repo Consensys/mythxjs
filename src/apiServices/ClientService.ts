@@ -224,4 +224,15 @@ export class ClientService {
     async createGroup(groupName?: string): Promise<Group> {
         return await this.analysesService.createGroup(groupName)
     }
+
+    /**
+     * Perform operations on specific group.
+     *
+     * @param {String} groupId - String that defines a unique group ID
+     * @param {String} operationType (optional) - Type of operation to be performed in the group (e.g. "seal_group")
+     * @return {Promise} Resolves with API response, or throws error
+     */
+    async groupOperation(groupId, operationType?): Promise<Group> {
+        return await this.analysesService.groupOperation(groupId, operationType)
+    }
 }

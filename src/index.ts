@@ -64,7 +64,7 @@ export interface Group {
     completedAt: string
     progress: number
     status: string
-    mainSourceFiles: []
+    mainSourceFiles: Array<String>
     numAnalyses: {}
     numVulnerabilities: {}
 }
