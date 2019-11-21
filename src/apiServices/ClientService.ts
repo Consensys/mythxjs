@@ -218,7 +218,7 @@ export class ClientService {
     /**
      * Create an analysis submission group.
      *
-     * @param {String} groupName (optional) - String that defines a unique group name
+     * @param {String} groupName (optional) - String that defines a group name
      * @return {Promise} Resolves with API response, or throws error
      */
     async createGroup(groupName?: string): Promise<Group> {
@@ -234,5 +234,15 @@ export class ClientService {
      */
     async groupOperation(groupId, operationType?): Promise<Group> {
         return await this.analysesService.groupOperation(groupId, operationType)
+    }
+
+    /**
+     * Get a single analyses group by ID.
+     *
+     * @param {String} groupId (required) - String that defines a unique group ID
+     * @return {Promise} Resolves with API response, or throws error
+     */
+    public async getGroupById(groupId: string): Promise<Group> {
+        return await this.analysesService.getGroupById(groupId)
     }
 }

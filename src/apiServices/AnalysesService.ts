@@ -169,6 +169,24 @@ export class AnalysesService {
         }
     }
 
+    public async getGroupById(groupId: string) {
+        try {
+            if (!groupId) {
+                throw new Error('MythXJS: Group ID is required to perform this operation')
+            }
+            const { headers, tokens } = await getHeaders(this.jwtTokens)
+            this.jwtTokens = tokens
+
+            const result = await getRequest(`${this.API_URL}/analysis-groups/${groupId}`, headers)
+            const groupRes: Group = result.data
+
+            return groupRes
+        } catch (err) {
+            errorHandler(err)
+            throw err
+        }
+    }
+
     public async createGroup(groupName?: string): Promise<Group> {
         try {
             const { headers, tokens } = await getHeaders(this.jwtTokens)
@@ -186,8 +204,11 @@ export class AnalysesService {
         }
     }
 
-    public async groupOperation(groupId, operationType?): Promise<Group> {
+    public async groupOperation(groupId: string, operationType?: string): Promise<Group> {
         try {
+            if (!groupId) {
+                throw new Error('MythXJS: Group ID is required to perform this operation')
+            }
             const { headers, tokens } = await getHeaders(this.jwtTokens)
             this.jwtTokens = tokens
 
