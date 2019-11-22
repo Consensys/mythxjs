@@ -1,6 +1,6 @@
 import { AuthService } from './AuthService'
 import { AnalysesService } from './AnalysesService'
-import { JwtTokensInterface, AnalyzeOptions, StatsResponse, UsersResponse } from '..'
+import { JwtTokensInterface, AnalyzeOptions, StatsResponse, UsersResponse, AnalysisGroups, Group } from '..'
 
 import { AnalysisList, AnalysisSubmission, DetectedIssues, Version } from '../types'
 
@@ -203,5 +203,46 @@ export class ClientService {
      */
     async getPdf(uuid: string): Promise<any> {
         return await this.analysesService.getPdf(uuid)
+    }
+
+    /**
+     * Get list of analyses groups.
+     *
+     * @param {String} queryString - Query string for detailed list of groups (query parameters: offset, createdBy, groupName, dateFrom, dateTo)
+     * @return {Promise} Resolves with API response, or throws error
+     */
+    async listGroups(queryString?: string): Promise<AnalysisGroups> {
+        return await this.analysesService.listGroups(queryString)
+    }
+
+    /**
+     * Create an analysis submission group.
+     *
+     * @param {String} groupName (optional) - String that defines a group name
+     * @return {Promise} Resolves with API response, or throws error
+     */
+    async createGroup(groupName?: string): Promise<Group> {
+        return await this.analysesService.createGroup(groupName)
+    }
+
+    /**
+     * Perform operations on specific group.
+     *
+     * @param {String} groupId - String that defines a unique group ID
+     * @param {String} operationType (optional) - Type of operation to be performed in the group (e.g. "seal_group")
+     * @return {Promise} Resolves with API response, or throws error
+     */
+    async groupOperation(groupId, operationType?): Promise<Group> {
+        return await this.analysesService.groupOperation(groupId, operationType)
+    }
+
+    /**
+     * Get a single analyses group by ID.
+     *
+     * @param {String} groupId (required) - String that defines a unique group ID
+     * @return {Promise} Resolves with API response, or throws error
+     */
+    public async getGroupById(groupId: string): Promise<Group> {
+        return await this.analysesService.getGroupById(groupId)
     }
 }

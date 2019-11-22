@@ -12,7 +12,7 @@ import {
 
 import { isTokenValid } from '../util/validateToken'
 
-import { JwtTokensInterface, AnalyzeOptions } from '..'
+import { JwtTokensInterface, AnalyzeOptions, AnalysisGroups, Group } from '..'
 
 import { AnalysisList, AnalysisSubmission, DetectedIssues } from '../types'
 
@@ -145,9 +145,79 @@ export class AnalysesService {
             this.jwtTokens = tokens
 
             const result = await getRequest(`${this.API_URL}/analyses/${uuid}/pdf-report`, headers)
-            const analysisRes: any = result.data
+            const pdfRes: any = result.data
 
-            return analysisRes
+            return pdfRes
+        } catch (err) {
+            errorHandler(err)
+            throw err
+        }
+    }
+
+    public async listGroups(queryString?): Promise<AnalysisGroups> {
+        try {
+            const { headers, tokens } = await getHeaders(this.jwtTokens)
+            this.jwtTokens = tokens
+
+            const result = await getRequest(`${this.API_URL}/analysis-groups?${queryString}`, headers)
+            const groupsRes: AnalysisGroups = result.data
+
+            return groupsRes
+        } catch (err) {
+            errorHandler(err)
+            throw err
+        }
+    }
+
+    public async getGroupById(groupId: string) {
+        try {
+            if (!groupId) {
+                throw new Error('MythXJS: Group ID is required to perform this operation')
+            }
+            const { headers, tokens } = await getHeaders(this.jwtTokens)
+            this.jwtTokens = tokens
+
+            const result = await getRequest(`${this.API_URL}/analysis-groups/${groupId}`, headers)
+            const groupRes: Group = result.data
+
+            return groupRes
+        } catch (err) {
+            errorHandler(err)
+            throw err
+        }
+    }
+
+    public async createGroup(groupName?: string): Promise<Group> {
+        try {
+            const { headers, tokens } = await getHeaders(this.jwtTokens)
+            this.jwtTokens = tokens
+
+            const body = groupName ? { groupName: groupName } : null
+
+            const result = await postRequest(`${this.API_URL}/analysis-groups`, body, headers)
+            const groupRes: Group = result.data
+
+            return groupRes
+        } catch (err) {
+            errorHandler(err)
+            throw err
+        }
+    }
+
+    public async groupOperation(groupId: string, operationType?: string): Promise<Group> {
+        try {
+            if (!groupId) {
+                throw new Error('MythXJS: Group ID is required to perform this operation')
+            }
+            const { headers, tokens } = await getHeaders(this.jwtTokens)
+            this.jwtTokens = tokens
+
+            const body = operationType ? { type: operationType } : 'seal_group'
+
+            const result = await postRequest(`${this.API_URL}/analysis-groups/${groupId}`, body, headers)
+            const groupRes: Group = result.data
+
+            return groupRes
         } catch (err) {
             errorHandler(err)
             throw err

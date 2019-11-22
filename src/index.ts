@@ -50,3 +50,21 @@ export interface AnalyzeOptions {
     solcVersion?: string
     analysisMode?: string
 }
+
+export interface AnalysisGroups {
+    groups: Array<Group>
+    total: number
+}
+
+export interface Group {
+    id: string
+    name: string
+    createdAt: string
+    createdBy: string
+    completedAt: string
+    progress: number
+    status: string
+    mainSourceFiles: Array<String>
+    numAnalyses: {}
+    numVulnerabilities: {}
+}
