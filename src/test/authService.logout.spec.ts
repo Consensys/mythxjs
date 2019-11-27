@@ -44,7 +44,6 @@ describe('logout', () => {
     })
 
     it('returns an empty object', async () => {
-        console.log('FOOOS')
         isUserLoggedInStub.returns(true)
 
         postRequestStub.resolves({
@@ -68,7 +67,6 @@ describe('logout', () => {
 
     it('should fail if there is something wrong with the request', async () => {
         isUserLoggedInStub.returns(true)
-
         postRequestStub.throws('400')
 
         try {
