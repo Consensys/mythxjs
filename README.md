@@ -83,7 +83,6 @@ const loginWithMM = async () => {
         async (message) => {
             // Returns set of tokens
             const result = await mythx.loginWithSignature(message)
-            console.log(result, 'ress')
         }
     ).catch(err => console.error(err))
 }
