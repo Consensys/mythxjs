@@ -175,7 +175,7 @@ export class AuthService {
     }
 
     private isUserLoggedIn() {
-        return !!ClientService.jwtTokens.access && !!ClientService.jwtTokens.refresh
+        return !!ClientService.jwtTokens.access
     }
 
     private setCredentials(tokens: JwtTokensInterface) {

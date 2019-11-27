@@ -51,12 +51,16 @@ export class ClientService {
         password?: string,
         toolName: string = 'MythXJS',
         environment: string = 'https://api.mythx.io/v1',
+        accessToken: string = '',
     ) {
         this.ethAddress = ethAddress
         this.password = password
         ClientService.MYTHX_API_ENVIRONMENT = environment
         this.authService = new AuthService(ethAddress, password)
-        this.toolName = toolName
+        ;(this.toolName = toolName), (ClientService.jwtTokens.access = accessToken)
+        if (accessToken) {
+            this.analysesService = new AnalysesService(ClientService.jwtTokens, this.toolName)
+        }
     }
 
     /**
@@ -130,6 +134,7 @@ export class ClientService {
      * @returns {Promise<UsersResponse>} Resolves with API response or throw error
      */
     async getUsers(queryString: string): Promise<UsersResponse> {
+        console.log(ClientService.jwtTokens)
         return await this.authService.getUsers(queryString)
     }
 
