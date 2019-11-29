@@ -135,7 +135,6 @@ export class ClientService {
      * @returns {Promise<UsersResponse>} Resolves with API response or throw error
      */
     async getUsers(queryString: string): Promise<UsersResponse> {
-        console.log(ClientService.jwtTokens)
         return await this.authService.getUsers(queryString)
     }
 
