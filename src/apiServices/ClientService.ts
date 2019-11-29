@@ -59,6 +59,7 @@ export class ClientService {
         this.authService = new AuthService(ethAddress, password)
         ;(this.toolName = toolName), (ClientService.jwtTokens.access = accessToken)
         if (accessToken) {
+            ClientService.jwtTokens.access = accessToken
             this.analysesService = new AnalysesService(ClientService.jwtTokens, this.toolName)
         }
     }
