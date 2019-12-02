@@ -18,12 +18,11 @@ import { AnalysisList, AnalysisSubmission, DetectedIssues } from '../types'
 
 export class AnalysesService {
     private API_URL: string = ClientService.MYTHX_API_ENVIRONMENT
-    private jwtTokens: JwtTokensInterface
     private toolName: string
 
     constructor(jwtTokens: JwtTokensInterface, toolName: string = 'MythXJS') {
         if (isTokenValid(jwtTokens.access)) {
-            this.jwtTokens = jwtTokens as JwtTokensInterface
+            ClientService.jwtTokens = jwtTokens as JwtTokensInterface
         } else {
             throw new Error('Access token has expired or is invalid! Please login again.')
         }
@@ -32,8 +31,8 @@ export class AnalysesService {
 
     public async getAnalysesList(): Promise<AnalysisList> {
         try {
-            const { headers, tokens } = await getHeaders(this.jwtTokens)
-            this.jwtTokens = tokens
+            const { headers, tokens } = await getHeaders(ClientService.jwtTokens)
+            this.setCredentials(tokens)
 
             const result = await getRequest(`${this.API_URL}/analyses`, headers)
             const analysisList: AnalysisList = result.data
@@ -47,8 +46,8 @@ export class AnalysesService {
 
     public async getAnalysisStatus(uuid: string): Promise<AnalysisSubmission> {
         try {
-            const { headers, tokens } = await getHeaders(this.jwtTokens)
-            this.jwtTokens = tokens
+            const { headers, tokens } = await getHeaders(ClientService.jwtTokens)
+            this.setCredentials(tokens)
 
             const result = await getRequest(`${this.API_URL}/analyses/${uuid}`, headers)
             const analysisRes: AnalysisSubmission = result.data
@@ -62,8 +61,8 @@ export class AnalysesService {
 
     public async getDetectedIssues(uuid: string): Promise<DetectedIssues> {
         try {
-            const { headers, tokens } = await getHeaders(this.jwtTokens)
-            this.jwtTokens = tokens
+            const { headers, tokens } = await getHeaders(ClientService.jwtTokens)
+            this.setCredentials(tokens)
 
             const getStatus = await this.getAnalysisStatus(uuid)
             if (getStatus.status === 'Queued' || getStatus.status === 'In progress') {
@@ -90,8 +89,8 @@ export class AnalysesService {
 
     public async submitBytecode(bytecode: string): Promise<AnalysisSubmission> {
         try {
-            const { headers, tokens } = await getHeaders(this.jwtTokens)
-            this.jwtTokens = tokens
+            const { headers, tokens } = await getHeaders(ClientService.jwtTokens)
+            this.setCredentials(tokens)
 
             const request = generateBytecodeRequest(bytecode, this.toolName)
 
@@ -107,8 +106,8 @@ export class AnalysesService {
 
     public async submitSourceCode(sourceCode: string, contractName: string): Promise<AnalysisSubmission> {
         try {
-            const { headers, tokens } = await getHeaders(this.jwtTokens)
-            this.jwtTokens = tokens
+            const { headers, tokens } = await getHeaders(ClientService.jwtTokens)
+            this.setCredentials(tokens)
 
             const request = generateSourceCodeRequest(sourceCode, contractName, this.toolName)
 
@@ -124,8 +123,8 @@ export class AnalysesService {
 
     public async analyze(options: AnalyzeOptions): Promise<AnalysisSubmission> {
         try {
-            const { headers, tokens } = await getHeaders(this.jwtTokens)
-            this.jwtTokens = tokens
+            const { headers, tokens } = await getHeaders(ClientService.jwtTokens)
+            this.setCredentials(tokens)
 
             const request = generateAnalysisRequest(options, this.toolName)
 
@@ -141,8 +140,8 @@ export class AnalysesService {
 
     public async getPdf(uuid: string): Promise<any> {
         try {
-            const { headers, tokens } = await getHeaders(this.jwtTokens)
-            this.jwtTokens = tokens
+            const { headers, tokens } = await getHeaders(ClientService.jwtTokens)
+            this.setCredentials(tokens)
 
             const result = await getRequest(`${this.API_URL}/analyses/${uuid}/pdf-report`, headers)
             const pdfRes: any = result.data
@@ -156,8 +155,8 @@ export class AnalysesService {
 
     public async listGroups(queryString?): Promise<AnalysisGroups> {
         try {
-            const { headers, tokens } = await getHeaders(this.jwtTokens)
-            this.jwtTokens = tokens
+            const { headers, tokens } = await getHeaders(ClientService.jwtTokens)
+            this.setCredentials(tokens)
 
             const result = await getRequest(`${this.API_URL}/analysis-groups?${queryString}`, headers)
             const groupsRes: AnalysisGroups = result.data
@@ -174,8 +173,8 @@ export class AnalysesService {
             if (!groupId) {
                 throw new Error('MythXJS: Group ID is required to perform this operation')
             }
-            const { headers, tokens } = await getHeaders(this.jwtTokens)
-            this.jwtTokens = tokens
+            const { headers, tokens } = await getHeaders(ClientService.jwtTokens)
+            this.setCredentials(tokens)
 
             const result = await getRequest(`${this.API_URL}/analysis-groups/${groupId}`, headers)
             const groupRes: Group = result.data
@@ -189,8 +188,8 @@ export class AnalysesService {
 
     public async createGroup(groupName?: string): Promise<Group> {
         try {
-            const { headers, tokens } = await getHeaders(this.jwtTokens)
-            this.jwtTokens = tokens
+            const { headers, tokens } = await getHeaders(ClientService.jwtTokens)
+            this.setCredentials(tokens)
 
             const body = groupName ? { groupName: groupName } : null
 
@@ -209,8 +208,8 @@ export class AnalysesService {
             if (!groupId) {
                 throw new Error('MythXJS: Group ID is required to perform this operation')
             }
-            const { headers, tokens } = await getHeaders(this.jwtTokens)
-            this.jwtTokens = tokens
+            const { headers, tokens } = await getHeaders(ClientService.jwtTokens)
+            this.setCredentials(tokens)
 
             const body = operationType ? { type: operationType } : 'seal_group'
 
@@ -222,5 +221,10 @@ export class AnalysesService {
             errorHandler(err)
             throw err
         }
+    }
+
+    private setCredentials(tokens: JwtTokensInterface) {
+        ClientService.jwtTokens.access = tokens.access
+        ClientService.jwtTokens.refresh = tokens.refresh
     }
 }

@@ -33,7 +33,7 @@ export class ClientService {
     /**
      * @ignore
      */
-    private jwtTokens
+    // private jwtTokens
     /**
      * @ignore
      */
@@ -41,17 +41,27 @@ export class ClientService {
 
     static MYTHX_API_ENVIRONMENT
 
+    static jwtTokens: JwtTokensInterface = {
+        access: '',
+        refresh: '',
+    }
+
     constructor(
         ethAddress?: string,
         password?: string,
         toolName: string = 'MythXJS',
         environment: string = 'https://api.mythx.io/v1',
+        accessToken: string = '',
     ) {
         this.ethAddress = ethAddress
         this.password = password
         ClientService.MYTHX_API_ENVIRONMENT = environment
         this.authService = new AuthService(ethAddress, password)
-        this.toolName = toolName
+        ;(this.toolName = toolName), (ClientService.jwtTokens.access = accessToken)
+        if (accessToken) {
+            ClientService.jwtTokens.access = accessToken
+            this.analysesService = new AnalysesService(ClientService.jwtTokens, this.toolName)
+        }
     }
 
     /**
@@ -65,21 +75,10 @@ export class ClientService {
             this.ethAddress = ethAddress
             this.password = password
         }
-        this.jwtTokens = await this.authService.login(this.ethAddress, this.password)
-        this.analysesService = new AnalysesService(this.jwtTokens, this.toolName)
+        ClientService.jwtTokens = await this.authService.login(this.ethAddress, this.password)
+        this.analysesService = new AnalysesService(ClientService.jwtTokens, this.toolName)
 
-        return this.jwtTokens
-    }
-
-    /**
-     *  Login to the API using a set of pre-existing tokens.
-     *   Can be used when user has previously log in and stored those tokens in memory.
-     * @param jwtTokens object containing access + refresh token
-     * - example: loginWithToken({access:'foo', refresh: 'foo2'})
-     * @return {void}
-     */
-    loginWithToken(jwtTokens: JwtTokensInterface): void {
-        this.analysesService = new AnalysesService(jwtTokens)
+        return ClientService.jwtTokens
     }
 
     /**

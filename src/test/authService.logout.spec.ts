@@ -3,6 +3,7 @@ import * as sinon from 'sinon'
 import * as jwt from 'jsonwebtoken'
 
 import { AuthService } from '../apiServices/AuthService'
+import { ClientService } from '../apiServices/ClientService'
 
 const postRequest = require('../http/index')
 
@@ -18,11 +19,12 @@ describe('logout', () => {
 
     let AUTH
     let isUserLoggedInStub: any
+    let CLIENT
     beforeEach(() => {
         postRequestStub = sinon.stub(postRequest, 'postRequest')
 
         AUTH = new AuthService('user', 'password')
-        AUTH.jwtTokens = {
+        ClientService.jwtTokens = {
             access: jwt.sign(accessToken, 'secret'),
             refresh: 'refresh',
         }
@@ -34,7 +36,7 @@ describe('logout', () => {
         postRequestStub.restore()
         isUserLoggedInStub.restore()
 
-        delete AUTH.jwtTokens
+        delete ClientService.jwtTokens
     })
 
     it('is a function', () => {
@@ -65,7 +67,6 @@ describe('logout', () => {
 
     it('should fail if there is something wrong with the request', async () => {
         isUserLoggedInStub.returns(true)
-
         postRequestStub.throws('400')
 
         try {
