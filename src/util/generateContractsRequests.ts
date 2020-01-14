@@ -43,6 +43,6 @@ export function generateAnalysisRequest(options: AnalyzeOptions, toolName: strin
     if (typeof options.sourceList !== 'undefined') result.data['sourceList'] = options.sourceList
     if (typeof options.solcVersion !== 'undefined') result.data['version'] = options.solcVersion
     if (typeof options.analysisMode !== 'undefined') result.data['analysisMode'] = options.analysisMode
-    if (typeof options.analysisMode !== 'undefined') result['groupId'] = options.groupId
+    if (typeof options.groupId !== 'undefined') result['groupId'] = options.groupId
     return result
 }

@@ -54,6 +54,7 @@ describe('analyze', () => {
         const expected = {
             clientToolName: 'MythXJTest',
             noCacheLookup: false,
+            groupId: '1111-2222-3333-4444',
             data: {
                 contractName: 'contractName',
                 bytecode: 'bytecode',
