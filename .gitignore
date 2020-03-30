@@ -13,3 +13,4 @@ compiled
 tokens.json
 __contracts
 coverage
+package-lock.json
