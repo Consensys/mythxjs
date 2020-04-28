@@ -49,6 +49,7 @@ export interface AnalyzeOptions {
     sourceList?: Array<string>
     solcVersion?: string
     analysisMode?: string
+    propertyChecking?: boolean
 }
 
 export interface AnalysisGroups {

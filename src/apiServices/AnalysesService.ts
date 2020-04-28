@@ -1,20 +1,16 @@
-import { ClientService } from './ClientService'
-
-import { postRequest, getRequest } from '../http'
-
-import { errorHandler } from '../util/errorHandler'
-import { getHeaders } from '../util/getHeaders'
+import { AnalysisGroups, AnalyzeOptions, Group, JwtTokensInterface } from '..'
+import { AnalysisList, AnalysisSubmission, DetectedIssues } from '../types'
 import {
+    generateAnalysisRequest,
     generateBytecodeRequest,
     generateSourceCodeRequest,
-    generateAnalysisRequest,
 } from '../util/generateContractsRequests'
+import { getRequest, postRequest } from '../http'
 
+import { ClientService } from './ClientService'
+import { errorHandler } from '../util/errorHandler'
+import { getHeaders } from '../util/getHeaders'
 import { isTokenValid } from '../util/validateToken'
-
-import { JwtTokensInterface, AnalyzeOptions, AnalysisGroups, Group } from '..'
-
-import { AnalysisList, AnalysisSubmission, DetectedIssues } from '../types'
 
 export class AnalysesService {
     private API_URL: string = ClientService.MYTHX_API_ENVIRONMENT
@@ -104,12 +100,16 @@ export class AnalysesService {
         }
     }
 
-    public async submitSourceCode(sourceCode: string, contractName: string): Promise<AnalysisSubmission> {
+    public async submitSourceCode(
+        sourceCode: string,
+        contractName: string,
+        propertyChecking: boolean = false,
+    ): Promise<AnalysisSubmission> {
         try {
             const { headers, tokens } = await getHeaders(ClientService.jwtTokens)
             this.setCredentials(tokens)
 
-            const request = generateSourceCodeRequest(sourceCode, contractName, this.toolName)
+            const request = generateSourceCodeRequest(sourceCode, contractName, this.toolName, propertyChecking)
 
             const result = await postRequest(`${this.API_URL}/analyses`, request, headers)
             const analysisRes: AnalysisSubmission = result.data
@@ -121,12 +121,12 @@ export class AnalysesService {
         }
     }
 
-    public async analyze(options: AnalyzeOptions): Promise<AnalysisSubmission> {
+    public async analyze(options: AnalyzeOptions, propertyChecking?: boolean): Promise<AnalysisSubmission> {
         try {
             const { headers, tokens } = await getHeaders(ClientService.jwtTokens)
             this.setCredentials(tokens)
 
-            const request = generateAnalysisRequest(options, this.toolName)
+            const request = generateAnalysisRequest(options, this.toolName, propertyChecking)
 
             const result = await postRequest(`${this.API_URL}/analyses`, request, headers)
             const analysisRes: AnalysisSubmission = result.data

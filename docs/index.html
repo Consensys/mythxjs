@@ -71,20 +71,71 @@
 				<h2 id="installation">Installation</h2>
 				<pre><code>npm <span class="hljs-keyword">install</span> mythxjs</code></pre><h2 id="example">Example</h2>
 				<p>Creating a new instance of the library using ES6 modules</p>
-				<pre><code><span class="hljs-keyword">import</span> { <span class="hljs-built_in">Client</span> } from <span class="hljs-string">'mythxjs'</span>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { Client } <span class="hljs-keyword">from</span> <span class="hljs-string">'mythxjs'</span>
 
-<span class="hljs-keyword">const</span> mythx = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Client</span>(<span class="hljs-string">'0x0000000000000000000000000000000000000000'</span>, <span class="hljs-string">'trial'</span>, <span class="hljs-string">'testTool'</span>);</code></pre><p>Performing a <code>login</code> request</p>
-				<pre><code>// Logs <span class="hljs-keyword">in</span> <span class="hljs-keyword">and</span> <span class="hljs-keyword">returns</span> an <span class="hljs-keyword">object</span> containing <span class="hljs-keyword">access</span> <span class="hljs-keyword">and</span> <span class="hljs-keyword">refresh</span> token
-const tokens = await mythx.<span class="hljs-keyword">login</span>()
-</code></pre><p>Submitting an analysis using bytecode only</p>
-				<pre><code><span class="hljs-keyword">const</span> bytecode = <span class="hljs-string">'0xfe'</span>
-<span class="hljs-keyword">await</span> mythx.submitBytecode(bytecode)</code></pre><p>Getting a list of detected issues</p>
-				<pre><code>await mythx.getDetectedIssues('<span class="hljs-number">1111</span><span class="hljs-number">-2222</span><span class="hljs-number">-3333</span><span class="hljs-number">-4444</span>')</code></pre><h2 id="contributing">Contributing</h2>
+<span class="hljs-keyword">const</span> mythx = <span class="hljs-keyword">new</span> Client(<span class="hljs-string">'0x0000000000000000000000000000000000000000'</span>, <span class="hljs-string">'trial'</span>, <span class="hljs-string">'testTool'</span>);</code></pre>
+				<p>Performing a <code>login</code> request</p>
+				<pre><code class="language-typescript"><span class="hljs-comment">// Logs in and returns an object containing access and refresh token</span>
+<span class="hljs-keyword">const</span> tokens = <span class="hljs-keyword">await</span> mythx.login()
+</code></pre>
+				<p>Submitting an analysis using bytecode only</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> bytecode = <span class="hljs-string">'0xfe'</span>
+<span class="hljs-keyword">await</span> mythx.submitBytecode(bytecode)</code></pre>
+				<p>Getting a list of detected issues</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">await</span> mythx.getDetectedIssues(<span class="hljs-string">'1111-2222-3333-4444'</span>)</code></pre>
+				<h3 id="logging-in-with-metamask">Logging in with MetaMask</h3>
+				<p>In order to keep MythXJS as lean as possible we do not handle MetaMask integration ourself. Instead we provide two methods: getChallenge() and loginWithSignature() and leave the user handle the MetaMask integration the way they better prefer on their front end. This also lets the user work with their preffered version of <code>web3</code>.</p>
+				<p>Example using react app and <a href="mailto:%60web3@1.0.0-beta.37">`web3@1.0.0-beta.37</a>`:</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> handleSignMessage = <span class="hljs-function">(<span class="hljs-params">account, data</span>) =&gt;</span> {
+    <span class="hljs-keyword">try</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve</span>) =&gt;</span> {
+            <span class="hljs-keyword">const</span> {value} = data.message
+            <span class="hljs-keyword">if</span> (!account) {
+              <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'no-account'</span>)
+            }
+              <span class="hljs-keyword">const</span> params = [account, <span class="hljs-built_in">JSON</span>.stringify(data)]
+              web3.currentProvider.send(
+                        { method: <span class="hljs-string">'eth_signTypedData_v3'</span>, params, <span class="hljs-keyword">from</span>: account },
+                        <span class="hljs-function">(<span class="hljs-params">err, result</span>) =&gt;</span> {
+                          <span class="hljs-keyword">if</span> (err || result.error) {
+                            <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'Error with handling signature.'</span>, err)
+                          }
+                          resolve(value + <span class="hljs-string">'.'</span> + result.result)
+                        }
+                    )
+            }).catch(<span class="hljs-function">(<span class="hljs-params">error</span>) =&gt;</span> {
+              <span class="hljs-built_in">console</span>.error(error)
+            })
+    } <span class="hljs-keyword">catch</span>(err) {
+        <span class="hljs-built_in">console</span>.error(err)
+    }
+}
+
+<span class="hljs-keyword">const</span> loginWithMM = <span class="hljs-keyword">async</span> () =&gt; {
+    <span class="hljs-keyword">const</span> accounts = <span class="hljs-keyword">await</span> web3.eth.getAccounts();
+    <span class="hljs-keyword">const</span> account = accounts[<span class="hljs-number">0</span>]
+
+    <span class="hljs-keyword">const</span> data = <span class="hljs-keyword">await</span> mythx.getChallenge(account.toLowerCase())
+
+    handleSignMessage(account, data).then(
+        <span class="hljs-keyword">async</span> (message) =&gt; {
+            <span class="hljs-comment">// Returns set of tokens</span>
+            <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> mythx.loginWithSignature(message)
+        }
+    ).catch(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> <span class="hljs-built_in">console</span>.error(err))
+}</code></pre>
+				<h2 id="documentation">Documentation</h2>
+				<p>For a complete list of functionality available on the library please check our <a href="https://consensys.github.io/mythxjs/classes/_apiservices_clientservice_.clientservice.html">docs</a></p>
+				<h2 id="contributing">Contributing</h2>
 				<p>Please read <a href="https://github.com/ConsenSys/mythxjs/blob/master/CONTRIBUTING.md">CONTRIBUTING.md</a> for details on our code of conduct, and the process for submitting pull requests to us.</p>
 				<h2 id="versioning">Versioning</h2>
 				<p>For the versions available, see <a href="https://github.com/ConsenSys/mythxjs/tags">the tags on this repository</a>.</p>
 				<h2 id="projects-using-mythxjs">Projects using MythxJS</h2>
-				<p>TBA</p>
+				<ul>
+					<li><a href="https://marketplace.visualstudio.com/items?itemName=mirkogarozzo.mythxvsc">MythX for VSCode</a></li>
+					<li><a href="https://github.com/ConsenSys/truffle-security">truffle security</a></li>
+					<li><a href="https://github.com/aquiladev/remix-mythx-plugin">remix-mythx-plugin</a></li>
+				</ul>
 				<h2 id="see-also">See also</h2>
 				<ul>
 					<li><a href="https://api.mythx.io/v1/openapi">openapi spec</a> for details of the MythX API.</li>
@@ -130,6 +181,9 @@ const tokens = await mythx.<span class="hljs-keyword">login</span>()
 						<a href="modules/_test_analysesclass_analyze_spec_.html">"test/analyses<wbr>Class.analyze.spec"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="modules/_test_analysesclass_creategroup_spec_.html">"test/analyses<wbr>Class.create<wbr>Group.spec"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="modules/_test_analysesclass_getanalyseslist_spec_.html">"test/analyses<wbr>Class.get<wbr>Analyses<wbr>List.spec"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -139,10 +193,25 @@ const tokens = await mythx.<span class="hljs-keyword">login</span>()
 						<a href="modules/_test_analysesclass_getdetectedissues_spec_.html">"test/analyses<wbr>Class.get<wbr>Detected<wbr>Issues.spec"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="modules/_test_analysesclass_getgroupbyid_spec_.html">"test/analyses<wbr>Class.get<wbr>Group<wbr>ById.spec"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_test_analysesclass_getpdf_spec_.html">"test/analyses<wbr>Class.get<wbr>Pdf.spec"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_test_analysesclass_groupoperation_spec_.html">"test/analyses<wbr>Class.group<wbr>Operation.spec"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_test_analysesclass_listgroups_spec_.html">"test/analyses<wbr>Class.list<wbr>Groups.spec"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="modules/_test_analysesclass_submitbytecode_spec_.html">"test/analyses<wbr>Class.submit<wbr>Bytecode.spec"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_test_analysesclass_submitsourcecode_spec_.html">"test/analyses<wbr>Class.submit<wbr>Sourcecode.spec"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_test_authclass_getchallenge_spec_.html">"test/auth<wbr>Class.get<wbr>Challenge.spec"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_test_authclass_getopenapihtml_spec_.html">"test/auth<wbr>Class.get<wbr>Open<wbr>ApiHTML.spec"</a>
@@ -154,7 +223,13 @@ const tokens = await mythx.<span class="hljs-keyword">login</span>()
 						<a href="modules/_test_authclass_getstats_spec_.html">"test/auth<wbr>Class.get<wbr>Stats.spec"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="modules/_test_authclass_getusers_spec_.html">"test/auth<wbr>Class.get<wbr>Users.spec"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="modules/_test_authclass_getversion_spec_.html">"test/auth<wbr>Class.get<wbr>Version.spec"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_test_authclass_loginwithsignature_spec_.html">"test/auth<wbr>Class.login<wbr>With<wbr>Signature.spec"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_test_authservice_login_spec_.html">"test/auth<wbr>Service.login.spec"</a>
@@ -163,10 +238,7 @@ const tokens = await mythx.<span class="hljs-keyword">login</span>()
 						<a href="modules/_test_authservice_logout_spec_.html">"test/auth<wbr>Service.logout.spec"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_test_authservice_refreshtoken_spec_.html">"test/auth<wbr>Service.refresh<wbr>Token.spec"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_util_constants_.html">"util/constants"</a>
+						<a href="modules/_types_index_.html">"types/index"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_util_errorhandler_.html">"util/error<wbr>Handler"</a>

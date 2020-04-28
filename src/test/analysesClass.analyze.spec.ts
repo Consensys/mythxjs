@@ -1,10 +1,11 @@
-import { expect } from 'chai'
-import * as sinon from 'sinon'
 import * as jwt from 'jsonwebtoken'
+import * as sinon from 'sinon'
 
-import { ClientService } from '../apiServices/ClientService'
+import { AnalyzeOptions, JwtTokensInterface } from '..'
+
 import { AnalysesService } from '../apiServices/AnalysesService'
-import { JwtTokensInterface, AnalyzeOptions } from '..'
+import { ClientService } from '../apiServices/ClientService'
+import { expect } from 'chai'
 
 const postRequest = require('../http/index')
 
@@ -55,6 +56,7 @@ describe('analyze', () => {
             clientToolName: 'MythXJTest',
             noCacheLookup: false,
             groupId: '1111-2222-3333-4444',
+            propertyChecking: false,
             data: {
                 contractName: 'contractName',
                 bytecode: 'bytecode',
@@ -78,6 +80,7 @@ describe('analyze', () => {
             submittedAt: '2019-05-29T17:41:46.902Z',
             submittedBy: '123456789012345678901234',
             uuid: '1111-2222-3333-4444',
+            propertyChecking: false,
         }
 
         postRequestStub.resolves({
