@@ -90,8 +90,7 @@
 						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_apiservices_analysesservice_.analysesservice.html#apiurl" class="tsd-kind-icon">api<wbr>Url</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_apiservices_analysesservice_.analysesservice.html#jwttokens" class="tsd-kind-icon">jwt<wbr>Tokens</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_apiservices_analysesservice_.analysesservice.html#api_url" class="tsd-kind-icon">API_<wbr>URL</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_apiservices_analysesservice_.analysesservice.html#toolname" class="tsd-kind-icon">tool<wbr>Name</a></li>
 							</ul>
 						</section>
@@ -99,9 +98,15 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_apiservices_analysesservice_.analysesservice.html#analyze" class="tsd-kind-icon">analyze</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_apiservices_analysesservice_.analysesservice.html#creategroup" class="tsd-kind-icon">create<wbr>Group</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_apiservices_analysesservice_.analysesservice.html#getanalyseslist" class="tsd-kind-icon">get<wbr>Analyses<wbr>List</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_apiservices_analysesservice_.analysesservice.html#getanalysisstatus" class="tsd-kind-icon">get<wbr>Analysis<wbr>Status</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_apiservices_analysesservice_.analysesservice.html#getdetectedissues" class="tsd-kind-icon">get<wbr>Detected<wbr>Issues</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_apiservices_analysesservice_.analysesservice.html#getgroupbyid" class="tsd-kind-icon">get<wbr>Group<wbr>ById</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_apiservices_analysesservice_.analysesservice.html#getpdf" class="tsd-kind-icon">get<wbr>Pdf</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_apiservices_analysesservice_.analysesservice.html#groupoperation" class="tsd-kind-icon">group<wbr>Operation</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_apiservices_analysesservice_.analysesservice.html#listgroups" class="tsd-kind-icon">list<wbr>Groups</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_apiservices_analysesservice_.analysesservice.html#setcredentials" class="tsd-kind-icon">set<wbr>Credentials</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_apiservices_analysesservice_.analysesservice.html#submitbytecode" class="tsd-kind-icon">submit<wbr>Bytecode</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_apiservices_analysesservice_.analysesservice.html#submitsourcecode" class="tsd-kind-icon">submit<wbr>Source<wbr>Code</a></li>
 							</ul>
@@ -121,7 +126,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ConsenSys/mythxjs/blob/247e8fd/src/apiServices/AnalysesService.ts#L20">apiServices/AnalysesService.ts:20</a></li>
+									<li>Defined in <a href="https://github.com/ConsenSys/mythxjs/blob/7d15de0/src/apiServices/AnalysesService.ts#L17">apiServices/AnalysesService.ts:17</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -141,22 +146,12 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="apiurl" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> api<wbr>Url</h3>
-					<div class="tsd-signature tsd-kind-icon">api<wbr>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;API_URL_PRODUCTION</span></div>
+					<a name="api_url" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> API_<wbr>URL</h3>
+					<div class="tsd-signature tsd-kind-icon">API_<wbr>URL<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;ClientService.MYTHX_API_ENVIRONMENT</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ConsenSys/mythxjs/blob/247e8fd/src/apiServices/AnalysesService.ts#L18">apiServices/AnalysesService.ts:18</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="jwttokens" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> jwt<wbr>Tokens</h3>
-					<div class="tsd-signature tsd-kind-icon">jwt<wbr>Tokens<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_index_.jwttokensinterface.html" class="tsd-signature-type">JwtTokensInterface</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/ConsenSys/mythxjs/blob/247e8fd/src/apiServices/AnalysesService.ts#L19">apiServices/AnalysesService.ts:19</a></li>
+							<li>Defined in <a href="https://github.com/ConsenSys/mythxjs/blob/7d15de0/src/apiServices/AnalysesService.ts#L16">apiServices/AnalysesService.ts:16</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -166,7 +161,7 @@
 					<div class="tsd-signature tsd-kind-icon">tool<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ConsenSys/mythxjs/blob/247e8fd/src/apiServices/AnalysesService.ts#L20">apiServices/AnalysesService.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/ConsenSys/mythxjs/blob/7d15de0/src/apiServices/AnalysesService.ts#L17">apiServices/AnalysesService.ts:17</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -177,13 +172,13 @@
 					<a name="analyze" class="tsd-anchor"></a>
 					<h3>analyze</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">analyze<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../interfaces/_index_.analyzeoptions.html" class="tsd-signature-type">AnalyzeOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">analyze<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../interfaces/_index_.analyzeoptions.html" class="tsd-signature-type">AnalyzeOptions</a>, propertyChecking<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AnalysisSubmission</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ConsenSys/mythxjs/blob/247e8fd/src/apiServices/AnalysesService.ts#L113">apiServices/AnalysesService.ts:113</a></li>
+									<li>Defined in <a href="https://github.com/ConsenSys/mythxjs/blob/7d15de0/src/apiServices/AnalysesService.ts#L120">apiServices/AnalysesService.ts:120</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -191,8 +186,34 @@
 								<li>
 									<h5>options: <a href="../interfaces/_index_.analyzeoptions.html" class="tsd-signature-type">AnalyzeOptions</a></h5>
 								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> propertyChecking: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></h5>
+								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AnalysisSubmission</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="creategroup" class="tsd-anchor"></a>
+					<h3>create<wbr>Group</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Group<span class="tsd-signature-symbol">(</span>groupName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_index_.group.html" class="tsd-signature-type">Group</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/ConsenSys/mythxjs/blob/7d15de0/src/apiServices/AnalysesService.ts#L185">apiServices/AnalysesService.ts:185</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> groupName: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_index_.group.html" class="tsd-signature-type">Group</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -200,16 +221,16 @@
 					<a name="getanalyseslist" class="tsd-anchor"></a>
 					<h3>get<wbr>Analyses<wbr>List</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Analyses<wbr>List<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Analyses<wbr>List<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AnalysisList</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ConsenSys/mythxjs/blob/247e8fd/src/apiServices/AnalysesService.ts#L31">apiServices/AnalysesService.ts:31</a></li>
+									<li>Defined in <a href="https://github.com/ConsenSys/mythxjs/blob/7d15de0/src/apiServices/AnalysesService.ts#L28">apiServices/AnalysesService.ts:28</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AnalysisList</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -217,13 +238,13 @@
 					<a name="getanalysisstatus" class="tsd-anchor"></a>
 					<h3>get<wbr>Analysis<wbr>Status</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Analysis<wbr>Status<span class="tsd-signature-symbol">(</span>uuid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Analysis<wbr>Status<span class="tsd-signature-symbol">(</span>uuid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AnalysisSubmission</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ConsenSys/mythxjs/blob/247e8fd/src/apiServices/AnalysesService.ts#L44">apiServices/AnalysesService.ts:44</a></li>
+									<li>Defined in <a href="https://github.com/ConsenSys/mythxjs/blob/7d15de0/src/apiServices/AnalysesService.ts#L43">apiServices/AnalysesService.ts:43</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -232,7 +253,7 @@
 									<h5>uuid: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AnalysisSubmission</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -240,13 +261,59 @@
 					<a name="getdetectedissues" class="tsd-anchor"></a>
 					<h3>get<wbr>Detected<wbr>Issues</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Detected<wbr>Issues<span class="tsd-signature-symbol">(</span>uuid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Detected<wbr>Issues<span class="tsd-signature-symbol">(</span>uuid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">DetectedIssues</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ConsenSys/mythxjs/blob/247e8fd/src/apiServices/AnalysesService.ts#L57">apiServices/AnalysesService.ts:57</a></li>
+									<li>Defined in <a href="https://github.com/ConsenSys/mythxjs/blob/7d15de0/src/apiServices/AnalysesService.ts#L58">apiServices/AnalysesService.ts:58</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>uuid: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">DetectedIssues</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getgroupbyid" class="tsd-anchor"></a>
+					<h3>get<wbr>Group<wbr>ById</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Group<wbr>ById<span class="tsd-signature-symbol">(</span>groupId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_index_.group.html" class="tsd-signature-type">Group</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/ConsenSys/mythxjs/blob/7d15de0/src/apiServices/AnalysesService.ts#L167">apiServices/AnalysesService.ts:167</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>groupId: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_index_.group.html" class="tsd-signature-type">Group</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getpdf" class="tsd-anchor"></a>
+					<h3>get<wbr>Pdf</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Pdf<span class="tsd-signature-symbol">(</span>uuid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/ConsenSys/mythxjs/blob/7d15de0/src/apiServices/AnalysesService.ts#L137">apiServices/AnalysesService.ts:137</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -260,16 +327,88 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="submitbytecode" class="tsd-anchor"></a>
-					<h3>submit<wbr>Bytecode</h3>
+					<a name="groupoperation" class="tsd-anchor"></a>
+					<h3>group<wbr>Operation</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">submit<wbr>Bytecode<span class="tsd-signature-symbol">(</span>bytecode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_index_.submitcontractres.html" class="tsd-signature-type">SubmitContractRes</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">group<wbr>Operation<span class="tsd-signature-symbol">(</span>groupId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, operationType<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_index_.group.html" class="tsd-signature-type">Group</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ConsenSys/mythxjs/blob/247e8fd/src/apiServices/AnalysesService.ts#L83">apiServices/AnalysesService.ts:83</a></li>
+									<li>Defined in <a href="https://github.com/ConsenSys/mythxjs/blob/7d15de0/src/apiServices/AnalysesService.ts#L202">apiServices/AnalysesService.ts:202</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>groupId: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> operationType: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_index_.group.html" class="tsd-signature-type">Group</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="listgroups" class="tsd-anchor"></a>
+					<h3>list<wbr>Groups</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">list<wbr>Groups<span class="tsd-signature-symbol">(</span>queryString<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_index_.analysisgroups.html" class="tsd-signature-type">AnalysisGroups</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/ConsenSys/mythxjs/blob/7d15de0/src/apiServices/AnalysesService.ts#L152">apiServices/AnalysesService.ts:152</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> queryString: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_index_.analysisgroups.html" class="tsd-signature-type">AnalysisGroups</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="setcredentials" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> set<wbr>Credentials</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Credentials<span class="tsd-signature-symbol">(</span>tokens<span class="tsd-signature-symbol">: </span><a href="../interfaces/_index_.jwttokensinterface.html" class="tsd-signature-type">JwtTokensInterface</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/ConsenSys/mythxjs/blob/7d15de0/src/apiServices/AnalysesService.ts#L222">apiServices/AnalysesService.ts:222</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>tokens: <a href="../interfaces/_index_.jwttokensinterface.html" class="tsd-signature-type">JwtTokensInterface</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="submitbytecode" class="tsd-anchor"></a>
+					<h3>submit<wbr>Bytecode</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">submit<wbr>Bytecode<span class="tsd-signature-symbol">(</span>bytecode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AnalysisSubmission</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/ConsenSys/mythxjs/blob/7d15de0/src/apiServices/AnalysesService.ts#L86">apiServices/AnalysesService.ts:86</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -278,7 +417,7 @@
 									<h5>bytecode: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_index_.submitcontractres.html" class="tsd-signature-type">SubmitContractRes</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AnalysisSubmission</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -286,13 +425,13 @@
 					<a name="submitsourcecode" class="tsd-anchor"></a>
 					<h3>submit<wbr>Source<wbr>Code</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">submit<wbr>Source<wbr>Code<span class="tsd-signature-symbol">(</span>sourceCode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, contractName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_index_.submitcontractres.html" class="tsd-signature-type">SubmitContractRes</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">submit<wbr>Source<wbr>Code<span class="tsd-signature-symbol">(</span>sourceCode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, contractName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, propertyChecking<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AnalysisSubmission</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ConsenSys/mythxjs/blob/247e8fd/src/apiServices/AnalysesService.ts#L98">apiServices/AnalysesService.ts:98</a></li>
+									<li>Defined in <a href="https://github.com/ConsenSys/mythxjs/blob/7d15de0/src/apiServices/AnalysesService.ts#L103">apiServices/AnalysesService.ts:103</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -303,8 +442,11 @@
 								<li>
 									<h5>contractName: <span class="tsd-signature-type">string</span></h5>
 								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> propertyChecking: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></h5>
+								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_index_.submitcontractres.html" class="tsd-signature-type">SubmitContractRes</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AnalysisSubmission</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -332,16 +474,16 @@
 								<a href="_apiservices_analysesservice_.analysesservice.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="_apiservices_analysesservice_.analysesservice.html#apiurl" class="tsd-kind-icon">api<wbr>Url</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="_apiservices_analysesservice_.analysesservice.html#jwttokens" class="tsd-kind-icon">jwt<wbr>Tokens</a>
+								<a href="_apiservices_analysesservice_.analysesservice.html#api_url" class="tsd-kind-icon">API_<wbr>URL</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="_apiservices_analysesservice_.analysesservice.html#toolname" class="tsd-kind-icon">tool<wbr>Name</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_apiservices_analysesservice_.analysesservice.html#analyze" class="tsd-kind-icon">analyze</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_apiservices_analysesservice_.analysesservice.html#creategroup" class="tsd-kind-icon">create<wbr>Group</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_apiservices_analysesservice_.analysesservice.html#getanalyseslist" class="tsd-kind-icon">get<wbr>Analyses<wbr>List</a>
@@ -351,6 +493,21 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_apiservices_analysesservice_.analysesservice.html#getdetectedissues" class="tsd-kind-icon">get<wbr>Detected<wbr>Issues</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_apiservices_analysesservice_.analysesservice.html#getgroupbyid" class="tsd-kind-icon">get<wbr>Group<wbr>ById</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_apiservices_analysesservice_.analysesservice.html#getpdf" class="tsd-kind-icon">get<wbr>Pdf</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_apiservices_analysesservice_.analysesservice.html#groupoperation" class="tsd-kind-icon">group<wbr>Operation</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_apiservices_analysesservice_.analysesservice.html#listgroups" class="tsd-kind-icon">list<wbr>Groups</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="_apiservices_analysesservice_.analysesservice.html#setcredentials" class="tsd-kind-icon">set<wbr>Credentials</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_apiservices_analysesservice_.analysesservice.html#submitbytecode" class="tsd-kind-icon">submit<wbr>Bytecode</a>

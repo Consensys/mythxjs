@@ -1,8 +1,8 @@
-import { AuthService } from './AuthService'
-import { AnalysesService } from './AnalysesService'
-import { JwtTokensInterface, AnalyzeOptions, StatsResponse, UsersResponse, AnalysisGroups, Group } from '..'
-
+import { AnalysisGroups, AnalyzeOptions, Group, JwtTokensInterface, StatsResponse, UsersResponse } from '..'
 import { AnalysisList, AnalysisSubmission, DetectedIssues, Version } from '../types'
+
+import { AnalysesService } from './AnalysesService'
+import { AuthService } from './AuthService'
 
 /**
  * Main service exposed to outside.
@@ -178,20 +178,26 @@ export class ClientService {
      *
      * @param {String} sourceCode - String containing smart contract sourcecode.
      * @param {String} contractName - Name of the contract to submit for analysis.
+     * @param {Boolean} propertyChecking - Only Assertion Violations Check enabling flag
      * @return {Promise} Resolves with API response, or throws errors
      */
-    async submitSourceCode(sourceCode: string, contractName: string): Promise<AnalysisSubmission> {
-        return await this.analysesService.submitSourceCode(sourceCode, contractName)
+    async submitSourceCode(
+        sourceCode: string,
+        contractName: string,
+        propertyChecking?: boolean,
+    ): Promise<AnalysisSubmission> {
+        return await this.analysesService.submitSourceCode(sourceCode, contractName, propertyChecking)
     }
 
     /**
      * Submit a smart contract using custom parameters.
      *
      * @param {Object} options - Object containing options to submit to API
+     * @param {Boolean} propertyChecking - Only Assertion Violations Check enabling flag
      * @return {Promise} Resolves with API response, or throws error
      */
-    async analyze(options: AnalyzeOptions): Promise<AnalysisSubmission> {
-        return await this.analysesService.analyze(options)
+    async analyze(options: AnalyzeOptions, propertyChecking?: boolean): Promise<AnalysisSubmission> {
+        return await this.analysesService.analyze(options, propertyChecking)
     }
 
     /**
