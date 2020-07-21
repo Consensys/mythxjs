@@ -25,14 +25,6 @@ const mythx = new Client({
 });
 ```
 
-Performing a `login` request
-
-```typescript
-// Logs in and returns an object containing access and refresh token
-const tokens = await mythx.login()
-
-```
-
 Submitting an analysis using bytecode only
 
 ```typescript
