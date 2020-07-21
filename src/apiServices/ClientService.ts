@@ -55,13 +55,6 @@ export class ClientService {
     }
 
     constructor(clientConfig: ClientConfig)
-    // constructor(
-    //     ethAddress?: string,
-    //     password?: string,
-    //     toolName: string = 'MythXJS',
-    //     environment: string = 'https://api.mythx.io/v1',
-    //     accessToken: string = '',
-    // ) {
     constructor(clientConfig: any) {
         if (clientConfig.username && clientConfig.accessToken) {
             this.ethAddress = clientConfig.username
