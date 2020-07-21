@@ -14,12 +14,15 @@ npm install mythxjs
 
 ## Example
 
-Creating a new instance of the library using ES6 modules
+Creating a new instance of the library using ES6 modules and pass in a config object
 
 ```typescript
 import { Client } from 'mythxjs'
 
-const mythx = new Client('0x0000000000000000000000000000000000000000', 'trial', 'testTool');
+const mythx = new Client({
+  username: '<your registered MythX email or EthAddress>',
+  apiKey: '<your mythx API key. see https://docs.mythx.io/#using-your-account for help>'
+});
 ```
 
 Performing a `login` request
