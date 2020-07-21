@@ -72,7 +72,7 @@ export interface Group {
 
 export interface ClientConfig {
     username: string
-    accessToken: string
+    apiKey: string
     environment?: string
     toolName?: string
 }
