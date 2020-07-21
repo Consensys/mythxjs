@@ -1,4 +1,12 @@
-import { AnalysisGroups, AnalyzeOptions, Group, JwtTokensInterface, StatsResponse, UsersResponse } from '..'
+import {
+    AnalysisGroups,
+    AnalyzeOptions,
+    ClientConfig,
+    Group,
+    JwtTokensInterface,
+    StatsResponse,
+    UsersResponse,
+} from '..'
 import { AnalysisList, AnalysisSubmission, DetectedIssues, Version } from '../types'
 
 import { AnalysesService } from './AnalysesService'
@@ -46,21 +54,40 @@ export class ClientService {
         refresh: '',
     }
 
-    constructor(
-        ethAddress?: string,
-        password?: string,
-        toolName: string = 'MythXJS',
-        environment: string = 'https://api.mythx.io/v1',
-        accessToken: string = '',
-    ) {
-        this.ethAddress = ethAddress
-        this.password = password
-        ClientService.MYTHX_API_ENVIRONMENT = environment
-        this.authService = new AuthService(ethAddress, password)
-        ;(this.toolName = toolName), (ClientService.jwtTokens.access = accessToken)
-        if (accessToken) {
-            ClientService.jwtTokens.access = accessToken
+    constructor(clientConfig: ClientConfig)
+    // constructor(
+    //     ethAddress?: string,
+    //     password?: string,
+    //     toolName: string = 'MythXJS',
+    //     environment: string = 'https://api.mythx.io/v1',
+    //     accessToken: string = '',
+    // ) {
+    constructor(clientConfig: any) {
+        if (clientConfig.username && clientConfig.accessToken) {
+            this.ethAddress = clientConfig.username
+            ClientService.MYTHX_API_ENVIRONMENT = clientConfig.environment || 'https://api.mythx.io/v1'
+            this.authService = new AuthService(this.ethAddress)
+            ;(this.toolName = clientConfig.toolName || 'MythXJS'),
+                (ClientService.jwtTokens.access = clientConfig.accessToken)
+            ClientService.jwtTokens.access = clientConfig.accessToken
             this.analysesService = new AnalysesService(ClientService.jwtTokens, this.toolName)
+        } else {
+            const [
+                ethAddress,
+                password,
+                toolName = 'MythXJS',
+                environment = 'https://api.mythx.io/v1',
+                accessToken,
+            ]: any = arguments
+            this.ethAddress = ethAddress
+            this.password = password
+            ClientService.MYTHX_API_ENVIRONMENT = environment
+            this.authService = new AuthService(ethAddress, password)
+            ;(this.toolName = toolName), (ClientService.jwtTokens.access = accessToken)
+            if (accessToken) {
+                ClientService.jwtTokens.access = accessToken
+                this.analysesService = new AnalysesService(ClientService.jwtTokens, this.toolName)
+            }
         }
     }
 
