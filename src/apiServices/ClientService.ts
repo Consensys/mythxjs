@@ -56,12 +56,11 @@ export class ClientService {
 
     constructor(clientConfig: ClientConfig)
     constructor(clientConfig: any) {
-        if (clientConfig.username && clientConfig.apiKey) {
+        if (String(clientConfig) === '[object Object]' && clientConfig.username && clientConfig.apiKey) {
             this.ethAddress = clientConfig.username
             ClientService.MYTHX_API_ENVIRONMENT = clientConfig.environment || 'https://api.mythx.io/v1'
             this.authService = new AuthService(this.ethAddress)
-            ;(this.toolName = clientConfig.toolName || 'MythXJS'),
-                (ClientService.jwtTokens.access = clientConfig.apiKey)
+            this.toolName = clientConfig.toolName || 'MythXJS'
             ClientService.jwtTokens.access = clientConfig.apiKey
             this.analysesService = new AnalysesService(ClientService.jwtTokens, this.toolName)
         } else {
@@ -76,9 +75,9 @@ export class ClientService {
             this.password = password
             ClientService.MYTHX_API_ENVIRONMENT = environment
             this.authService = new AuthService(ethAddress, password)
-            ;(this.toolName = toolName), (ClientService.jwtTokens.access = accessToken)
+            this.toolName = toolName
+            ClientService.jwtTokens.access = accessToken
             if (accessToken) {
-                ClientService.jwtTokens.access = accessToken
                 this.analysesService = new AnalysesService(ClientService.jwtTokens, this.toolName)
             }
         }
