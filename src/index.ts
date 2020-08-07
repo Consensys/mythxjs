@@ -69,3 +69,10 @@ export interface Group {
     numAnalyses: {}
     numVulnerabilities: {}
 }
+
+export interface ClientConfig {
+    username: string
+    apiKey: string
+    environment?: string
+    toolName?: string
+}
