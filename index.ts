@@ -13,7 +13,7 @@ index 0000000..ff27083
 +import hashlib
 +import ecdsa
 +from hashlib import sha256
-+
++sağ 
 +
 +
 +
